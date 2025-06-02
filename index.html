@@ -1,0 +1,1305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkSpace - Find & Rent Parking Spots Instantly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow-x: hidden;
+            color: #fff;
+        }
+
+        .container {
+            /* background-color: #764ba2; */
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.4s ease;
+            
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00f5ff;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: #00f5ff;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ffd700, #ffb900);
+            color: #333;
+            padding: 12px 28px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        }
+
+        .cta-button.secondary {
+            background: linear-gradient(45deg, #ffd700, #ffb900);
+            color: #333;
+        }
+
+        header.scrolled .cta-button {
+            color: #333;
+        }
+
+        header.scrolled {
+            /* background: #5208d0 !important; */
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding-top: 80px;
+            padding-bottom: 0;
+            overflow: visible;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text {
+            animation: fadeInUp 1.2s ease-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #fff, #00f5ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .search-box {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+            animation: slideInUp 1.2s ease-out;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-left: 2rem;
+        }
+
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input, .form-group select {
+            padding: 14px 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #00f5ff;
+            box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.15);
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-button {
+            background: linear-gradient(45deg, #ffd700, #ffb900);
+            color: #333;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .search-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Hero Background Animations */
+        .hero-background-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .car-illustration {
+            width: 400px;
+            height: 220px;
+            position: relative;
+            animation: float 3.5s ease-in-out infinite;
+        }
+
+        .person-left, .person-right {
+            position: absolute;
+            width: 80px;
+            height: 160px;
+            animation: bounce 2.8s ease-in-out infinite;
+        }
+
+        .person-left {
+            left: 15%;
+            bottom: 20%;
+            transform: rotate(-5deg);
+            animation-delay: 0.3s;
+        }
+
+        .person-right {
+            right: 15%;
+            bottom: 25%;
+            transform: rotate(5deg);
+            animation-delay: 0.8s;
+        }
+
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 245, 255, 0.2);
+            animation: floatSlow 7s ease-in-out infinite;
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        }
+
+        .circle-1 { width: 80px; height: 80px; top: 10%; left: 10%; animation-delay: 0s; }
+        .circle-2 { width: 60px; height: 60px; top: 60%; left: 20%; animation-delay: 1.5s; }
+        .circle-3 { width: 100px; height: 100px; top: 20%; right: 15%; animation-delay: 3s; }
+        .circle-4 { width: 70px; height: 70px; top: 70%; right: 10%; animation-delay: 4.5s; }
+
+        .floating-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: floatEmoji 5s ease-in-out infinite;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .emoji-1 { top: 15%; left: 5%; animation-delay: 0s; }
+        .emoji-2 { top: 25%; right: 5%; animation-delay: 1s; }
+        .emoji-3 { top: 65%; left: 10%; animation-delay: 2s; }
+        .emoji-4 { top: 75%; right: 15%; animation-delay: 3s; }
+        .emoji-5 { top: 35%; left: 15%; animation-delay: 4s; }
+
+        .parking-sign-left {
+            position: absolute;
+            top: 10%;
+            left: 5%;
+        }
+
+        .parking-sign-right {
+            position: absolute;
+            top: 15%;
+            right: 5%;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0px) rotate(5deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-40px) rotate(10deg); }
+        }
+
+        @keyframes floatEmoji {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-50px) rotate(20deg); }
+        }
+
+        /* Features Section */
+       /* Features Section */
+.features {
+    padding: 80px 0;
+    position: relative;
+    margin-top: 0;
+
+}
+
+.features h2 {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #fff; /* White text for contrast */
+    margin-bottom: 3rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.feature-card {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    backdrop-filter: blur(15px); /* Glassmorphism effect */
+    padding: 2rem;
+    border-radius: 20px;
+    text-align: center;
+    transition: all 0.4s ease;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle white border */
+    /* box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); */
+}
+
+.feature-card:hover {
+    transform: translateY(-10px); /* Simplified hover effect, removed rotateX */
+}
+
+.feature-icon {
+    display: none; /* Removing the icon as it's not present in the image */
+}
+
+.feature-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff; /* White text */
+    margin-bottom: 0.8rem;
+    position: relative;
+}
+
+.feature-card p {
+    color: rgba(255, 255, 255, 0.85); /* Light white text */
+    line-height: 1.7;
+    position: relative;
+    font-size: 0.95rem;
+}
+
+        /* Stats Section */
+        .stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            color: #fff;
+            position: relative;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .stat-item:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .stat-item h3 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-item p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: #1a1a1a;
+            color: #ffffff;
+            padding: 60px 0 40px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: #00f5ff;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.6rem;
+            transition: all 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #00f5ff;
+            transform: translateX(5px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #999;
+        }
+            /* Sign-In Popup */
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 2000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .popup-content {
+        background: rgba(255, 255, 255, 0.15); /* Slightly more opaque for clarity */
+        backdrop-filter: blur(10px); /* Reduced blur for a cleaner look */
+        padding: 2.5rem; /* Increased padding for more space */
+        border-radius: 20px;
+        border: 1px solid transparent; /* Gradient border setup */
+        background-clip: padding-box; /* Ensures background doesn't bleed into border */
+        box-shadow: 0 0 20px rgba(0, 245, 255, 0.2); /* Subtle cyan glow */
+        width: 100%;
+        max-width: 480px; /* Increased size for better spacing */
+        position: relative;
+        animation: fadeIn 0.3s ease-out;
+    }
+
+    /* Gradient border effect using pseudo-element */
+    .popup-content::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 20px;
+        padding: 1px; /* Border thickness */
+        background: linear-gradient(45deg, #00f5ff, #764ba2); /* Cyan to purple gradient border */
+        -webkit-mask: 
+            linear-gradient(#fff 0 0) content-box, 
+            linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        z-index: -1;
+    }
+
+    .popup-content h2 {
+        font-size: 2rem; /* Larger title */
+        font-weight: 800; /* Bolder for emphasis */
+        color: #fff;
+        margin-bottom: 2rem; /* More space below title */
+        text-align: center;
+        position: relative;
+    }
+
+    /* Decorative underline for the title */
+    .popup-content h2::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: linear-gradient(45deg, #00f5ff, #ffd700); /* Cyan to gold gradient */
+        border-radius: 2px;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: #00f5ff;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .close-button:hover {
+        color: #fff;
+        transform: rotate(90deg);
+    }
+
+    .form-group {
+        margin-bottom: 0.5rem; /* Extra spacing between form groups */
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #fff;
+        font-size: 1rem;
+        margin-bottom: 0.5rem; /* More space between label and input */
+        display: block; /* Ensures label takes full width */
+    }
+
+    .form-group input {
+        padding: 14px 18px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+        width: 100%; /* Ensures input takes full width */
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: #00f5ff;
+        box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.15);
+    }
+
+    .form-group input::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    .cta-button {
+        background: linear-gradient(45deg, #ffd700, #ffb900);
+        color: #333;
+        padding: 12px 28px;
+        border: none;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1rem; /* More space above the button */
+    }
+
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4), 0 0 15px rgba(255, 215, 0, 0.3); /* Added glow effect */
+    }
+
+    .forgot-password {
+        text-align: center;
+        margin-top: 1rem;
+    }
+
+    .forgot-password a {
+        color: #00f5ff;
+        text-decoration: none;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+    }
+
+    .forgot-password a:hover {
+        color: #fff;
+    }
+
+    .google-signin {
+        margin-top: 2rem; /* More space above Google button */
+        text-align: center;
+    }
+
+    .google-button {
+        background: #fff;
+        color: #333;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .google-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2), 0 0 15px rgba(0, 0, 0, 0.1); /* Added glow effect */
+    }
+
+    /* Sign-Up Popup Specific Styles */
+    .signup-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem; /* Increased gap to prevent overlap */
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .hero-text {
+                grid-column: 1;
+                grid-row: 1;
+                text-align: center;
+            }
+
+            .hero-empty {
+                display: none;
+            }
+
+            .search-box {
+                grid-column: 1;
+                grid-row: 2;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+
+            .hero-text h1 {
+                font-size: 3rem;
+            }
+
+            .car-illustration {
+                width: 300px;
+                height: 165px;
+            }
+
+            .person-left, .person-right {
+                width: 60px;
+                height: 120px;
+            }
+
+            .person-left {
+                left: 5%;
+                bottom: 10%;
+            }
+
+            .person-right {
+                right: 5%;
+                bottom: 15%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .car-illustration {
+                width: 250px;
+                height: 140px;
+            }
+
+            .person-left, .person-right {
+                width: 50px;
+                height: 100px;
+            }
+
+            .person-left {
+                left: 2%;
+                bottom: 5%;
+            }
+
+            .person-right {
+                right: 2%;
+                bottom: 10%;
+            }
+
+            .floating-emoji {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">ParkSpace</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#find">Find Parking</a></li>
+                    <li><a href="#rent">Rent Your Space</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <!-- <a href="#" class="cta-button secondary">Log In</a> -->
+                    <a href="#" class="cta-button secondary" id="login-button">Log In</a>
+                    <a href="#" class="cta-button" id="signup-button">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <div class="hero-background-content">
+                <div class="floating-elements">
+                    <div class="floating-circle circle-1"></div>
+                    <div class="floating-circle circle-2"></div>
+                    <div class="floating-circle circle-3"></div>
+                    <div class="floating-circle circle-4"></div>
+                    <div class="floating-emoji emoji-1">🚗</div>
+                    <div class="floating-emoji emoji-2">🅿️</div>
+                    <div class="floating-emoji emoji-3">🚦</div>
+                    <div class="floating-emoji emoji-4">🌟</div>
+                    <div class="floating-emoji emoji-5">📍</div>
+                </div>
+                <div class="car-illustration">
+                    <svg viewBox="0 0 300 170" style="width: 100%; height: 100%;">
+                        <ellipse cx="150" cy="127.5" rx="130" ry="28" fill="#ffd700" opacity="0.3"/>
+                        <rect x="47" y="85" width="206" height="52" rx="24" fill="#ffd700"/>
+                        <rect x="66" y="61" width="168" height="42" rx="19" fill="#ffd700"/>
+                        <rect x="75" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85"/>
+                        <rect x="159" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85"/>
+                        <circle cx="85" cy="137" r="23" fill="#333"/>
+                        <circle cx="85" cy="137" r="14" fill="#666"/>
+                        <circle cx="216" cy="137" r="23" fill="#333"/>
+                        <circle cx="216" cy="137" r="14" fill="#666"/>
+                        <rect x="52" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
+                        <rect x="230" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
+                        <text x="150" y="100" text-anchor="middle" fill="#fff" font-size="20">🚗</text>
+                    </svg>
+                    <div class="person-left">
+                        <svg viewBox="0 0 65 130" style="width: 100%; height: 100%;">
+                            <circle cx="32.5" cy="23" r="14" fill="#ffd93d"/>
+                            <rect x="23" y="37" width="19" height="33" rx="9" fill="#4ecdc4"/>
+                            <rect x="21" y="70" width="23" height="38" rx="11" fill="#45b7d1"/>
+                            <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="7" y="52" width="9" height="14" rx="2" fill="#333"/>
+                            <text x="32.5" y="30" text-anchor="middle" fill="#333" font-size="10">😊</text>
+                        </svg>
+                    </div>
+                    <div class="person-right">
+                        <svg viewBox="0 0 65 130" style="width: 100%; height: 100%;">
+                            <circle cx="32.5" cy="23" r="14" fill="#ffd93d"/>
+                            <rect x="23" y="37" width="19" height="33" rx="9" fill="#ff6b6b"/>
+                            <rect x="21" y="70" width="23" height="38" rx="11" fill="#96ceb4"/>
+                            <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <circle cx="47" cy="56" r="3" fill="#ffd700"/>
+                            <rect x="49" y="54" width="7" height="2" fill="#ffd700"/>
+                            <text x="32.5" y="30" text-anchor="middle" fill="#333" font-size="10">😊</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="parking-sign-left">
+                    <svg width="60" height="70">
+                        <rect x="5" y="10" width="50" height="50" rx="5" fill="#4ecdc4"/>
+                        <text x="30" y="40" text-anchor="middle" fill="#fff" font-size="24" font-weight="bold">P</text>
+                        <rect x="27" y="60" width="6" height="30" fill="#333"/>
+                    </svg>
+                </div>
+                <div class="parking-sign-right">
+                    <svg width="80" height="60">
+                        <rect x="5" y="5" width="70" height="50" rx="15" fill="#ff6b6b"/>
+                        <text x="40" y="35" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">PARK</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Park Smarter, Stress Less</h1>
+                    <p>Discover and book the perfect parking spot in seconds with ParkSpace. Your ultimate solution for hassle-free parking anywhere, anytime.</p>
+                    <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
+                        <a href="#" class="cta-button">Find Parking Now</a>
+                        <a href="#" class="cta-button secondary">Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-empty"></div>
+                <div class="search-box">
+                    <h3 style="color: #fff; margin-bottom: 1.8rem; font-size: 1.4rem; font-weight: 700;">Quick Park Search</h3>
+                    <form class="search-form">
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" placeholder="Enter city, address, or landmark">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Time</label>
+                                <input type="time" id="time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="duration">Duration</label>
+                            <select id="duration">
+                                <option>1 hour</option>
+                                <option>2 hours</option>
+                                <option>4 hours</option>
+                                <option>All day</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="search-button">Search Parking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 >Why ParkSpace Stands Out</h2>
+            <div class="floating-elements">
+                <div class="floating-emoji emoji-1">🚙</div>
+                <div class="floating-emoji emoji-2">🅿️</div>
+                <div class="floating-emoji emoji-3">🔑</div>
+                <div class="floating-emoji emoji-4">🚦</div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Booking</h3>
+                    <p>Secure your parking spot in seconds with our lightning-fast booking system.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Affordable Rates</h3>
+                    <p>Enjoy up to 60% savings compared to traditional parking fees.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Top Locations</h3>
+                    <p>Access thousands of prime parking spots across major cities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure Parking</h3>
+                    <p>Rest easy with verified, monitored parking locations for your vehicle.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Seamless App</h3>
+                    <p>Manage bookings effortlessly with our user-friendly mobile app.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3>24/7 Support</h3>
+                    <p>Our team is always here to assist you, day or night.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="floating-elements">
+                <div class="floating-emoji emoji-1">🚗</div>
+                <div class="floating-emoji emoji-2">🌟</div>
+                <div class="floating-emoji emoji-3">📊</div>
+                <div class="floating-emoji emoji-4">✅</div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>50K+</h3>
+                    <p>Satisfied Users</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1M+</h3>
+                    <p>Bookings Made</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Cities Served</p>
+                </div>
+                <div class="stat-item">
+                    <h3>15K+</h3>
+                    <p>Parking Spots</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ParkSpace</h3>
+                    <p style="color: #ccc; line-height: 1.7;">Simplifying parking with innovative technology. Join millions who trust ParkSpace for stress-free parking solutions.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#">Find Parking</a>
+                    <a href="#">Rent Your Space</a>
+                    <a href="#">How It Works</a>
+                    <a href="#">Pricing</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <a href="#">Download App</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 ParkSpace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const logo = document.querySelector('.logo');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+                header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                logo.style.color = '#333';
+                navLinks.forEach(link => link.style.color = '#333');
+            } else {
+                header.classList.remove('scrolled');
+                header.style.boxShadow = 'none';
+                logo.style.color = '#fff';
+                navLinks.forEach(link => link.style.color = '#fff');
+            }
+        });
+
+        // Stats animation
+        const observerOptions = {
+            threshold: 0.6
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const stats = entry.target.querySelectorAll('.stat-item h3');
+                    stats.forEach((stat, index) => {
+                        const finalValue = parseInt(stat.textContent);
+                        let currentValue = 0;
+                        const increment = finalValue / 60;
+                        
+                        setTimeout(() => {
+                            const timer = setInterval(() => {
+                                currentValue += increment;
+                                if (currentValue >= finalValue) {
+                                    stat.textContent = stat.textContent;
+                                    clearInterval(timer);
+                                } else {
+                                    const suffix = stat.textContent.includes('K') ? 'K+' : 
+                                                  stat.textContent.includes('M') ? 'M+' : '+';
+                                    stat.textContent = Math.floor(currentValue) + suffix;
+                                }
+                            }, 25);
+                        }, index * 150);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Form submission handler
+        document.querySelector('.search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const button = this.querySelector('.search-button');
+            const originalText = button.textContent;
+            
+            button.textContent = 'Searching...';
+            button.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+            
+            setTimeout(() => {
+                button.textContent = 'Found 15 spots!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'linear-gradient(45deg, #ffd700, #ffb900)';
+                }, 2000);
+            }, 1500);
+        });
+
+        // Feature card animation on hover
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.feature-icon');
+                icon.style.transform = 'scale(1.2) rotate(10deg)';
+            });
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.feature-icon');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+        // Popup handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginButton = document.getElementById('login-button');
+            const signinPopup = document.getElementById('signin-popup');
+            const closePopup = document.getElementById('close-popup');
+
+            loginButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                signinPopup.style.display = 'flex';
+            });
+
+            closePopup.addEventListener('click', () => {
+                signinPopup.style.display = 'none';
+            });
+
+            // Close popup when clicking outside the popup content
+            signinPopup.addEventListener('click', (e) => {
+                if (e.target === signinPopup) {
+                    signinPopup.style.display = 'none';
+                }
+            });
+
+            // Sign-in form submission handler (for demo purposes)
+            document.querySelector('.signin-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const button = this.querySelector('.cta-button');
+                const originalText = button.textContent;
+                
+                button.textContent = 'Signing In...';
+                setTimeout(() => {
+                    button.textContent = 'Success!';
+                    setTimeout(() => {
+                        signinPopup.style.display = 'none';
+                        button.textContent = originalText;
+                    }, 1000);
+                }, 1500);
+            });
+
+            // Google sign-in handler (for demo purposes)
+            document.querySelector('.google-button').addEventListener('click', (e) => {
+                e.preventDefault();
+                const button = e.target;
+                button.textContent = 'Redirecting...';
+                setTimeout(() => {
+                    button.textContent = 'Sign in with Google';
+                    signinPopup.style.display = 'none';
+                }, 1500);
+            });
+        });
+    </script>
+
+    <div class="popup-overlay" id="signin-popup">
+        <div class="popup-content">
+            <button class="close-button" id="close-popup">×</button>
+            <h2>Sign In to ParkSpace</h2>
+            <form class="signin-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="cta-button">Sign In</button>
+            </form>
+            <div class="forgot-password">
+                <a href="#">Forgot Password?</a>
+            </div>
+            <div class="google-signin">
+                <button class="google-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" style="margin-right: 10px;">
+                        <path fill="#4285F4" d="M24 9.5c3.8 0 6.5 1.6 8 3.9l5.8-5.8C34.5 4.2 29.5 2 24 2 14.8 2 7.2 8.6 5.2 17.2l7.2 5.6C14.2 15.6 18.6 9.5 24 9.5z"/>
+                        <path fill="#34A853" d="M24 44c5.5 0 10.1-2.2 13.5-5.9l-6.5-5.1c-2.1 1.4-4.7 2.3-7 2.3-5.4 0-10-3.6-11.6-8.6l-7.2 5.6C7.2 39.4 14.8 44 24 44z"/>
+                        <path fill="#FBBC05" d="M46.2 24.5c0-1.5-.1-2.9-.4-4.3H24v8.7h12.6c-.5 2.5-2.1 4.7-4.3 6.1l6.5 5.1c3.8-3.5 7.4-9.1 7.4-15.6z"/>
+                        <path fill="#EA4335" d="M12.4 28.3c-.8-2.4-.8-5 0-7.4l-7.2-5.6c-2.5 5-2.5 10.8 0 15.8l7.2-5.6z"/>
+                    </svg>
+                    Sign in with Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="popup-overlay" id="signup-popup">
+        <div class="popup-content">
+            <button class="close-button" id="close-signup-popup">×</button>
+            <h2>Sign Up for ParkSpace</h2>
+            <form class="signup-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-email">Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="Confirm your password" required>
+                </div>
+                <button type="submit" class="cta-button">Sign Up</button>
+            </form>
+            <div class="google-signin">
+                <button class="google-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" style="margin-right: 10px;">
+                        <path fill="#4285F4" d="M24 9.5c3.8 0 6.5 1.6 8 3.9l5.8-5.8C34.5 4.2 29.5 2 24 2 14.8 2 7.2 8.6 5.2 17.2l7.2 5.6C14.2 15.6 18.6 9.5 24 9.5z"/>
+                        <path fill="#34A853" d="M24 44c5.5 0 10.1-2.2 13.5-5.9l-6.5-5.1c-2.1 1.4-4.7 2.3-7 2.3-5.4 0-10-3.6-11.6-8.6l-7.2 5.6C7.2 39.4 14.8 44 24 44z"/>
+                        <path fill="#FBBC05" d="M46.2 24.5c0-1.5-.1-2.9-.4-4.3H24v8.7h12.6c-.5 2.5-2.1 4.7-4.3 6.1l6.5 5.1c3.8-3.5 7.4-9.1 7.4-15.6z"/>
+                        <path fill="#EA4335" d="M12.4 28.3c-.8-2.4-.8-5 0-7.4l-7.2-5.6c-2.5 5-2.5 10.8 0 15.8l7.2-5.6z"/>
+                    </svg>
+                    Sign up with Google
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const signupButton = document.getElementById('signup-button');
+        const signupPopup = document.getElementById('signup-popup');
+        const closeSignupPopup = document.getElementById('close-signup-popup');
+
+        signupButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupPopup.style.display = 'flex';
+        });
+
+        closeSignupPopup.addEventListener('click', () => {
+            signupPopup.style.display = 'none';
+        });
+
+        // Close popup when clicking outside the popup content
+        signupPopup.addEventListener('click', (e) => {
+            if (e.target === signupPopup) {
+                signupPopup.style.display = 'none';
+            }
+        });
+
+        // Sign-up form submission handler (for demo purposes)
+        document.querySelector('.signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const button = this.querySelector('.cta-button');
+            const originalText = button.textContent;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            button.textContent = 'Signing Up...';
+            setTimeout(() => {
+                button.textContent = 'Success!';
+                setTimeout(() => {
+                    signupPopup.style.display = 'none';
+                    button.textContent = originalText;
+                }, 1000);
+            }, 1500);
+        });
+
+        // Google sign-up handler (for demo purposes)
+        document.querySelector('#signup-popup .google-button').addEventListener('click', (e) => {
+            e.preventDefault();
+            const button = e.target;
+            button.textContent = 'Redirecting...';
+            setTimeout(() => {
+                button.textContent = 'Sign up with Google';
+                signupPopup.style.display = 'none';
+            }, 1500);
+        });
+    });
+    </script>
+</body>
+</html>
