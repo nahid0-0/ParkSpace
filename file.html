@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkSpace - Find & Rent Parking Spots Instantly</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">ParkSpace</a>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#find">Find Parking</a></li>
+                    <li><a href="#rent">Rent Your Space</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <a href="login.html" class="cta-button secondary" id="login-button">Log In</a>
+                    <a href="signup.html" class="cta-button" id="signup-button">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-background">
+            <div class="hero-background-content">
+                <div class="floating-elements">
+                    <div class="floating-circle circle-1"></div>
+                    <div class="floating-circle circle-2"></div>
+                    <div class="floating-circle circle-3"></div>
+                    <div class="floating-circle circle-4"></div>
+                    <div class="floating-emoji emoji-1">🚗</div>
+                    <div class="floating-emoji emoji-2">🅿️</div>
+                    <div class="floating-emoji emoji-3">🚦</div>
+                    <div class="floating-emoji emoji-4">🌟</div>
+                    <div class="floating-emoji emoji-5">📍</div>
+                </div>
+                <div class="car-illustration">
+                    <svg viewBox="0 0 300 170" style="width: 100%; height: 100%;">
+                        <ellipse cx="150" cy="127.5" rx="130" ry="28" fill="#ffd700" opacity="0.3"/>
+                        <rect x="47" y="85" width="206" height="52" rx="24" fill="#ffd700"/>
+                        <rect x="66" y="61" width="168" height="42" rx="19" fill="#ffd700"/>
+                        <rect x="75" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85"/>
+                        <rect x="159" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85"/>
+                        <circle cx="85" cy="137" r="23" fill="#333"/>
+                        <circle cx="85" cy="137" r="14" fill="#666"/>
+                        <circle cx="216" cy="137" r="23" fill="#333"/>
+                        <circle cx="216" cy="137" r="14" fill="#666"/>
+                        <rect x="52" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
+                        <rect x="230" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
+                        <text x="150" y="100" text-anchor="middle" fill="#fff" font-size="20">🚗</text>
+                    </svg>
+                    <div class="person-left">
+                        <svg viewBox="0 0 65 130" style="width: 100%; height: 100%;">
+                            <circle cx="32.5" cy="23" r="14" fill="#ffd93d"/>
+                            <rect x="23" y="37" width="19" height="33" rx="9" fill="#4ecdc4"/>
+                            <rect x="21" y="70" width="23" height="38" rx="11" fill="#45b7d1"/>
+                            <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="7" y="52" width="9" height="14" rx="2" fill="#333"/>
+                            <text x="32.5" y="30" text-anchor="middle" fill="#333" font-size="10">😊</text>
+                        </svg>
+                    </div>
+                    <div class="person-right">
+                        <svg viewBox="0 0 65 130" style="width: 100%; height: 100%;">
+                            <circle cx="32.5" cy="23" r="14" fill="#ffd93d"/>
+                            <rect x="23" y="37" width="19" height="33" rx="9" fill="#ff6b6b"/>
+                            <rect x="21" y="70" width="23" height="38" rx="11" fill="#96ceb4"/>
+                            <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <circle cx="47" cy="56" r="3" fill="#ffd700"/>
+                            <rect x="49" y="54" width="7" height="2" fill="#ffd700"/>
+                            <text x="32.5" y="30" text-anchor="middle" fill="#333" font-size="10">😊</text>
+                        </svg>
+                    </div>
+                </div>
+                <div class="parking-sign-left">
+                    <svg width="60" height="70">
+                        <rect x="5" y="10" width="50" height="50" rx="5" fill="#4ecdc4"/>
+                        <text x="30" y="40" text-anchor="middle" fill="#fff" font-size="24" font-weight="bold">P</text>
+                        <rect x="27" y="60" width="6" height="30" fill="#333"/>
+                    </svg>
+                </div>
+                <div class="parking-sign-right">
+                    <svg width="80" height="60">
+                        <rect x="5" y="5" width="70" height="50" rx="15" fill="#ff6b6b"/>
+                        <text x="40" y="35" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">PARK</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Park Smarter, Stress Less</h1>
+                    <p>Discover and book the perfect parking spot in seconds with ParkSpace. Your ultimate solution for hassle-free parking anywhere, anytime.</p>
+                    <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
+                        <a href="#" class="cta-button">Find Parking Now</a>
+                        <a href="#" class="cta-button secondary">Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-empty"></div>
+                <div class="search-box">
+                    <h3 style="color: #fff; margin-bottom: 1.8rem; font-size: 1.4rem; font-weight: 700;">Quick Park Search</h3>
+                    <form class="search-form">
+                        <div class="form-group">
+                            <label for="location">Location</label>
+                            <input type="text" id="location" placeholder="Enter city, address, or landmark">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
+                            <div class="form-group">
+                                <label for="date">Date</label>
+                                <input type="date" id="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="time">Time</label>
+                                <input type="time" id="time">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="duration">Duration</label>
+                            <select id="duration">
+                                <option>1 hour</option>
+                                <option>2 hours</option>
+                                <option>4 hours</option>
+                                <option>All day</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="search-button">Search Parking</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2>Why ParkSpace Stands Out</h2>
+            <div class="floating-elements">
+                <div class="floating-emoji emoji-1">🚙</div>
+                <div class="floating-emoji emoji-2">🅿️</div>
+                <div class="floating-emoji emoji-3">🔑</div>
+                <div class="floating-emoji emoji-4">🚦</div>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Instant Booking</h3>
+                    <p>Secure your parking spot in seconds with our lightning-fast booking system.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Affordable Rates</h3>
+                    <p>Enjoy up to 60% savings compared to traditional parking fees.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📍</div>
+                    <h3>Top Locations</h3>
+                    <p>Access thousands of prime parking spots across major cities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure Parking</h3>
+                    <p>Rest easy with verified, monitored parking locations for your vehicle.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Seamless App</h3>
+                    <p>Manage bookings effortlessly with our user-friendly mobile app.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3>24/7 Support</h3>
+                    <p>Our team is always here to assist you, day or night.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="floating-elements">
+                <div class="floating-emoji emoji-1">🚗</div>
+                <div class="floating-emoji emoji-2">🌟</div>
+                <div class="floating-emoji emoji-3">📊</div>
+                <div class="floating-emoji emoji-4">✅</div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <h3>50K+</h3>
+                    <p>Satisfied Users</p>
+                </div>
+                <div class="stat-item">
+                    <h3>1M+</h3>
+                    <p>Bookings Made</p>
+                </div>
+                <div class="stat-item">
+                    <h3>500+</h3>
+                    <p>Cities Served</p>
+                </div>
+                <div class="stat-item">
+                    <h3>15K+</h3>
+                    <p>Parking Spots</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ParkSpace</h3>
+                    <p style="color: #ccc; line-height: 1.7;">Simplifying parking with innovative technology. Join millions who trust ParkSpace for stress-free parking solutions.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="#">Find Parking</a>
+                    <a href="#">Rent Your Space</a>
+                    <a href="#">How It Works</a>
+                    <a href="#">Pricing</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <a href="#">Download App</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2025 ParkSpace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const logo = document.querySelector('.logo');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+                header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                logo.style.color = '#333';
+                navLinks.forEach(link => link.style.color = '#333');
+            } else {
+                header.classList.remove('scrolled');
+                header.style.boxShadow = 'none';
+                logo.style.color = '#fff';
+                navLinks.forEach(link => link.style.color = '#fff');
+            }
+        });
+
+        // Stats animation
+        const observerOptions = {
+            threshold: 0.6
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const stats = entry.target.querySelectorAll('.stat-item h3');
+                    stats.forEach((stat, index) => {
+                        const finalValue = parseInt(stat.textContent);
+                        let currentValue = 0;
+                        const increment = finalValue / 60;
+                        
+                        setTimeout(() => {
+                            const timer = setInterval(() => {
+                                currentValue += increment;
+                                if (currentValue >= finalValue) {
+                                    stat.textContent = stat.textContent;
+                                    clearInterval(timer);
+                                } else {
+                                    const suffix = stat.textContent.includes('K') ? 'K+' : 
+                                                  stat.textContent.includes('M') ? 'M+' : '+';
+                                    stat.textContent = Math.floor(currentValue) + suffix;
+                                }
+                            }, 25);
+                        }, index * 150);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Form submission handler
+        document.querySelector('.search-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const button = this.querySelector('.search-button');
+            const originalText = button.textContent;
+            
+            button.textContent = 'Searching...';
+            button.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+            
+            setTimeout(() => {
+                button.textContent = 'Found 15 spots!';
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.style.background = 'linear-gradient(45deg, #ffd700, #ffb900)';
+                }, 2000);
+            }, 1500);
+        });
+
+        // Feature card animation on hover
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.feature-icon');
+                icon.style.transform = 'scale(1.2) rotate(10deg)';
+            });
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.feature-icon');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+    </script>
+</body>
+</html>
