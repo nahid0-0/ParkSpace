@@ -15,284 +15,979 @@
                 <a href="index.html" class="logo">ParkSpace</a>
                 <ul class="nav-links">
                     <li><a href="index.html#home">Home</a></li>
-                    <li><a href="#find">Find Parking</a></li>
-                    <li><a href="#rent">Rent Your Space</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="index.html#find">Find Parking</a></li>
+                    <li><a href="index.html#rent">Rent Your Space</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
                 </ul>
                 <div style="display: flex; gap: 1rem; align-items: center;">
-                    <a href="profile.html" class="profile-button" id="profile-button" style="display: none;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    <a href="profile.html" class="profile-button" id="profile-button" title="Profile" style="display:none;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+                            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
                         </svg>
                     </a>
-                    <a href="#" class="cta-button secondary" id="login-button">Log In</a>
-                    <a href="#" class="cta-button" id="signup-button">Sign Up</a>
+                    <a href="index.html" class="cta-button secondary" id="login-button">Log In</a>
+                    <a href="index.html" class="cta-button" id="signup-button">Sign Up</a>
                 </div>
             </nav>
         </div>
     </header>
 
+            <!-- Image Popup Modal -->
+    <div class="image-popup-overlay" id="imagePopup" style="display: none;">
+        <div class="image-popup-container">
+            <button class="popup-close-btn" onclick="closeImagePopup()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button class="popup-nav-btn popup-prev-btn" onclick="navigatePopupImage(-1)">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <button class="popup-nav-btn popup-next-btn" onclick="navigatePopupImage(1)">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+            <img id="popupImage" src="" alt="" class="popup-image">
+            <div class="popup-image-counter" id="popupCounter">1 / 3</div>
+            <div class="popup-indicators" id="popupIndicators"></div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div class="booking-modal-overlay" id="bookingModal" style="display: none;">
+        <div class="booking-modal-container">
+            <div class="booking-modal-header">
+                <h2>Book Parking Spot</h2>
+                <button class="booking-close-btn" onclick="closeBookingModal()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="booking-modal-content">
+                <div class="booking-property-info">
+                    <div class="booking-property-image">
+                        <img id="bookingPropertyImage" src="" alt="Property">
+                    </div>
+                    <div class="booking-property-details">
+                        <h3 id="bookingPropertyTitle">Property Title</h3>
+                        <p id="bookingPropertyAddress">Property Address</p>
+                        <div class="booking-property-rate">
+                            <span class="rate-amount" id="bookingHourlyRate">$25</span>
+                            <span class="rate-period">/hour</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="booking-form">
+                    <div class="booking-form-row">
+                        <div class="booking-form-group">
+                            <label for="bookingStartTime">Start Date & Time</label>
+                            <input type="datetime-local" id="bookingStartTime" required>
+                        </div>
+                        <div class="booking-form-group">
+                            <label for="bookingEndTime">End Date & Time</label>
+                            <input type="datetime-local" id="bookingEndTime" required>
+                        </div>
+                    </div>
+                    
+                    <div class="booking-duration-info" id="bookingDurationInfo" style="display: none;">
+                        <div class="duration-details">
+                            <span class="duration-label">Duration:</span>
+                            <span class="duration-value" id="bookingDuration">0 hours</span>
+                        </div>
+                        <div class="cost-details">
+                            <span class="cost-label">Total Cost:</span>
+                            <span class="cost-value" id="bookingTotalCost">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="booking-actions">
+                        <button type="button" class="booking-cancel-btn" onclick="closeBookingModal()">Cancel</button>
+                        <button type="button" class="booking-confirm-btn" id="confirmBookingBtn" onclick="confirmBooking()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 11l3 3 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Confirm Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-loading" id="bookingLoading" style="display: none;">
+                <div class="booking-spinner"></div>
+                <p>Processing your booking...</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Search Results Section -->
     <section class="search-results-section">
         <div class="container">
-            <!-- Search Header -->
-            <div class="search-header">
-                <a href="index.html" class="back-button">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                    </svg>
-                    Back to Home
-                </a>
-                
+            <!-- Search Summary -->
+            <div class="search-summary">
                 <div class="search-info">
-                    <h1>Parking Search Results</h1>
-                    <div class="search-criteria">
-                        <span id="search-location">Loading...</span>
+                    <h1>Search Results</h1>
+                    <div class="search-criteria" id="search-criteria">
+                        <span id="location-display">Loading...</span>
                         <span class="separator">•</span>
-                        <span id="search-datetime">Loading...</span>
+                        <span id="date-display">Loading...</span>
+                        <span class="separator">•</span>
+                        <span id="duration-display">Loading...</span>
                     </div>
-                    <p class="results-count" id="results-count">Searching for parking spots...</p>
+                    <p class="results-count" id="results-count">Searching...</p>
+                </div>
+                <a href="index.html" class="back-button enhanced">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back to Search
+                </a>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filters-header">
+                    <h3>Refine Your Search</h3>
+                    <span class="filters-subtitle">Find the perfect parking spot</span>
+                </div>
+                <div class="filters-container">
+                <div class="filter-group">
+                        <label class="filter-label">
+                            <svg class="filter-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M3 7h18M6 12h12m-7 5h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Sort by
+                        </label>
+                        <select id="sort-filter" class="filter-select">
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="distance">Distance</option>
+                        <option value="rating">Rating</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                        <label class="filter-label">
+                            <svg class="filter-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Price Range
+                        </label>
+                        <select id="price-filter" class="filter-select">
+                        <option value="all">All Prices</option>
+                        <option value="0-10">$0 - $10</option>
+                        <option value="10-25">$10 - $25</option>
+                        <option value="25-50">$25 - $50</option>
+                        <option value="50+">$50+</option>
+                    </select>
+                </div>
+                    <div class="filter-group features-filter">
+                        <label class="filter-label">
+                            <svg class="filter-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            Features
+                        </label>
+                    <div class="feature-filters">
+                        <label class="feature-checkbox">
+                            <input type="checkbox" id="covered-filter">
+                                <span class="checkmark">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </span>
+                                <span class="feature-text">🏠 Covered</span>
+                        </label>
+                        <label class="feature-checkbox">
+                            <input type="checkbox" id="security-filter">
+                                <span class="checkmark">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </span>
+                                <span class="feature-text">🔒 Security</span>
+                        </label>
+                        <label class="feature-checkbox">
+                            <input type="checkbox" id="ev-filter">
+                                <span class="checkmark">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2"/>
+                                    </svg>
+                                </span>
+                                <span class="feature-text">⚡ EV Charging</span>
+                        </label>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             <!-- Loading State -->
             <div class="loading-state" id="loading-state">
                 <div class="loading-spinner"></div>
-                <p>Finding the best parking spots for you...</p>
+                <p>Searching for parking spots...</p>
             </div>
 
-            <!-- Results Container -->
-            <div class="results-container" id="results-container" style="display: none;">
-                <!-- Results Grid -->
-                <div class="results-grid" id="results-grid">
-                    <!-- Property cards will be inserted here -->
-                </div>
+            <!-- No Results State -->
+            <div class="no-results" id="no-results" style="display: none;">
+                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                    <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h2>No parking spots found</h2>
+                <p>Try adjusting your search criteria or search in a different location.</p>
+                <a href="index.html" class="cta-button">New Search</a>
+            </div>
 
-                <!-- No Results State -->
-                <div class="no-results" id="no-results" style="display: none;">
-                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
-                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
-                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <h2>No parking spots found</h2>
-                    <p>Try adjusting your search criteria or exploring nearby areas for better availability.</p>
-                    <a href="index.html" class="cta-button">Search Again</a>
-                </div>
+            <!-- Results Grid -->
+            <div class="results-grid" id="results-grid" style="display: none;">
+                <!-- Results will be populated by JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Include the popup handling script -->
-    <script src="script.js"></script>
-    
     <script>
-        // Global variables
-        let allProperties = [];
-        let filteredProperties = [];
+        // Get search parameters from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchLocation = urlParams.get('location') || '';
+        const searchDate = urlParams.get('date') || '';
+        const searchTime = urlParams.get('time') || '';
+        const searchDuration = urlParams.get('duration') || '';
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            initializePage();
-        });
-
-        function initializePage() {
-            // Get search parameters from URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const location = urlParams.get('location') || '';
-            const date = urlParams.get('date') || '';
-            const time = urlParams.get('time') || '';
-            const duration = urlParams.get('duration') || '';
-
-            // Update search criteria display
-            document.getElementById('search-location').textContent = location || 'Any Location';
-            document.getElementById('search-datetime').textContent = 
-                date && time ? `${date} at ${time}` : 'Any Time';
-
-            // Perform search
-            searchParkingSpots(location, date, time, duration);
-        }
-
-        async function searchParkingSpots(location, date, time, duration) {
-            try {
-                const params = new URLSearchParams();
-                if (location) params.append('location', location);
-                if (date) params.append('date', date);
-                if (time) params.append('time', time);
-                if (duration) params.append('duration', duration);
-
-                const response = await fetch(`/api/search-parking?${params}`);
-                const data = await response.json();
-
-                if (data.success) {
-                    allProperties = data.properties;
-                    filteredProperties = [...allProperties];
-                    displayResults();
-                } else {
-                    showNoResults();
-                }
-            } catch (error) {
-                console.error('Search error:', error);
-                showNoResults();
+        // Update search criteria display
+        function updateSearchDisplay() {
+            document.getElementById('location-display').textContent = searchLocation || 'All Locations';
+            document.getElementById('date-display').textContent = searchDate || 'Any Date';
+            document.getElementById('duration-display').textContent = searchDuration || 'Any Duration';
+            
+            // Update page title based on search
+            const pageTitle = document.querySelector('title');
+            if (searchLocation) {
+                pageTitle.textContent = `Parking in ${searchLocation} - ParkSpace`;
+            } else {
+                pageTitle.textContent = 'All Parking Spots - ParkSpace';
             }
         }
 
-        function displayResults() {
-            const loadingState = document.getElementById('loading-state');
-            const resultsContainer = document.getElementById('results-container');
+        // Global variable to store fetched properties
+        let allProperties = [];
+
+        // Fetch properties from database
+        async function fetchProperties() {
+            try {
+                const params = new URLSearchParams();
+                
+                // Only add location parameter if it's provided
+                if (searchLocation && searchLocation.trim() !== '') {
+                    params.append('location', searchLocation.trim());
+                }
+                
+                if (searchDate && searchDate.trim() !== '') {
+                    params.append('date', searchDate.trim());
+                }
+                
+                if (searchTime && searchTime.trim() !== '') {
+                    params.append('time', searchTime.trim());
+                }
+
+                const apiUrl = `http://127.0.0.1:3000/api/search-properties?${params.toString()}`;
+                console.log('Fetching from:', apiUrl);
+                
+                const response = await fetch(apiUrl);
+                
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch properties: ${response.status}`);
+                }
+                
+                const properties = await response.json();
+                console.log('Fetched properties:', properties.length);
+                
+                allProperties = properties;
+                return properties;
+            } catch (error) {
+                console.error('Error fetching properties:', error);
+                // Return empty array if API fails
+                allProperties = [];
+                return allProperties;
+            }
+        }
+
+        // Search and filter logic (now works with fetched data)
+        function searchParkingSpots() {
+            return allProperties; // All filtering is now done by the API
+        }
+
+        // Apply additional filters
+        function applyFilters(results) {
+            const sortFilter = document.getElementById('sort-filter').value;
+            const priceFilter = document.getElementById('price-filter').value;
+            const coveredFilter = document.getElementById('covered-filter').checked;
+            const securityFilter = document.getElementById('security-filter').checked;
+            const evFilter = document.getElementById('ev-filter').checked;
+
+            // Apply feature filters
+            if (coveredFilter || securityFilter || evFilter) {
+                results = results.filter(spot => {
+                    if (coveredFilter && !spot.features.includes('covered')) return false;
+                    if (securityFilter && !spot.features.includes('security')) return false;
+                    if (evFilter && !spot.features.includes('ev')) return false;
+                    return true;
+                });
+            }
+
+            // Apply price filter
+            if (priceFilter !== 'all') {
+                const [min, max] = priceFilter.split('-').map(p => p.replace('+', ''));
+                results = results.filter(spot => {
+                    if (priceFilter === '50+') return spot.hourly_rate >= 50;
+                    return spot.hourly_rate >= parseInt(min) && spot.hourly_rate <= parseInt(max);
+                });
+            }
+
+            // Apply sorting
+            switch (sortFilter) {
+                case 'price-low':
+                    results.sort((a, b) => a.hourly_rate - b.hourly_rate);
+                    break;
+                case 'price-high':
+                    results.sort((a, b) => b.hourly_rate - a.hourly_rate);
+                    break;
+                case 'rating':
+                    results.sort((a, b) => b.rating - a.rating);
+                    break;
+                case 'distance':
+                    // Simple distance sorting (in a real app, this would be calculated properly)
+                    results.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance));
+                    break;
+            }
+
+            return results;
+        }
+
+        // Render results
+        function renderResults(results) {
             const resultsGrid = document.getElementById('results-grid');
-            const noResults = document.getElementById('no-results');
+            const loadingState = document.getElementById('loading-state');
+            const noResultsState = document.getElementById('no-results');
             const resultsCount = document.getElementById('results-count');
 
+            // Hide loading state
             loadingState.style.display = 'none';
-            
-            if (filteredProperties.length === 0) {
-                resultsContainer.style.display = 'none';
-                noResults.style.display = 'block';
+
+            if (results.length === 0) {
+                resultsGrid.style.display = 'none';
+                noResultsState.style.display = 'block';
+                resultsCount.textContent = 'No results found';
                 return;
             }
 
-            resultsContainer.style.display = 'block';
-            noResults.style.display = 'none';
-            
-            // Update results count
-            resultsCount.textContent = `Found ${filteredProperties.length} parking spot${filteredProperties.length !== 1 ? 's' : ''}`;
+            // Show results
+            noResultsState.style.display = 'none';
+            resultsGrid.style.display = 'grid';
+            resultsCount.textContent = `${results.length} parking spot${results.length !== 1 ? 's' : ''} found`;
 
-            // Generate property cards
-            resultsGrid.innerHTML = filteredProperties.map(property => createPropertyCard(property)).join('');
-        }
-
-        function createPropertyCard(property) {
-            const photos = property.photos || [];
-            const primaryImage = photos[0] || 'https://via.placeholder.com/400x240?text=No+Image';
-            
-            return `
-                <div class="property-card">
+            // Generate result cards
+            resultsGrid.innerHTML = results.map((spot, index) => `
+                <div class="property-card" data-id="${spot.id}">
                     <div class="property-image-container">
-                        <img src="${primaryImage}" alt="${property.spot_title}" class="property-image">
-                        
+                        <div class="image-carousel" data-spot-id="${spot.id}">
+                            ${spot.photos.length > 0 ? spot.photos.map((photo, photoIndex) => `
+                                <img src="${photo}" alt="${spot.title}" class="property-image ${photoIndex === 0 ? 'active' : ''}" data-index="${photoIndex}" onclick="openImagePopup(${spot.id}, ${photoIndex})" />
+                            `).join('') : `<img src="${spot.primary_image}" alt="${spot.title}" class="property-image active" data-index="0" onclick="openImagePopup(${spot.id}, 0)" />`}
+                            ${spot.photos.length > 1 ? `
+                                <button class="carousel-btn carousel-prev" onclick="changeImage(${spot.id}, -1)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <button class="carousel-btn carousel-next" onclick="changeImage(${spot.id}, 1)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
+                                <div class="image-indicators">
+                                    ${spot.photos.map((_, indicatorIndex) => `
+                                        <span class="indicator ${indicatorIndex === 0 ? 'active' : ''}" onclick="goToImage(${spot.id}, ${indicatorIndex})"></span>
+                                    `).join('')}
+                                </div>
+                            ` : ''}
+                        </div>
                         <div class="price-badge">
-                            <span class="price">$${property.hourly_rate}</span>
+                            <span class="price">$${spot.hourly_rate}</span>
                             <span class="period">/hour</span>
                         </div>
-                        
-                        <div class="property-type-badge">${property.spot_type}</div>
+                        <div class="property-type-badge">${getSpotTypeDisplay(spot.spot_type)}</div>
+                        ${spot.photos.length > 1 ? `<div class="photo-count">${spot.photos.length} photos</div>` : ''}
                     </div>
-                    
                     <div class="property-content">
                         <div class="property-header">
-                            <h3 class="property-title">${property.spot_title}</h3>
+                            <h3 class="property-title">${spot.title}</h3>
                             <div class="rating-container">
-                                <div class="stars">
-                                    <span class="star">★</span>
-                                    <span class="star">★</span>
-                                    <span class="star">★</span>
-                                    <span class="star">★</span>
-                                    <span class="star empty">★</span>
-                                </div>
-                                <span class="rating-score">4.2</span>
+                                <div class="stars">${generateStars(spot.rating)}</div>
+                                <span class="rating-score">${spot.rating.toFixed(1)}</span>
+                                <span class="review-count">(${spot.reviews})</span>
                             </div>
                         </div>
                         
                         <div class="property-location">
-                            <svg class="location-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            <svg class="location-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="currentColor" stroke-width="2"/>
+                                <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
                             </svg>
                             <div class="address-info">
-                                <div class="address-line">${property.street_address}</div>
-                                <div class="city-state">${property.city}, ${property.state} ${property.zip_code}</div>
+                                <div class="address-line">${spot.street_address}${spot.unit ? ', ' + spot.unit : ''}</div>
+                                <div class="city-state">${spot.city}, ${spot.state} ${spot.zip_code}</div>
                             </div>
                         </div>
-                        
-                        ${property.location_instructions ? `
+
+                        ${spot.location_instructions ? `
                             <div class="instructions">
-                                <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                <svg class="info-icon" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 16v-4" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M12 8h.01" stroke="currentColor" stroke-width="2"/>
                                 </svg>
-                                <span>${property.location_instructions}</span>
+                                <span>${spot.location_instructions}</span>
                             </div>
                         ` : ''}
-                        
+
+                        <div class="property-features">
+                            ${spot.features.map(feature => {
+                                const featureIcons = {
+                                    'covered': '🏠',
+                                    'security': '🔒',
+                                    'ev': '⚡'
+                                };
+                                const featureNames = {
+                                    'covered': 'Covered',
+                                    'security': 'Security',
+                                    'ev': 'EV Charging'
+                                };
+                                return `<span class="feature-chip">${featureIcons[feature]} ${featureNames[feature]}</span>`;
+                            }).join('')}
+                        </div>
+
                         <div class="property-meta">
                             <div class="meta-item">
-                                <svg class="meta-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                <svg class="meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
                                 </svg>
-                                <span>Available ${new Date(property.starting_date).toLocaleDateString()}</span>
+                                <span>Owner: ${spot.owner_name}</span>
                             </div>
                             <div class="meta-item">
-                                <svg class="meta-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                <svg class="meta-icon" width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M8 2v4" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M16 2v4" stroke="currentColor" stroke-width="2"/>
+                                    <rect width="18" height="18" x="3" y="4" rx="2" stroke="currentColor" stroke-width="2"/>
+                                    <path d="M3 10h18" stroke="currentColor" stroke-width="2"/>
                                 </svg>
-                                <span>Hosted by ${property.owner_name}</span>
+                                <span>Available from ${formatDate(spot.created_at)}</span>
                             </div>
                         </div>
-                        
+
                         <div class="property-actions">
-                            <button class="book-now-btn" onclick="openBookingModal(${property.id})">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                            <button class="book-now-btn" onclick="bookSpot(${spot.id})">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 11l3 3 8-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                                 Book Now
+                            </button>
+                            <button class="view-details-btn" onclick="viewDetails(${spot.id})">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/>
+                                </svg>
+                                View Details
                             </button>
                         </div>
                     </div>
                 </div>
-            `;
+            `).join('');
         }
 
-        function showNoResults() {
-            document.getElementById('loading-state').style.display = 'none';
-            document.getElementById('no-results').style.display = 'block';
-            document.getElementById('results-container').style.display = 'none';
+
+
+        // Initialize search results
+        async function initializeSearch() {
+            updateSearchDisplay();
+            
+            console.log('Initializing search with location:', searchLocation);
+            
+            try {
+                // Fetch properties from database
+                await fetchProperties();
+                
+                console.log('Fetched properties:', allProperties.length);
+                
+                // Apply filters and render results
+                const searchResults = searchParkingSpots();
+                const filteredResults = applyFilters(searchResults);
+                
+                console.log('Final filtered results:', filteredResults.length);
+                
+                renderResults(filteredResults);
+            } catch (error) {
+                console.error('Error initializing search:', error);
+                
+                // Show error state or fallback data
+                renderResults([]);
+            }
         }
 
-        // Booking modal functions
-        function openBookingModal(propertyId) {
-            // Check if user is logged in
+        // Event listeners for filters
+        document.getElementById('sort-filter').addEventListener('change', () => {
+            if (allProperties.length > 0) {
+                const searchResults = searchParkingSpots();
+                const filteredResults = applyFilters(searchResults);
+                renderResults(filteredResults);
+            }
+        });
+
+        document.getElementById('price-filter').addEventListener('change', () => {
+            if (allProperties.length > 0) {
+                const searchResults = searchParkingSpots();
+                const filteredResults = applyFilters(searchResults);
+                renderResults(filteredResults);
+            }
+        });
+
+        ['covered-filter', 'security-filter', 'ev-filter'].forEach(id => {
+            document.getElementById(id).addEventListener('change', () => {
+                if (allProperties.length > 0) {
+                    const searchResults = searchParkingSpots();
+                    const filteredResults = applyFilters(searchResults);
+                    renderResults(filteredResults);
+                }
+            });
+        });
+
+        // Check login status and update UI
+        function updateUI(isLoggedIn) {
+            const loginButton = document.getElementById('login-button');
+            const signupButton = document.getElementById('signup-button');
+            const profileButton = document.getElementById('profile-button');
+            
+            if (loginButton) {
+                loginButton.style.display = isLoggedIn ? 'none' : 'block';
+            }
+            
+            if (signupButton) {
+                signupButton.style.display = isLoggedIn ? 'none' : 'block';
+            }
+            
+            if (profileButton) {
+                profileButton.style.display = isLoggedIn ? 'flex' : 'none';
+            }
+        }
+
+        // Check login status on page load
+        try {
             const user = JSON.parse(localStorage.getItem('user') || 'null');
-            if (!user) {
+            if (user && user.id) {
+                updateUI(true);
+            } else {
+                localStorage.removeItem('user');
+                updateUI(false);
+            }
+        } catch (error) {
+            localStorage.removeItem('user');
+            updateUI(false);
+        }
+
+        // Helper functions
+        function getSpotTypeDisplay(spotType) {
+            const typeMap = {
+                'garage-private': 'Private Garage',
+                'garage-public': 'Public Garage',
+                'driveway': 'Driveway',
+                'street': 'Street Parking',
+                'carport': 'Carport',
+                'lot': 'Parking Lot'
+            };
+            return typeMap[spotType] || spotType.charAt(0).toUpperCase() + spotType.slice(1);
+        }
+
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            
+            return '★'.repeat(fullStars) + 
+                   (hasHalfStar ? '☆' : '') + 
+                   '☆'.repeat(emptyStars);
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+
+        function viewDetails(spotId) {
+            const spot = allProperties.find(s => s.id == spotId);
+            if (spot) {
+                // In a real app, this would open a detailed property page
+                alert(`Property Details for ${spot.title}\n\nOwner: ${spot.owner_name}\nLocation: ${spot.location}\nRate: $${spot.hourly_rate}/hour\nType: ${getSpotTypeDisplay(spot.spot_type)}`);
+            }
+        }
+
+        // Global booking variables
+        let currentBookingSpot = null;
+
+        // Book a parking spot
+        function bookSpot(spotId) {
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (!user || !user.id) {
                 alert('Please log in to book a parking spot.');
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            const spot = allProperties.find(s => s.id == spotId);
+            if (!spot) {
+                alert('Property not found.');
                 return;
             }
 
-            // Simple booking for now - in real app would open proper modal
-            const property = allProperties.find(p => p.id === propertyId);
-            if (!property) return;
-            
-            const startTime = prompt('Enter start date and time (YYYY-MM-DD HH:MM):');
-            const endTime = prompt('Enter end date and time (YYYY-MM-DD HH:MM):');
-            
-            if (startTime && endTime) {
-                createBooking(propertyId, startTime, endTime, user.id);
+            // Check if user is trying to book their own property
+            if (spot.user_id == user.id) {
+                alert('You cannot book your own property.');
+                return;
             }
+
+            currentBookingSpot = spot;
+            openBookingModal(spot);
         }
 
-        async function createBooking(propertyId, startTime, endTime, userId) {
+        // Open booking modal
+        function openBookingModal(spot) {
+            const modal = document.getElementById('bookingModal');
+            const propertyImage = document.getElementById('bookingPropertyImage');
+            const propertyTitle = document.getElementById('bookingPropertyTitle');
+            const propertyAddress = document.getElementById('bookingPropertyAddress');
+            const hourlyRate = document.getElementById('bookingHourlyRate');
+
+            // Set property details
+            const primaryImage = spot.photos && spot.photos.length > 0 ? spot.photos[0] : spot.primary_image;
+            propertyImage.src = primaryImage || '/api/placeholder/120/90';
+            propertyTitle.textContent = spot.title || spot.spot_title;
+            propertyAddress.textContent = `${spot.street_address}${spot.unit ? ', ' + spot.unit : ''}, ${spot.city}, ${spot.state} ${spot.zip_code}`;
+            hourlyRate.textContent = `$${spot.hourly_rate}`;
+
+            // Set minimum datetime to current time
+            const now = new Date();
+            const minDateTime = new Date(now.getTime() + (60 * 60 * 1000)); // 1 hour from now
+            const minDateTimeString = minDateTime.toISOString().slice(0, 16);
+            
+            const startTimeInput = document.getElementById('bookingStartTime');
+            const endTimeInput = document.getElementById('bookingEndTime');
+            
+            startTimeInput.min = minDateTimeString;
+            endTimeInput.min = minDateTimeString;
+            startTimeInput.value = '';
+            endTimeInput.value = '';
+
+            // Reset duration info
+            document.getElementById('bookingDurationInfo').style.display = 'none';
+            document.getElementById('confirmBookingBtn').disabled = true;
+
+            // Show modal
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close booking modal
+        function closeBookingModal() {
+            const modal = document.getElementById('bookingModal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            currentBookingSpot = null;
+        }
+
+        // Calculate booking duration and cost
+        function calculateBookingCost() {
+            const startTimeInput = document.getElementById('bookingStartTime');
+            const endTimeInput = document.getElementById('bookingEndTime');
+            const durationInfo = document.getElementById('bookingDurationInfo');
+            const durationValue = document.getElementById('bookingDuration');
+            const totalCostValue = document.getElementById('bookingTotalCost');
+            const confirmBtn = document.getElementById('confirmBookingBtn');
+
+            if (!startTimeInput.value || !endTimeInput.value || !currentBookingSpot) {
+                durationInfo.style.display = 'none';
+                confirmBtn.disabled = true;
+                return;
+            }
+
+            const startTime = new Date(startTimeInput.value);
+            const endTime = new Date(endTimeInput.value);
+
+            if (startTime >= endTime) {
+                durationInfo.style.display = 'none';
+                confirmBtn.disabled = true;
+                return;
+            }
+
+            // Calculate duration in hours
+            const durationMs = endTime.getTime() - startTime.getTime();
+            const durationHours = durationMs / (1000 * 60 * 60);
+            
+            // Calculate total cost
+            const totalCost = durationHours * currentBookingSpot.hourly_rate;
+
+            // Update UI
+            durationValue.textContent = `${durationHours.toFixed(1)} hours`;
+            totalCostValue.textContent = `$${totalCost.toFixed(2)}`;
+            durationInfo.style.display = 'flex';
+            confirmBtn.disabled = false;
+        }
+
+        // Confirm booking
+        async function confirmBooking() {
+            if (!currentBookingSpot) return;
+
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (!user || !user.id) {
+                alert('Please log in to continue.');
+                closeBookingModal();
+                return;
+            }
+
+            const startTimeInput = document.getElementById('bookingStartTime');
+            const endTimeInput = document.getElementById('bookingEndTime');
+            const loadingDiv = document.getElementById('bookingLoading');
+            const confirmBtn = document.getElementById('confirmBookingBtn');
+
+            if (!startTimeInput.value || !endTimeInput.value) {
+                alert('Please select start and end times.');
+                return;
+            }
+
+            const startTime = new Date(startTimeInput.value);
+            const endTime = new Date(endTimeInput.value);
+
+            // Show loading
+            loadingDiv.style.display = 'flex';
+            confirmBtn.disabled = true;
+
             try {
-                const response = await fetch('/api/create-booking', {
+                const response = await fetch('http://127.0.0.1:3000/api/bookings', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
                     body: JSON.stringify({
-                        property_id: propertyId,
-                        start_time: startTime,
-                        end_time: endTime,
-                        user_id: userId
+                        user_id: user.id,
+                        property_id: currentBookingSpot.id,
+                        start_time: startTime.toISOString(),
+                        end_time: endTime.toISOString()
                     })
                 });
-                
+
                 const result = await response.json();
-                
-                if (result.success) {
-                    alert(`Booking confirmed! Total cost: $${result.booking.total_cost}`);
+
+                if (response.ok) {
+                    alert(`Booking confirmed! Your booking reference is #${result.booking.id}. You can view your bookings in your profile.`);
+                    closeBookingModal();
                 } else {
-                    alert(`Booking failed: ${result.error}`);
+                    throw new Error(result.error || 'Booking failed');
                 }
             } catch (error) {
                 console.error('Booking error:', error);
-                alert('Booking failed. Please try again.');
+                alert(`Booking failed: ${error.message}`);
+            } finally {
+                loadingDiv.style.display = 'none';
+                confirmBtn.disabled = false;
             }
         }
+
+        // Add event listeners for date/time inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const startTimeInput = document.getElementById('bookingStartTime');
+            const endTimeInput = document.getElementById('bookingEndTime');
+
+            if (startTimeInput && endTimeInput) {
+                startTimeInput.addEventListener('change', function() {
+                    // Set minimum end time to be after start time
+                    if (this.value) {
+                        const startTime = new Date(this.value);
+                        const minEndTime = new Date(startTime.getTime() + (60 * 60 * 1000)); // 1 hour minimum
+                        endTimeInput.min = minEndTime.toISOString().slice(0, 16);
+                        
+                        // Clear end time if it's now invalid
+                        if (endTimeInput.value && new Date(endTimeInput.value) <= startTime) {
+                            endTimeInput.value = '';
+                        }
+                    }
+                    calculateBookingCost();
+                });
+
+                endTimeInput.addEventListener('change', calculateBookingCost);
+            }
+
+            // Close modal on escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeBookingModal();
+                }
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('bookingModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeBookingModal();
+                }
+            });
+        });
+
+        // Global variables for popup
+        let currentPopupSpotId = null;
+        let currentPopupImageIndex = 0;
+        let currentPopupImages = [];
+
+        // Image popup functions
+        function openImagePopup(spotId, imageIndex) {
+            const spot = allProperties.find(s => s.id == spotId);
+            if (!spot) return;
+            
+            currentPopupSpotId = spotId;
+            currentPopupImageIndex = imageIndex;
+            currentPopupImages = spot.photos.length > 0 ? spot.photos : [spot.primary_image];
+            
+            const popup = document.getElementById('imagePopup');
+            const popupImage = document.getElementById('popupImage');
+            const popupCounter = document.getElementById('popupCounter');
+            const popupIndicators = document.getElementById('popupIndicators');
+            
+            popupImage.src = currentPopupImages[imageIndex];
+            popupCounter.textContent = `${imageIndex + 1} / ${currentPopupImages.length}`;
+            
+            // Create indicators
+            if (currentPopupImages.length > 1) {
+                popupIndicators.innerHTML = currentPopupImages.map((_, index) => 
+                    `<span class="popup-indicator ${index === imageIndex ? 'active' : ''}" onclick="goToPopupImage(${index})"></span>`
+                ).join('');
+                popupIndicators.style.display = 'flex';
+            } else {
+                popupIndicators.style.display = 'none';
+            }
+            
+            popup.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeImagePopup() {
+            const popup = document.getElementById('imagePopup');
+            popup.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function navigatePopupImage(direction) {
+            let newIndex = currentPopupImageIndex + direction;
+            if (newIndex >= currentPopupImages.length) newIndex = 0;
+            if (newIndex < 0) newIndex = currentPopupImages.length - 1;
+            
+            currentPopupImageIndex = newIndex;
+            const popupImage = document.getElementById('popupImage');
+            const popupCounter = document.getElementById('popupCounter');
+            const indicators = document.querySelectorAll('.popup-indicator');
+            
+            popupImage.src = currentPopupImages[newIndex];
+            popupCounter.textContent = `${newIndex + 1} / ${currentPopupImages.length}`;
+            
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === newIndex);
+            });
+        }
+        
+        function goToPopupImage(index) {
+            currentPopupImageIndex = index;
+            const popupImage = document.getElementById('popupImage');
+            const popupCounter = document.getElementById('popupCounter');
+            const indicators = document.querySelectorAll('.popup-indicator');
+            
+            popupImage.src = currentPopupImages[index];
+            popupCounter.textContent = `${index + 1} / ${currentPopupImages.length}`;
+            
+            // Update indicators
+            indicators.forEach((indicator, indicatorIndex) => {
+                indicator.classList.toggle('active', indicatorIndex === index);
+            });
+        }
+        
+        // Close popup on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeImagePopup();
+            }
+        });
+        
+        // Close popup when clicking outside the image
+        document.getElementById('imagePopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeImagePopup();
+            }
+        });
+
+        // Image carousel functions
+        function changeImage(spotId, direction) {
+            const carousel = document.querySelector(`[data-spot-id="${spotId}"]`);
+            const images = carousel.querySelectorAll('.property-image');
+            const indicators = carousel.querySelectorAll('.indicator');
+            const activeImage = carousel.querySelector('.property-image.active');
+            const currentIndex = parseInt(activeImage.dataset.index);
+            
+            let newIndex = currentIndex + direction;
+            if (newIndex >= images.length) newIndex = 0;
+            if (newIndex < 0) newIndex = images.length - 1;
+            
+            // Remove active class from current image and indicator
+            activeImage.classList.remove('active');
+            if (indicators.length > 0) {
+                indicators[currentIndex].classList.remove('active');
+            }
+            
+            // Add active class to new image and indicator
+            images[newIndex].classList.add('active');
+            if (indicators.length > 0) {
+                indicators[newIndex].classList.add('active');
+            }
+        }
+        
+        function goToImage(spotId, index) {
+            const carousel = document.querySelector(`[data-spot-id="${spotId}"]`);
+            const images = carousel.querySelectorAll('.property-image');
+            const indicators = carousel.querySelectorAll('.indicator');
+            const activeImage = carousel.querySelector('.property-image.active');
+            const currentIndex = parseInt(activeImage.dataset.index);
+            
+            if (index === currentIndex) return;
+            
+            // Remove active class from current image and indicator
+            activeImage.classList.remove('active');
+            if (indicators.length > 0) {
+                indicators[currentIndex].classList.remove('active');
+            }
+            
+            // Add active class to new image and indicator
+            images[index].classList.add('active');
+            if (indicators.length > 0) {
+                indicators[index].classList.add('active');
+            }
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeSearch);
     </script>
 </body>
-</html> 
+</html>
