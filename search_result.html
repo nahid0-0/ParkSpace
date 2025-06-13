@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results - ParkSpace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">ParkSpace</a>
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="#find">Find Parking</a></li>
+                    <li><a href="#rent">Rent Your Space</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <a href="profile.html" class="profile-button" id="profile-button" style="display: none;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="cta-button secondary" id="login-button">Log In</a>
+                    <a href="#" class="cta-button" id="signup-button">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Search Results Section -->
+    <section class="search-results-section">
+        <div class="container">
+            <!-- Search Header -->
+            <div class="search-header">
+                <a href="index.html" class="back-button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
+                    </svg>
+                    Back to Home
+                </a>
+                
+                <div class="search-info">
+                    <h1>Parking Search Results</h1>
+                    <div class="search-criteria">
+                        <span id="search-location">Loading...</span>
+                        <span class="separator">•</span>
+                        <span id="search-datetime">Loading...</span>
+                    </div>
+                    <p class="results-count" id="results-count">Searching for parking spots...</p>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loading-state">
+                <div class="loading-spinner"></div>
+                <p>Finding the best parking spots for you...</p>
+            </div>
+
+            <!-- Results Container -->
+            <div class="results-container" id="results-container" style="display: none;">
+                <!-- Results Grid -->
+                <div class="results-grid" id="results-grid">
+                    <!-- Property cards will be inserted here -->
+                </div>
+
+                <!-- No Results State -->
+                <div class="no-results" id="no-results" style="display: none;">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
+                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                        <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h2>No parking spots found</h2>
+                    <p>Try adjusting your search criteria or exploring nearby areas for better availability.</p>
+                    <a href="index.html" class="cta-button">Search Again</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Include the popup handling script -->
+    <script src="script.js"></script>
+    
+    <script>
+        // Global variables
+        let allProperties = [];
+        let filteredProperties = [];
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            initializePage();
+        });
+
+        function initializePage() {
+            // Get search parameters from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const location = urlParams.get('location') || '';
+            const date = urlParams.get('date') || '';
+            const time = urlParams.get('time') || '';
+            const duration = urlParams.get('duration') || '';
+
+            // Update search criteria display
+            document.getElementById('search-location').textContent = location || 'Any Location';
+            document.getElementById('search-datetime').textContent = 
+                date && time ? `${date} at ${time}` : 'Any Time';
+
+            // Perform search
+            searchParkingSpots(location, date, time, duration);
+        }
+
+        async function searchParkingSpots(location, date, time, duration) {
+            try {
+                const params = new URLSearchParams();
+                if (location) params.append('location', location);
+                if (date) params.append('date', date);
+                if (time) params.append('time', time);
+                if (duration) params.append('duration', duration);
+
+                const response = await fetch(`/api/search-parking?${params}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    allProperties = data.properties;
+                    filteredProperties = [...allProperties];
+                    displayResults();
+                } else {
+                    showNoResults();
+                }
+            } catch (error) {
+                console.error('Search error:', error);
+                showNoResults();
+            }
+        }
+
+        function displayResults() {
+            const loadingState = document.getElementById('loading-state');
+            const resultsContainer = document.getElementById('results-container');
+            const resultsGrid = document.getElementById('results-grid');
+            const noResults = document.getElementById('no-results');
+            const resultsCount = document.getElementById('results-count');
+
+            loadingState.style.display = 'none';
+            
+            if (filteredProperties.length === 0) {
+                resultsContainer.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            resultsContainer.style.display = 'block';
+            noResults.style.display = 'none';
+            
+            // Update results count
+            resultsCount.textContent = `Found ${filteredProperties.length} parking spot${filteredProperties.length !== 1 ? 's' : ''}`;
+
+            // Generate property cards
+            resultsGrid.innerHTML = filteredProperties.map(property => createPropertyCard(property)).join('');
+        }
+
+        function createPropertyCard(property) {
+            const photos = property.photos || [];
+            const primaryImage = photos[0] || 'https://via.placeholder.com/400x240?text=No+Image';
+            
+            return `
+                <div class="property-card">
+                    <div class="property-image-container">
+                        <img src="${primaryImage}" alt="${property.spot_title}" class="property-image">
+                        
+                        <div class="price-badge">
+                            <span class="price">$${property.hourly_rate}</span>
+                            <span class="period">/hour</span>
+                        </div>
+                        
+                        <div class="property-type-badge">${property.spot_type}</div>
+                    </div>
+                    
+                    <div class="property-content">
+                        <div class="property-header">
+                            <h3 class="property-title">${property.spot_title}</h3>
+                            <div class="rating-container">
+                                <div class="stars">
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star">★</span>
+                                    <span class="star empty">★</span>
+                                </div>
+                                <span class="rating-score">4.2</span>
+                            </div>
+                        </div>
+                        
+                        <div class="property-location">
+                            <svg class="location-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                            </svg>
+                            <div class="address-info">
+                                <div class="address-line">${property.street_address}</div>
+                                <div class="city-state">${property.city}, ${property.state} ${property.zip_code}</div>
+                            </div>
+                        </div>
+                        
+                        ${property.location_instructions ? `
+                            <div class="instructions">
+                                <svg class="info-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                                </svg>
+                                <span>${property.location_instructions}</span>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="property-meta">
+                            <div class="meta-item">
+                                <svg class="meta-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                                <span>Available ${new Date(property.starting_date).toLocaleDateString()}</span>
+                            </div>
+                            <div class="meta-item">
+                                <svg class="meta-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                </svg>
+                                <span>Hosted by ${property.owner_name}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="property-actions">
+                            <button class="book-now-btn" onclick="openBookingModal(${property.id})">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.1 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                                </svg>
+                                Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showNoResults() {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('no-results').style.display = 'block';
+            document.getElementById('results-container').style.display = 'none';
+        }
+
+        // Booking modal functions
+        function openBookingModal(propertyId) {
+            // Check if user is logged in
+            const user = JSON.parse(localStorage.getItem('user') || 'null');
+            if (!user) {
+                alert('Please log in to book a parking spot.');
+                return;
+            }
+
+            // Simple booking for now - in real app would open proper modal
+            const property = allProperties.find(p => p.id === propertyId);
+            if (!property) return;
+            
+            const startTime = prompt('Enter start date and time (YYYY-MM-DD HH:MM):');
+            const endTime = prompt('Enter end date and time (YYYY-MM-DD HH:MM):');
+            
+            if (startTime && endTime) {
+                createBooking(propertyId, startTime, endTime, user.id);
+            }
+        }
+
+        async function createBooking(propertyId, startTime, endTime, userId) {
+            try {
+                const response = await fetch('/api/create-booking', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        property_id: propertyId,
+                        start_time: startTime,
+                        end_time: endTime,
+                        user_id: userId
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    alert(`Booking confirmed! Total cost: $${result.booking.total_cost}`);
+                } else {
+                    alert(`Booking failed: ${result.error}`);
+                }
+            } catch (error) {
+                console.error('Booking error:', error);
+                alert('Booking failed. Please try again.');
+            }
+        }
+    </script>
+</body>
+</html> 
