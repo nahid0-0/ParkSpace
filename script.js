@@ -174,42 +174,129 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Update form submission handlers to remove blur
-    document.querySelector('.signin-form').addEventListener('submit', function(e) {
+    // Update form submission handlers to actually authenticate
+    document.querySelector('.signin-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         const button = this.querySelector('.cta-button');
         const originalText = button.textContent;
         
+        // Get form data
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        // Validation
+        if (!email || !password) {
+            alert('Please fill in all fields');
+            return;
+        }
+        
         button.textContent = 'Signing In...';
-        setTimeout(() => {
-            button.textContent = 'Success!';
-            setTimeout(() => {
-                togglePopup(signinPopup, false);
-                button.textContent = originalText;
-            }, 1000);
-        }, 1500);
+        button.disabled = true;
+        
+        try {
+            const response = await fetch('http://127.0.0.1:3000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                button.textContent = 'Success!';
+                
+                // Store user data in localStorage
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                // Update UI to show logged in state
+                updateUI(true);
+                
+                setTimeout(() => {
+                    togglePopup(signinPopup, false);
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    
+                    // Clear form
+                    this.reset();
+                }, 1000);
+            } else {
+                throw new Error(data.error || 'Login failed');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert(`Login failed: ${error.message}`);
+            button.textContent = originalText;
+            button.disabled = false;
+        }
     });
 
-    document.querySelector('.signup-form').addEventListener('submit', function(e) {
+    document.querySelector('.signup-form').addEventListener('submit', async function(e) {
         e.preventDefault();
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('signup-email').value;
         const password = document.getElementById('signup-password').value;
         const confirmPassword = document.getElementById('confirm-password').value;
         const button = this.querySelector('.cta-button');
         const originalText = button.textContent;
+
+        // Validation
+        if (!username || !email || !password || !confirmPassword) {
+            alert('Please fill in all fields');
+            return;
+        }
 
         if (password !== confirmPassword) {
             alert('Passwords do not match!');
             return;
         }
 
+        if (password.length < 6) {
+            alert('Password must be at least 6 characters long');
+            return;
+        }
+
         button.textContent = 'Signing Up...';
-        setTimeout(() => {
-            button.textContent = 'Success!';
-            setTimeout(() => {
-                togglePopup(signupPopup, false);
-                button.textContent = originalText;
-            }, 1000);
-        }, 1500);
+        button.disabled = true;
+        
+        try {
+            const response = await fetch('http://127.0.0.1:3000/api/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username, email, password })
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                button.textContent = 'Success!';
+                alert('Account created successfully! Please sign in.');
+                
+                setTimeout(() => {
+                    togglePopup(signupPopup, false);
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    
+                    // Clear form
+                    this.reset();
+                    
+                    // Switch to login popup
+                    setTimeout(() => {
+                        togglePopup(signinPopup, true);
+                    }, 500);
+                }, 1000);
+            } else {
+                throw new Error(data.error || 'Signup failed');
+            }
+        } catch (error) {
+            console.error('Signup error:', error);
+            alert(`Signup failed: ${error.message}`);
+            button.textContent = originalText;
+            button.disabled = false;
+        }
     });
 
     // Update Google sign-in/sign-up handlers
@@ -278,5 +365,88 @@ document.addEventListener('DOMContentLoaded', function() {
         const progress = document.querySelector('.progress');
         const percentage = ((currentStep - 1) / (steps.length - 1)) * 100;
         progress.style.width = `${percentage}%`;
+    }
+
+    // Function to update UI based on login status
+    function updateUI(isLoggedIn) {
+        const loginButton = document.getElementById('login-button');
+        const signupButton = document.getElementById('signup-button');
+        const profileButton = document.getElementById('profile-button');
+        
+        if (loginButton) {
+            loginButton.style.display = isLoggedIn ? 'none' : 'block';
+        }
+        
+        if (signupButton) {
+            signupButton.style.display = isLoggedIn ? 'none' : 'block';
+        }
+        
+        if (profileButton) {
+            profileButton.style.display = isLoggedIn ? 'flex' : 'none';
+        }
+    }
+    
+    // Logout function (only for profile page)
+    function logout() {
+        localStorage.removeItem('user');
+        updateUI(false);
+        alert('You have been logged out successfully!');
+    }
+    
+    // Search form functionality
+    const searchForm = document.querySelector('.search-form');
+    if (searchForm) {
+        searchForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const location = document.getElementById('location').value.trim();
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            const duration = document.getElementById('duration').value;
+            
+            // Build query parameters
+            const searchParams = new URLSearchParams();
+            if (location) {
+                searchParams.set('location', location);
+            }
+            if (date) {
+                searchParams.set('date', date);
+            }
+            if (time) {
+                searchParams.set('time', time);
+            }
+            if (duration) {
+                searchParams.set('duration', duration);
+            }
+            
+            // Redirect to search results page
+            const queryString = searchParams.toString();
+            const searchUrl = `search_result.html${queryString ? '?' + queryString : ''}`;
+            window.location.href = searchUrl;
+        });
+    }
+    
+    // Find Parking Now button functionality
+    const findParkingButton = document.querySelector('.primary-btn');
+    if (findParkingButton) {
+        findParkingButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Redirect to search results page to show all properties
+            window.location.href = 'search_result.html';
+        });
+    }
+    
+    // Check login status on page load
+    try {
+        const user = JSON.parse(localStorage.getItem('user') || 'null');
+        if (user && user.id) {
+            updateUI(true);
+        } else {
+            localStorage.removeItem('user');
+            updateUI(false);
+        }
+    } catch (error) {
+        localStorage.removeItem('user');
+        updateUI(false);
     }
 }); 
