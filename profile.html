@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - ParkSpace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">ParkSpace</a>
+                <ul class="nav-links">
+                    <li><a href="index.html#home">Home</a></li>
+                    <li><a href="index.html#find">Find Parking</a></li>
+                    <li><a href="index.html#rent">Rent Your Space</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                </ul>
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <a href="profile.html" class="profile-button" id="profile-button" title="Profile" style="display:none;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+                            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
+                        </svg>
+                    </a>
+                    <a href="index.html" class="cta-button secondary" id="login-button">Log In</a>
+                    <a href="index.html" class="cta-button" id="signup-button">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Profile Section -->
+    <section class="profile-section">
+        <div class="container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img id="avatar-image" src="" alt="Profile Picture" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; display: none;">
+                    <svg id="avatar-placeholder" width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="#6b46c1"/>
+                        <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="#6b46c1"/>
+                    </svg>
+                    <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
+                    <button id="change-avatar-btn" class="change-avatar-btn" onclick="document.getElementById('avatar-upload').click();">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 2L13.09 8.26L19 7L17.74 13.09L24 12L17.74 10.91L19 17L13.09 15.74L12 22L10.91 15.74L5 17L6.26 10.91L0 12L6.26 13.09L5 7L10.91 8.26L12 2Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="profile-info">
+                    <h1 id="profile-name">Loading...</h1>
+                    <p id="member-since">Loading...</p>
+                    <div class="profile-stats">
+                        <div class="stat">
+                            <span class="stat-number" id="stat-bookings">-</span>
+                            <span class="stat-label">Bookings</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="stat-properties">-</span>
+                            <span class="stat-label">Properties</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" id="stat-rating">-</span>
+                            <span class="stat-label">Rating</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="edit-profile-btn">Edit Profile</button>
+            </div>
+
+            <div class="profile-content">
+                <div class="profile-sidebar">
+                    <nav class="profile-nav">
+                        <button class="profile-nav-item active" data-tab="personal">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+                                <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
+                            </svg>
+                            Personal Information
+                        </button>
+                        <button class="profile-nav-item" data-tab="bookings">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17ZM17 21V11H13V7H7V19H17Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            My Bookings
+                        </button>
+                        <button class="profile-nav-item" data-tab="properties">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 12L5 10M5 10L12 3L19 10M5 10V20C5 20.5523 5.44772 21 6 21H9M19 10L21 12M19 10V20C19 20.5523 18.5523 21 18 21H15M9 21C9.55228 21 10 20.5523 10 20V16C10 15.4477 10.4477 15 11 15H13C13.5523 15 14 15.4477 14 16V20C14 20.5523 14.4477 21 15 21M9 21H15" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            My Properties
+                        </button>
+                        <button class="profile-nav-item" data-tab="settings">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5842 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6642 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.2578 9.77251 19.9887C9.5799 19.7197 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41583 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6642 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41583 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33583 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5842 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33583 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="currentColor" stroke-width="2" fill="none"/>
+                            </svg>
+                            Settings
+                        </button>
+                    </nav>
+                </div>
+
+                <div class="profile-main">
+                    <!-- Personal Information Tab -->
+                    <div class="profile-tab active" id="personal-tab">
+                        <h2>Personal Information</h2>
+                        <div class="profile-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name</label>
+                                    <input type="text" id="firstName" value="" placeholder="Loading..." readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name</label>
+                                    <input type="text" id="lastName" value="" placeholder="Loading..." readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" value="" placeholder="Loading..." readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone Number</label>
+                                <input type="tel" id="phone" value="" placeholder="Loading..." readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <textarea id="address" placeholder="Loading..." readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bookings Tab -->
+                    <div class="profile-tab" id="bookings-tab">
+                        <h2>My Bookings</h2>
+                        <div class="bookings-list">
+                            <div class="booking-card">
+                                <div class="booking-info">
+                                    <h3>Downtown Parking Garage</h3>
+                                    <p>123 Business Ave, New York, NY</p>
+                                    <div class="booking-details">
+                                        <span>Mar 15, 2024 • 9:00 AM - 6:00 PM</span>
+                                        <span class="booking-status completed">Completed</span>
+                                    </div>
+                                </div>
+                                <div class="booking-price">$25.00</div>
+                            </div>
+                            <div class="booking-card">
+                                <div class="booking-info">
+                                    <h3>Mall Parking Lot B</h3>
+                                    <p>456 Shopping Center Dr, New York, NY</p>
+                                    <div class="booking-details">
+                                        <span>Mar 20, 2024 • 2:00 PM - 8:00 PM</span>
+                                        <span class="booking-status upcoming">Upcoming</span>
+                                    </div>
+                                </div>
+                                <div class="booking-price">$18.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Properties Tab -->
+                    <div class="profile-tab" id="properties-tab">
+                        <h2>My Properties</h2>
+                        <div class="properties-list">
+                            <div class="property-management-card">
+                                <div class="property-image-section">
+                                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400" alt="Property Image" class="property-main-image">
+                                    <div class="photo-count-badge">1 photo</div>
+                                    <div class="property-status-badge active">Active</div>
+                                </div>
+                                <div class="property-details-section">
+                                    <div class="property-info">
+                                        <h3>Private Driveway</h3>
+                                        <p class="property-address">789 Residential St, New York, NY</p>
+                                        <div class="property-meta">
+                                            <span class="spot-type">Private Driveway</span>
+                                            <span class="rate">$15/day</span>
+                                        </div>
+                                        <div class="property-date">
+                                            Created: 2024-03-01
+                                        </div>
+                                    </div>
+                                    <div class="property-actions">
+                                        <button class="edit-property-btn" onclick="editProperty(1)">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M18.5 2.50023C18.8978 2.1024 19.4374 1.87891 20 1.87891C20.5626 1.87891 21.1022 2.1024 21.5 2.50023C21.8978 2.89805 22.1213 3.43762 22.1213 4.00023C22.1213 4.56284 21.8978 5.1024 21.5 5.50023L12 15.0002L8 16.0002L9 12.0002L18.5 2.50023Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            Edit
+                                        </button>
+                                        <button class="delete-property-btn" onclick="deleteProperty(1, 'Private Driveway')">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M10 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                <path d="M14 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Settings Tab -->
+                    <div class="profile-tab" id="settings-tab">
+                        <h2>Settings</h2>
+                        <div class="settings-section">
+                            <h3>Notifications</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    <span>Email notifications for bookings</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    <span>SMS reminders</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox">
+                                    <span>Marketing emails</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="settings-section">
+                            <h3>Privacy</h3>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox" checked>
+                                    <span>Make profile public</span>
+                                </label>
+                            </div>
+                            <div class="setting-item">
+                                <label>
+                                    <input type="checkbox">
+                                    <span>Allow location tracking</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Logout Section -->
+            <div class="logout-section">
+                <button id="logout-button" class="logout-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 21H5C4.44772 21 4 20.5523 4 20V4C4 3.44772 4.44772 3 5 3H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 17L21 12L16 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M21 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Log Out
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Global variables
+        let currentUser = null;
+        let isEditing = false;
+
+        // Profile tab switching
+        document.querySelectorAll('.profile-nav-item').forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all tabs and nav items
+                document.querySelectorAll('.profile-nav-item').forEach(item => item.classList.remove('active'));
+                document.querySelectorAll('.profile-tab').forEach(tab => tab.classList.remove('active'));
+                
+                // Add active class to clicked nav item
+                button.classList.add('active');
+                
+                // Show corresponding tab
+                const tabId = button.getAttribute('data-tab') + '-tab';
+                document.getElementById(tabId).classList.add('active');
+                
+                // Load tab-specific data
+                const tabType = button.getAttribute('data-tab');
+                if (tabType === 'bookings') {
+                    loadUserBookings();
+                } else if (tabType === 'properties') {
+                    loadUserProperties();
+                }
+            });
+        });
+
+        // Load user profile data
+        async function loadUserProfile() {
+            try {
+                if (!currentUser || !currentUser.id) {
+                    throw new Error('No user logged in');
+                }
+
+                const response = await fetch(`http://localhost:3000/api/profile/${currentUser.id}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const profile = await response.json();
+                
+                // Update profile header
+                document.querySelector('#profile-name').textContent = 
+                    `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || profile.username || 'User';
+                
+                const createdDate = new Date(profile.created_at).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long' 
+                });
+                document.querySelector('#member-since').textContent = `Member since ${createdDate}`;
+                
+                // Update stats using new IDs
+                document.getElementById('stat-bookings').textContent = profile.stats.bookings;
+                document.getElementById('stat-properties').textContent = profile.stats.properties;
+                document.getElementById('stat-rating').textContent = profile.stats.rating.toFixed(1);
+                
+                // Update form fields
+                document.getElementById('firstName').value = profile.first_name || '';
+                document.getElementById('lastName').value = profile.last_name || '';
+                document.getElementById('email').value = profile.email || '';
+                document.getElementById('phone').value = profile.phone_number || '';
+                document.getElementById('address').value = profile.address || '';
+                
+                // Update avatar
+                updateAvatarDisplay(profile.avatar_url);
+                
+                // Add username field if not present
+                if (!document.getElementById('username')) {
+                    const emailGroup = document.getElementById('email').closest('.form-group');
+                    const usernameGroup = document.createElement('div');
+                    usernameGroup.className = 'form-group';
+                    usernameGroup.innerHTML = `
+                        <label for="username">Username</label>
+                        <input type="text" id="username" value="${profile.username || ''}" readonly>
+                    `;
+                    emailGroup.parentNode.insertBefore(usernameGroup, emailGroup);
+                }
+                
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                alert('Error loading profile data. Please try again.');
+            }
+        }
+
+        // Update avatar display
+        function updateAvatarDisplay(avatarUrl) {
+            const avatarImage = document.getElementById('avatar-image');
+            const avatarPlaceholder = document.getElementById('avatar-placeholder');
+            
+            if (avatarUrl && avatarUrl.trim() !== '') {
+                avatarImage.src = avatarUrl;
+                avatarImage.style.display = 'block';
+                avatarPlaceholder.style.display = 'none';
+            } else {
+                avatarImage.style.display = 'none';
+                avatarPlaceholder.style.display = 'block';
+            }
+        }
+
+        // Upload profile image
+        async function uploadProfileImage(file) {
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+
+                // Upload to S3
+                const uploadResponse = await fetch('http://localhost:3000/api/s3-test-upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!uploadResponse.ok) {
+                    throw new Error('Failed to upload image');
+                }
+
+                const uploadResult = await uploadResponse.json();
+                const avatarUrl = uploadResult.url;
+
+                // Update profile with new avatar URL
+                const updateResponse = await fetch(`http://localhost:3000/api/profile/${currentUser.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        first_name: document.getElementById('firstName').value.trim(),
+                        last_name: document.getElementById('lastName').value.trim(),
+                        username: document.getElementById('username').value.trim(),
+                        email: document.getElementById('email').value.trim(),
+                        phone_number: document.getElementById('phone').value.trim(),
+                        address: document.getElementById('address').value.trim(),
+                        avatar_url: avatarUrl
+                    })
+                });
+
+                if (!updateResponse.ok) {
+                    throw new Error('Failed to update profile with new avatar');
+                }
+
+                // Update display
+                updateAvatarDisplay(avatarUrl);
+                alert('Profile picture updated successfully!');
+
+            } catch (error) {
+                console.error('Error uploading profile image:', error);
+                alert('Error uploading profile picture. Please try again.');
+            }
+        }
+
+        // Load user bookings
+        async function loadUserBookings() {
+            try {
+                if (!currentUser || !currentUser.id) return;
+
+                const response = await fetch(`http://localhost:3000/api/profile/${currentUser.id}/bookings`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const bookings = await response.json();
+                const bookingsList = document.querySelector('.bookings-list');
+                
+                if (bookings.length === 0) {
+                    bookingsList.innerHTML = '<p style="color: rgba(255, 255, 255, 0.8); text-align: center; padding: 2rem;">No bookings found.</p>';
+                    return;
+                }
+                
+                bookingsList.innerHTML = bookings.map(booking => {
+                    const startDate = new Date(booking.start_time);
+                    const endDate = new Date(booking.end_time);
+                    const dateStr = startDate.toLocaleDateString('en-US', { 
+                        month: 'short', 
+                        day: 'numeric', 
+                        year: 'numeric' 
+                    });
+                    const timeStr = `${startDate.toLocaleTimeString('en-US', { 
+                        hour: 'numeric', 
+                        minute: '2-digit' 
+                    })} - ${endDate.toLocaleTimeString('en-US', { 
+                        hour: 'numeric', 
+                        minute: '2-digit' 
+                    })}`;
+                    
+                    // Calculate duration
+                    const durationMs = endDate.getTime() - startDate.getTime();
+                    const durationHours = (durationMs / (1000 * 60 * 60)).toFixed(1);
+                    
+                    const isUpcoming = startDate > new Date();
+                    const isPast = endDate < new Date();
+                    let statusClass, statusText;
+                    
+                    if (booking.status === 'cancelled') {
+                        statusClass = 'cancelled';
+                        statusText = 'Cancelled';
+                    } else if (isPast) {
+                        statusClass = 'completed';
+                        statusText = 'Completed';
+                    } else if (isUpcoming) {
+                        statusClass = 'upcoming';
+                        statusText = booking.status === 'confirmed' ? 'Confirmed' : booking.status.charAt(0).toUpperCase() + booking.status.slice(1);
+                    } else {
+                        statusClass = 'active';
+                        statusText = 'Active';
+                    }
+                    
+                    const canCancel = (booking.status === 'confirmed' || booking.status === 'pending') && startDate > new Date();
+                    
+                    return `
+                        <div class="booking-card">
+                            <div class="booking-info">
+                                <h3>${booking.title}</h3>
+                                <p>${booking.address}</p>
+                                ${booking.owner_name ? `<p class="booking-owner">Owner: ${booking.owner_name}</p>` : ''}
+                                <div class="booking-details">
+                                    <div class="booking-schedule">
+                                        <strong>Date:</strong> ${dateStr}<br>
+                                        <strong>Time:</strong> ${timeStr}<br>
+                                        <strong>Duration:</strong> ${durationHours} hours
+                                    </div>
+                                    <div class="booking-pricing">
+                                        <span class="booking-rate">$${(booking.hourly_rate || 0).toFixed(2)}/hour</span>
+                                        <span class="booking-total">Total: $${booking.total_cost.toFixed(2)}</span>
+                                    </div>
+                                    <div class="booking-status-actions">
+                                        <span class="booking-status ${statusClass}">${statusText}</span>
+                                        ${canCancel ? `
+                                            <button class="cancel-booking-btn" onclick="cancelBooking(${booking.id})" title="Cancel Booking">
+                                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                                    <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                                Cancel
+                                            </button>
+                                        ` : ''}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                document.querySelector('.bookings-list').innerHTML = '<p style="color: rgba(255, 255, 255, 0.8); text-align: center; padding: 2rem;">Error loading bookings.</p>';
+            }
+        }
+
+        // Load user properties
+        async function loadUserProperties() {
+            try {
+                if (!currentUser || !currentUser.id) return;
+
+                const response = await fetch(`http://localhost:3000/api/profile/${currentUser.id}/properties`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const properties = await response.json();
+                const propertiesList = document.querySelector('.properties-list');
+                
+                if (properties.length === 0) {
+                    propertiesList.innerHTML = '<p style="color: rgba(255, 255, 255, 0.8); text-align: center; padding: 2rem;">No properties found.</p>';
+                    return;
+                }
+                
+                propertiesList.innerHTML = properties.map(property => {
+                    const statusClass = property.status === 'active' ? 'active' : 'inactive';
+                    const statusText = property.status === 'active' ? 'Active' : 'Inactive';
+                    const primaryImage = property.photos && property.photos.length > 0 ? property.photos[0] : 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400';
+                    const photoCount = property.photos ? property.photos.length : 0;
+                    
+                    return `
+                        <div class="property-management-card">
+                            <div class="property-image-section">
+                                <img src="${primaryImage}" alt="${property.title}" class="property-main-image">
+                                <div class="photo-count-badge">${photoCount} photo${photoCount !== 1 ? 's' : ''}</div>
+                                <div class="property-status-badge ${statusClass}">${statusText}</div>
+                            </div>
+                            <div class="property-details-section">
+                                <div class="property-info">
+                                    <h3>${property.title}</h3>
+                                    <p class="property-address">${property.address}</p>
+                                    <div class="property-meta">
+                                        <span class="spot-type">${property.spot_type.replace('-', ' ')}</span>
+                                        <span class="rate">$${property.hourly_rate}/hour</span>
+                                    </div>
+                                    <div class="property-date">
+                                        Created: ${new Date(property.created_at).toLocaleDateString()}
+                                    </div>
+                                </div>
+                                <div class="property-actions">
+                                    <button class="edit-property-btn" onclick="editProperty(${property.id})">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M18.5 2.50023C18.8978 2.1024 19.4374 1.87891 20 1.87891C20.5626 1.87891 21.1022 2.1024 21.5 2.50023C21.8978 2.89805 22.1213 3.43762 22.1213 4.00023C22.1213 4.56284 21.8978 5.1024 21.5 5.50023L12 15.0002L8 16.0002L9 12.0002L18.5 2.50023Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        Edit
+                                    </button>
+                                    <button class="delete-property-btn" onclick="deleteProperty(${property.id}, '${property.title}')">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M3 6H5H21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M14 11V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Error loading properties:', error);
+                document.querySelector('.properties-list').innerHTML = '<p style="color: rgba(255, 255, 255, 0.8); text-align: center; padding: 2rem;">Error loading properties.</p>';
+            }
+        }
+
+        // Edit property function
+        async function editProperty(propertyId) {
+            alert(`Edit property functionality will be implemented. Property ID: ${propertyId}`);
+            // TODO: Implement property editing modal/page
+        }
+
+        // Delete property function
+        async function deleteProperty(propertyId, propertyTitle) {
+            if (!confirm(`Are you sure you want to delete "${propertyTitle}"? This action cannot be undone.`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/properties/${propertyId}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                alert('Property deleted successfully!');
+                await loadUserProperties(); // Refresh the list
+                
+                // Update the properties count in stats
+                await loadUserProfile();
+
+            } catch (error) {
+                console.error('Error deleting property:', error);
+                alert('Error deleting property. Please try again.');
+            }
+        }
+
+        // Cancel booking function
+        async function cancelBooking(bookingId) {
+            if (!confirm('Are you sure you want to cancel this booking?')) {
+                return;
+            }
+
+            try {
+                if (!currentUser || !currentUser.id) {
+                    alert('Please log in to cancel booking.');
+                    return;
+                }
+
+                const response = await fetch(`http://localhost:3000/api/bookings/${bookingId}/cancel`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ user_id: currentUser.id })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                alert('Booking cancelled successfully!');
+                await loadUserBookings(); // Refresh the bookings list
+                
+                // Update the bookings count in stats
+                await loadUserProfile();
+
+            } catch (error) {
+                console.error('Error cancelling booking:', error);
+                alert(`Error cancelling booking: ${error.message}`);
+            }
+        }
+
+        // Update profile
+        async function updateProfile() {
+            try {
+                if (!currentUser || !currentUser.id) return;
+
+                const button = document.querySelector('.edit-profile-btn');
+                const originalText = button.textContent;
+                button.textContent = 'Saving...';
+                button.disabled = true;
+
+                const profileData = {
+                    first_name: document.getElementById('firstName').value.trim(),
+                    last_name: document.getElementById('lastName').value.trim(),
+                    username: document.getElementById('username').value.trim(),
+                    email: document.getElementById('email').value.trim(),
+                    phone_number: document.getElementById('phone').value.trim(),
+                    address: document.getElementById('address').value.trim(),
+                    avatar_url: currentUser.avatar_url || null
+                };
+
+                // Basic validation
+                if (!profileData.username) {
+                    alert('Username is required');
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    return;
+                }
+
+                if (!profileData.email) {
+                    alert('Email is required');
+                    button.textContent = originalText;
+                    button.disabled = false;
+                    return;
+                }
+
+                const response = await fetch(`http://localhost:3000/api/profile/${currentUser.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(profileData)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                }
+
+                alert('Profile updated successfully!');
+                
+                // Update stored user info
+                currentUser.username = profileData.username;
+                currentUser.email = profileData.email;
+                localStorage.setItem('user', JSON.stringify(currentUser));
+                
+                // Reload profile to reflect changes
+                await loadUserProfile();
+                
+                button.disabled = false;
+                
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert(`Error updating profile: ${error.message}`);
+                
+                const button = document.querySelector('.edit-profile-btn');
+                button.textContent = 'Save Changes';
+                button.disabled = false;
+            }
+        }
+
+        // Edit profile functionality
+        document.querySelector('.edit-profile-btn').addEventListener('click', async () => {
+            const inputs = document.querySelectorAll('#personal-tab input, #personal-tab textarea');
+            const button = document.querySelector('.edit-profile-btn');
+            
+            if (!isEditing) {
+                // Enter edit mode
+                inputs.forEach(input => input.removeAttribute('readonly'));
+                button.textContent = 'Save Changes';
+                button.style.background = '#10b981';
+                isEditing = true;
+            } else {
+                // Save changes
+                await updateProfile();
+                inputs.forEach(input => input.setAttribute('readonly', true));
+                button.textContent = 'Edit Profile';
+                button.style.background = '#6b46c1';
+                isEditing = false;
+            }
+        });
+
+        // Function to update UI based on login status
+        function updateUI(isLoggedIn) {
+            const loginButton = document.getElementById('login-button');
+            const signupButton = document.getElementById('signup-button');
+            const profileButton = document.getElementById('profile-button');
+            
+            if (loginButton) {
+                loginButton.style.display = isLoggedIn ? 'none' : 'block';
+            }
+            
+            if (signupButton) {
+                signupButton.style.display = isLoggedIn ? 'none' : 'block';
+            }
+            
+            if (profileButton) {
+                profileButton.style.display = isLoggedIn ? 'flex' : 'none';
+            }
+        }
+        
+        // Logout function
+        function logout() {
+            localStorage.removeItem('user');
+            updateUI(false);
+            alert('You have been logged out successfully!');
+            window.location.href = 'index.html';
+        }
+
+        // Check login status and load profile on page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const user = JSON.parse(localStorage.getItem('user') || 'null');
+                if (user && user.id) {
+                    currentUser = user;
+                    updateUI(true);
+                    await loadUserProfile();
+                } else {
+                    // Clear any invalid user data and redirect to home
+                    localStorage.removeItem('user');
+                    updateUI(false);
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                console.error('Error loading profile page:', error);
+                // Clear corrupted localStorage data and redirect to home
+                localStorage.removeItem('user');
+                updateUI(false);
+                window.location.href = 'index.html';
+            }
+
+            // Add avatar upload event listener
+            const avatarUpload = document.getElementById('avatar-upload');
+            if (avatarUpload) {
+                avatarUpload.addEventListener('change', async (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        // Validate file type
+                        if (!file.type.startsWith('image/')) {
+                            alert('Please select an image file.');
+                            return;
+                        }
+                        
+                        // Validate file size (max 5MB)
+                        if (file.size > 5 * 1024 * 1024) {
+                            alert('Image size must be less than 5MB.');
+                            return;
+                        }
+                        
+                        await uploadProfileImage(file);
+                    }
+                });
+            }
+        });
+
+        // Logout button handler
+        const logoutButton = document.getElementById('logout-button');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', function() {
+                localStorage.removeItem('user');
+                updateUI(false);
+                window.location.href = 'index.html';
+            });
+        }
+    </script>
+</body>
+</html>
