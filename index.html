@@ -6,6 +6,8 @@
     <title>ParkSpace - Find & Rent Parking Spots Instantly</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <!-- Add AWS SDK -->
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1289.0.min.js"></script>
 </head>
 <body>
     <!-- Header -->
@@ -21,6 +23,12 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <div style="display: flex; gap: 1rem; align-items: center;">
+                    <a href="profile.html" class="profile-button" id="profile-button" title="Profile" style="display:none;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+                            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
+                        </svg>
+                    </a>
                     <!-- <a href="#" class="cta-button secondary">Log In</a> -->
                     <a href="#" class="cta-button secondary" id="login-button">Log In</a>
                     <a href="#" class="cta-button" id="signup-button">Sign Up</a>
@@ -38,11 +46,16 @@
                     <div class="floating-circle circle-2"></div>
                     <div class="floating-circle circle-3"></div>
                     <div class="floating-circle circle-4"></div>
-                    <div class="floating-emoji emoji-1">🚗</div>
-                    <div class="floating-emoji emoji-2">🅿️</div>
-                    <div class="floating-emoji emoji-3">🚦</div>
-                    <div class="floating-emoji emoji-4">🌟</div>
-                    <div class="floating-emoji emoji-5">📍</div>
+                    <div class="floating-circle circle-4"></div>
+                    <div class="floating-circle circle-4"></div>
+                    <div class="floating-circle circle-1"></div>
+
+
+                    <!-- <div class="floating-emoji emoji-1">🚗</div> -->
+                    <!-- <div class="floating-emoji emoji-2">!</div> -->
+                    <!-- <div class="floating-emoji emoji-3">🚦</div> -->
+                    <!-- <div class="floating-emoji emoji-4">🌟</div> -->
+                    <!-- <div class="floating-emoji emoji-5">📍</div> -->
                 </div>
                 <div class="car-illustration">
                     <svg viewBox="0 0 300 170" style="width: 100%; height: 100%;">
@@ -57,7 +70,7 @@
                         <circle cx="216" cy="137" r="14" fill="#666"/>
                         <rect x="52" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
                         <rect x="230" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
-                        <text x="150" y="100" text-anchor="middle" fill="#fff" font-size="20">🚗</text>
+                        <!-- <text x="150" y="100" text-anchor="middle" fill="#fff" font-size="20">🚗</text> -->
                     </svg>
                     <div class="person-left">
                         <svg viewBox="0 0 65 130" style="width: 100%; height: 100%;">
@@ -69,7 +82,7 @@
                             <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
                             <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
                             <rect x="7" y="52" width="9" height="14" rx="2" fill="#333"/>
-                            <text x="32.5" y="30" text-anchor="middle" fill="#333" font-size="10">😊</text>
+
                         </svg>
                     </div>
                     <div class="person-right">
@@ -83,23 +96,11 @@
                             <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
                             <circle cx="47" cy="56" r="3" fill="#ffd700"/>
                             <rect x="49" y="54" width="7" height="2" fill="#ffd700"/>
-                            <text x="32.5" y="30" text-anchor="middle" fill="#333" font-size="10">😊</text>
+
                         </svg>
                     </div>
                 </div>
-                <div class="parking-sign-left">
-                    <svg width="60" height="70">
-                        <rect x="5" y="10" width="50" height="50" rx="5" fill="#4ecdc4"/>
-                        <text x="30" y="40" text-anchor="middle" fill="#fff" font-size="24" font-weight="bold">P</text>
-                        <rect x="27" y="60" width="6" height="30" fill="#333"/>
-                    </svg>
-                </div>
-                <div class="parking-sign-right">
-                    <svg width="80" height="60">
-                        <rect x="5" y="5" width="70" height="50" rx="15" fill="#ff6b6b"/>
-                        <text x="40" y="35" text-anchor="middle" fill="#fff" font-size="16" font-weight="bold">PARK</text>
-                    </svg>
-                </div>
+               
             </div>
         </div>
         <div class="container">
@@ -108,8 +109,8 @@
                     <h1>Park Smarter, Stress Less</h1>
                     <p>Discover and book the perfect parking spot in seconds with ParkSpace. Your ultimate solution for hassle-free parking anywhere, anytime.</p>
                     <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
-                        <a href="#" class="cta-button">Find Parking Now</a>
-                        <a href="#" class="cta-button secondary">Learn More</a>
+                        <a href="#" class="cta-button primary-btn">Find Parking Now</a>
+                        <a href="#" class="cta-button secondary-btn">Learn More</a>
                     </div>
                 </div>
                 <div class="hero-empty"></div>
@@ -194,12 +195,12 @@
     <!-- Stats Section -->
     <section class="stats">
         <div class="container">
-            <div class="floating-elements">
+            <!-- <div class="floating-elements">
                 <div class="floating-emoji emoji-1">🚗</div>
                 <div class="floating-emoji emoji-2">🌟</div>
                 <div class="floating-emoji emoji-3">📊</div>
                 <div class="floating-emoji emoji-4">✅</div>
-            </div>
+            </div> -->
             <div class="stats-grid">
                 <div class="stat-item">
                     <h3>50K+</h3>
@@ -256,157 +257,6 @@
             </div>
         </div>
     </footer>
-
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            const logo = document.querySelector('.logo');
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-                header.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-                logo.style.color = '#333';
-                navLinks.forEach(link => link.style.color = '#333');
-            } else {
-                header.classList.remove('scrolled');
-                header.style.boxShadow = 'none';
-                logo.style.color = '#fff';
-                navLinks.forEach(link => link.style.color = '#fff');
-            }
-        });
-
-        // Stats animation
-        const observerOptions = {
-            threshold: 0.6
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const stats = entry.target.querySelectorAll('.stat-item h3');
-                    stats.forEach((stat, index) => {
-                        const finalValue = parseInt(stat.textContent);
-                        let currentValue = 0;
-                        const increment = finalValue / 60;
-                        
-                        setTimeout(() => {
-                            const timer = setInterval(() => {
-                                currentValue += increment;
-                                if (currentValue >= finalValue) {
-                                    stat.textContent = stat.textContent;
-                                    clearInterval(timer);
-                                } else {
-                                    const suffix = stat.textContent.includes('K') ? 'K+' : 
-                                                  stat.textContent.includes('M') ? 'M+' : '+';
-                                    stat.textContent = Math.floor(currentValue) + suffix;
-                                }
-                            }, 25);
-                        }, index * 150);
-                    });
-                }
-            });
-        }, observerOptions);
-
-        const statsSection = document.querySelector('.stats');
-        if (statsSection) {
-            observer.observe(statsSection);
-        }
-
-        // Form submission handler
-        document.querySelector('.search-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const button = this.querySelector('.search-button');
-            const originalText = button.textContent;
-            
-            button.textContent = 'Searching...';
-            button.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
-            
-            setTimeout(() => {
-                button.textContent = 'Found 15 spots!';
-                setTimeout(() => {
-                    button.textContent = originalText;
-                    button.style.background = 'linear-gradient(45deg, #ffd700, #ffb900)';
-                }, 2000);
-            }, 1500);
-        });
-
-        // Feature card animation on hover
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                const icon = card.querySelector('.feature-icon');
-                icon.style.transform = 'scale(1.2) rotate(10deg)';
-            });
-            card.addEventListener('mouseleave', () => {
-                const icon = card.querySelector('.feature-icon');
-                icon.style.transform = 'scale(1) rotate(0deg)';
-            });
-        });
-        // Popup handling
-        document.addEventListener('DOMContentLoaded', function() {
-            const loginButton = document.getElementById('login-button');
-            const signinPopup = document.getElementById('signin-popup');
-            const closePopup = document.getElementById('close-popup');
-
-            loginButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                signinPopup.style.display = 'flex';
-            });
-
-            closePopup.addEventListener('click', () => {
-                signinPopup.style.display = 'none';
-            });
-
-            // Close popup when clicking outside the popup content
-            signinPopup.addEventListener('click', (e) => {
-                if (e.target === signinPopup) {
-                    signinPopup.style.display = 'none';
-                }
-            });
-
-            // Sign-in form submission handler (for demo purposes)
-            document.querySelector('.signin-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                const button = this.querySelector('.cta-button');
-                const originalText = button.textContent;
-                
-                button.textContent = 'Signing In...';
-                setTimeout(() => {
-                    button.textContent = 'Success!';
-                    setTimeout(() => {
-                        signinPopup.style.display = 'none';
-                        button.textContent = originalText;
-                    }, 1000);
-                }, 1500);
-            });
-
-            // Google sign-in handler (for demo purposes)
-            document.querySelector('.google-button').addEventListener('click', (e) => {
-                e.preventDefault();
-                const button = e.target;
-                button.textContent = 'Redirecting...';
-                setTimeout(() => {
-                    button.textContent = 'Sign in with Google';
-                    signinPopup.style.display = 'none';
-                }, 1500);
-            });
-        });
-    </script>
 
     <div class="popup-overlay" id="signin-popup">
         <div class="popup-content">
@@ -476,211 +326,6 @@
             </div>
         </div>
     </div>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const addPropertyButton = document.getElementById('add-property-button');
-    const addPropertyPopup = document.getElementById('add-property-popup');
-
-    addPropertyButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        addPropertyPopup.style.display = 'flex';
-    });
-    document.querySelectorAll('.close-popup, #add-property-popup').forEach(element => {
-            element.addEventListener('click', (e) => {
-                if (e.target === addPropertyPopup || e.target.classList.contains('close-popup')) {
-                    addPropertyPopup.style.display = 'none';
-                }
-            });
-        });
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-        const signupButton = document.getElementById('signup-button');
-        const signupPopup = document.getElementById('signup-popup');
-        const closeSignupPopup = document.getElementById('close-signup-popup');
-
-        signupButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            signupPopup.style.display = 'flex';
-        });
-
-        closeSignupPopup.addEventListener('click', () => {
-            signupPopup.style.display = 'none';
-        });
-
-        // Close popup when clicking outside the popup content
-        signupPopup.addEventListener('click', (e) => {
-            if (e.target === signupPopup) {
-                signupPopup.style.display = 'none';
-            }
-        });
-
-        // Sign-up form submission handler (for demo purposes)
-        document.querySelector('.signup-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const password = document.getElementById('signup-password').value;
-            const confirmPassword = document.getElementById('confirm-password').value;
-            const button = this.querySelector('.cta-button');
-            const originalText = button.textContent;
-
-            if (password !== confirmPassword) {
-                alert('Passwords do not match!');
-                return;
-            }
-
-            button.textContent = 'Signing Up...';
-            setTimeout(() => {
-                button.textContent = 'Success!';
-                setTimeout(() => {
-                    signupPopup.style.display = 'none';
-                    button.textContent = originalText;
-                }, 1000);
-            }, 1500);
-        });
-
-        // Google sign-up handler (for demo purposes)
-        document.querySelector('#signup-popup .google-button').addEventListener('click', (e) => {
-            e.preventDefault();
-            const button = e.target;
-            button.textContent = 'Redirecting...';
-            setTimeout(() => {
-                button.textContent = 'Sign up with Google';
-                signupPopup.style.display = 'none';
-            }, 1500);
-        });
-    });
-    document.addEventListener('DOMContentLoaded', function() {
-    const steps = document.querySelectorAll('.step');
-    let currentStep = 1;
-    const totalSteps = steps.length;
-    const progress = document.querySelector('.progress');
-
-    function updateProgress() {
-        const percentage = ((currentStep - 1) / (totalSteps - 1)) * 100;
-        progress.style.width = `${percentage}%`;
-    }
-
-    document.querySelectorAll('.next-step').forEach(button => {
-        button.addEventListener('click', () => {
-            if (validateStep(currentStep)) {
-                steps[currentStep - 1].classList.remove('active');
-                currentStep++;
-                steps[currentStep - 1].classList.add('active');
-                updateProgress();
-            }
-        });
-    });
-
-    document.querySelectorAll('.prev-step').forEach(button => {
-        button.addEventListener('click', () => {
-            steps[currentStep - 1].classList.remove('active');
-            currentStep--;
-            steps[currentStep - 1].classList.add('active');
-            updateProgress();
-        });
-    });
-
-    steps[0].classList.add('active');
-    updateProgress();
-
-    // EV Charging Toggle
-    const evCharging = document.getElementById('ev-charging');
-    const chargerType = document.getElementById('charger-type');
-    evCharging.addEventListener('change', () => {
-        chargerType.style.display = evCharging.checked ? 'block' : 'none';
-    });
-
-    // Time Slots Dynamic Addition
-    const availabilityType = document.querySelectorAll('input[name="availability-type"]');
-    const timeSlots = document.getElementById('time-slots');
-    const timeSlotHelper = document.getElementById('time-slot-helper');
-
-    availabilityType.forEach(radio => {
-        radio.addEventListener('change', () => {
-            if (radio.value === 'specific') {
-                timeSlots.style.display = 'block';
-                timeSlotHelper.style.display = 'block';
-                updateTimeSlots();
-            } else {
-                timeSlots.style.display = 'none';
-                timeSlotHelper.style.display = 'none';
-            }
-        });
-    });
-
-    function updateTimeSlots() {
-        timeSlots.innerHTML = '';
-        document.querySelectorAll('input[id^="day-"]').forEach(checkbox => {
-            if (checkbox.checked) {
-                const day = checkbox.id.replace('day-', '');
-                const div = document.createElement('div');
-                div.innerHTML = `${day}: From: <input type="time" class="time-from"> To: <input type="time" class="time-to"> <button class="add-slot">+ Add another time slot</button>`;
-                timeSlots.appendChild(div);
-
-                div.querySelector('.add-slot').addEventListener('click', () => {
-                    const newDiv = document.createElement('div');
-                    newDiv.innerHTML = `${day}: From: <input type="time" class="time-from"> To: <input type="time" class="time-to">`;
-                    div.appendChild(newDiv);
-                });
-            }
-        });
-    }
-
-    document.querySelectorAll('input[id^="day-"]').forEach(checkbox => {
-        checkbox.addEventListener('change', updateTimeSlots);
-    });
-
-    // Basic Validation
-    function validateStep(step) {
-        let isValid = true;
-        const inputs = steps[step - 1].querySelectorAll('input[required], select[required], textarea[required]');
-        inputs.forEach(input => {
-            if (!input.value) {
-                isValid = false;
-                input.style.borderColor = '#ff6b6b';
-            } else {
-                input.style.borderColor = '';
-            }
-        });
-        return isValid;
-    }
-
-    // Photo Uploader (Basic Implementation)
-    const dropzone = document.getElementById('photo-dropzone');
-    const thumbnails = document.getElementById('photo-thumbnails');
-
-    dropzone.addEventListener('dragover', (e) => e.preventDefault());
-    dropzone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        const files = e.dataTransfer.files;
-        handleFiles(files);
-    });
-
-    dropzone.addEventListener('click', () => {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/jpeg,image/png';
-        input.multiple = true;
-        input.addEventListener('change', (e) => handleFiles(e.target.files));
-        input.click();
-    });
-
-    function handleFiles(files) {
-        Array.from(files).forEach(file => {
-            if (file.size > 5 * 1024 * 1024) {
-                alert('File size exceeds 5MB!');
-                return;
-            }
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                thumbnails.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        });
-    }
-});
-    </script>
     <!-- Add Property Button -->
     <a href="#" class="add-property-button" id="add-property-button">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
@@ -694,165 +339,568 @@
 
     <!-- Add Property Popup -->
     <div class="popup-overlay" id="add-property-popup">
-        <div class="popup-content full-page">
+        <div class="popup-content add-property-popup">
             <button class="close-popup" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #00f5ff; font-size: 1.5rem; cursor: pointer;">×</button>
-            <div class="form-container">
-                <h2>Add Your Parking Property</h2>
-                <div class="progress-bar">
-                    <div class="progress" style="width: 0%;"></div>
+            <h2>Add Your Parking Property</h2>
+            <form id="add-property-form" class="add-property-form">
+                <div class="form-group">
+                    <label for="street_address">Street Address</label>
+                    <input type="text" name="street_address" id="street_address" placeholder="Enter street address" required>
                 </div>
-                <div class="steps">
-                    <!-- Step 1: Location Details -->
-                    <div class="step active" data-step="1">
-                        <h3>Section 1: Location Details 📍</h3>
-                        <h4>Where is your parking spot located?</h4>
-                        <div class="form-group">
-                            <label for="street-address">Street Address <span class="required">*</span></label>
-                            <input type="text" id="street-address" placeholder="e.g., 123 Main Street" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="unit">Apartment, Suite, Unit, etc. (Optional)</label>
-                            <input type="text" id="unit" placeholder="e.g., Apt B, Unit 100, Level P2">
-                        </div>
-                        <div class="form-group">
-                            <label for="city">City <span class="required">*</span></label>
-                            <input type="text" id="city" placeholder="Enter city name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="state">State/Province <span class="required">*</span></label>
-                            <input type="text" id="state" placeholder="Enter state or province" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="zip">ZIP/Postal Code <span class="required">*</span></label>
-                            <input type="text" id="zip" placeholder="Enter ZIP or postal code" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="location-instructions">Specific Location Instructions <span class="required">*</span></label>
-                            <textarea id="location-instructions" placeholder="e.g., 'Driveway spot on the right side of the blue house. Please park behind the white sedan.'" required></textarea>
-                            <p class="helper-text">Provide clear, concise instructions for drivers to find and access your spot. Mention any landmarks or specific entry details.</p>
-                        </div>
-                        <div class="button-group">
-                            <button class="next-step">Next</button>
-                        </div>
+                <div class="form-group">
+                    <label for="unit">Unit (optional)</label>
+                    <input type="text" name="unit" id="unit" placeholder="Unit number (optional)">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" name="city" id="city" placeholder="City" required>
                     </div>
-
-                    <!-- Step 2: Spot Information & Rate -->
-                    <div class="step" data-step="2">
-                        <h3>Section 2: Spot Information & Rate 🚗💲</h3>
-                        <h4>Tell us about your spot and your price.</h4>
-                        <div class="form-group">
-                            <label for="spot-title">Spot Title</label>
-                            <input type="text" id="spot-title" placeholder="e.g., Main St Driveway, Downtown Garage Spot" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="spot-type">Type of Parking Spot <span class="required">*</span></label>
-                            <select id="spot-type" required>
-                                <option value="">Select Type</option>
-                                <option value="driveway">Driveway</option>
-                                <option value="garage-private">Garage (Private)</option>
-                                <option value="garage-shared">Garage (Shared/Commercial)</option>
-                                <option value="carport">Carport</option>
-                                <option value="street-private">Street (Designated Private)</option>
-                                <option value="outdoor-lot">Outdoor Lot (Private)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="hourly-rate">Hourly Rate ($) <span class="required">*</span></label>
-                            <input type="number" id="hourly-rate" min="0" step="0.01" required>
-                        </div>
-                        <button class="prev-step">Previous</button>
-                        <button class="next-step">Next</button>
+                    <div class="form-group">
+                        <label for="state">State</label>
+                        <input type="text" name="state" id="state" placeholder="State" required>
                     </div>
-
-                    <!-- Step 3: Photos -->
-                    <div class="step" data-step="3">
-                        <h3>Section 3: Photos 📸</h3>
-                        <h4>Add photos of your parking spot</h4>
-                        <div class="form-group">
-                            <label>Upload Photos</label>
-                            <input type="file" accept="image/*" multiple>
-                            <p class="helper-text">Upload up to 5 photos of your parking spot</p>
-                        </div>
-                        <button class="prev-step">Previous</button>
-                        <button class="submit-listing">Submit Listing</button>
+                    <div class="form-group">
+                        <label for="zip_code">ZIP Code</label>
+                        <input type="text" name="zip_code" id="zip_code" placeholder="ZIP Code" required>
                     </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="location_instructions">Location Instructions</label>
+                    <input type="text" name="location_instructions" id="location_instructions" placeholder="Parking instructions" required>
+                </div>
+                <div class="form-group">
+                    <label for="spot_title">Spot Title</label>
+                    <input type="text" name="spot_title" id="spot_title" placeholder="Give your spot a title" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="spot_type">Spot Type</label>
+                        <select name="spot_type" id="spot_type" required>
+                            <option value="">Select Spot Type</option>
+                            <option value="driveway">Driveway</option>
+                            <option value="garage-private">Garage (Private)</option>
+                            <option value="garage-shared">Garage (Shared)</option>
+                            <option value="carport">Carport</option>
+                            <option value="street-private">Street (Private)</option>
+                            <option value="outdoor-lot">Outdoor Lot</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="hourly_rate">Hourly Rate ($)</label>
+                        <input type="number" step="0.01" name="hourly_rate" id="hourly_rate" placeholder="0.00" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="starting_date">Available From</label>
+                        <input type="datetime-local" name="starting_date" id="starting_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ending_date">Available Until</label>
+                        <input type="datetime-local" name="ending_date" id="ending_date" required>
+                    </div>
+                </div>
+                
+                <!-- Image upload section -->
+                <div class="image-upload-section">
+                    <h3>Property Images</h3>
+                    <div class="image-preview-container">
+                        <div class="image-upload-item">
+                            <input type="file" name="photo1" accept="image/*" onchange="previewImage(this, 'preview1')">
+                            <img id="preview1" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 1</p>
+                            </div>
+                        </div>
+                        <div class="image-upload-item">
+                            <input type="file" name="photo2" accept="image/*" onchange="previewImage(this, 'preview2')">
+                            <img id="preview2" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 2</p>
+                            </div>
+                        </div>
+                        <div class="image-upload-item">
+                            <input type="file" name="photo3" accept="image/*" onchange="previewImage(this, 'preview3')">
+                            <img id="preview3" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 3</p>
+                            </div>
+                        </div>
+                        <div class="image-upload-item">
+                            <input type="file" name="photo4" accept="image/*" onchange="previewImage(this, 'preview4')">
+                            <img id="preview4" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 4</p>
+                            </div>
+                        </div>
+                        <div class="image-upload-item span-two">
+                            <input type="file" name="photo5" accept="image/*" onchange="previewImage(this, 'preview5')">
+                            <img id="preview5" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 5</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" id="submit-btn" class="cta-button">Add Property</button>
+            </form>
+            <div id="result"></div>
         </div>
     </div>
 
     <script>
         // Add Property Popup handling
         document.addEventListener('DOMContentLoaded', function() {
+            // Function to toggle popup and manage blur effect
+            function togglePopupBlur(popup, isOpen) {
+                const mainContent = document.querySelector('body > *:not(.popup-overlay)');
+                if (isOpen) {
+                    popup.style.display = 'flex';
+                    if (mainContent) {
+                        mainContent.classList.add('blur-background');
+                    }
+                } else {
+                    popup.style.display = 'none';
+                    if (mainContent) {
+                        mainContent.classList.remove('blur-background');
+                    }
+                }
+            }
+
             const addPropertyButton = document.getElementById('add-property-button');
             const addPropertyPopup = document.getElementById('add-property-popup');
             const closeButtons = document.querySelectorAll('.close-popup');
 
             addPropertyButton.addEventListener('click', (e) => {
                 e.preventDefault();
-                addPropertyPopup.style.display = 'flex';
+                
+                // Set default dates
+                const now = new Date();
+                const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
+                
+                // Format dates for datetime-local input
+                const formatDateTime = (date) => {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    return `${year}-${month}-${day}T${hours}:${minutes}`;
+                };
+                
+                document.getElementById('starting_date').value = formatDateTime(now);
+                document.getElementById('ending_date').value = formatDateTime(nextMonth);
+                
+                togglePopupBlur(addPropertyPopup, true);
             });
 
             closeButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    addPropertyPopup.style.display = 'none';
+                    togglePopupBlur(addPropertyPopup, false);
                 });
             });
 
             // Close popup when clicking outside
             addPropertyPopup.addEventListener('click', (e) => {
                 if (e.target === addPropertyPopup) {
-                    addPropertyPopup.style.display = 'none';
+                    togglePopupBlur(addPropertyPopup, false);
                 }
             });
+        });
 
-            // Form steps handling
-            const steps = document.querySelectorAll('.step');
-            let currentStep = 1;
-
-            document.querySelectorAll('.next-step').forEach(button => {
-                button.addEventListener('click', () => {
-                    if (validateStep(currentStep)) {
-                        steps[currentStep - 1].classList.remove('active');
-                        currentStep++;
-                        steps[currentStep - 1].classList.add('active');
-                        updateProgress();
-                    }
+        // Optimized image compression function with performance improvements
+        function compressImage(file, maxWidth = 1920, maxHeight = 1080, quality = 0.8) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                // Performance optimization: set canvas context attributes
+                const canvasContext = canvas.getContext('2d', {
+                    alpha: false,
+                    willReadFrequently: false
                 });
+                
+                img.onload = function() {
+                    // Use requestAnimationFrame for smooth processing
+                    requestAnimationFrame(() => {
+                        // Calculate new dimensions
+                        let { width, height } = img;
+                        
+                        if (width > maxWidth) {
+                            height = (height * maxWidth) / width;
+                            width = maxWidth;
+                        }
+                        
+                        if (height > maxHeight) {
+                            width = (width * maxHeight) / height;
+                            height = maxHeight;
+                        }
+                        
+                        // Set canvas size
+                        canvas.width = width;
+                        canvas.height = height;
+                        
+                        // Performance: Use imageSmoothingEnabled for better quality
+                        canvasContext.imageSmoothingEnabled = true;
+                        canvasContext.imageSmoothingQuality = 'high';
+                        
+                        // Draw and compress
+                        canvasContext.drawImage(img, 0, 0, width, height);
+                        
+                        // Convert to blob
+                        canvas.toBlob((blob) => {
+                            // Create a new file with compressed data
+                            const compressedFile = new File([blob], file.name, {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            });
+                            
+                            // Clean up URL object
+                            URL.revokeObjectURL(img.src);
+                            
+                            resolve(compressedFile);
+                        }, 'image/jpeg', quality);
+                    });
+                };
+                
+                img.src = URL.createObjectURL(file);
             });
+        }
 
-            document.querySelectorAll('.prev-step').forEach(button => {
-                button.addEventListener('click', () => {
-                    steps[currentStep - 1].classList.remove('active');
-                    currentStep--;
-                    steps[currentStep - 1].classList.add('active');
-                    updateProgress();
-                });
-            });
-
-            function validateStep(step) {
-                const currentStepElement = steps[step - 1];
-                const requiredInputs = currentStepElement.querySelectorAll('[required]');
-                let isValid = true;
-
-                requiredInputs.forEach(input => {
-                    if (!input.value) {
-                        isValid = false;
-                        input.style.borderColor = '#ff6b6b';
-                    } else {
-                        input.style.borderColor = '';
-                    }
-                });
-
-                return isValid;
+        // Optimized image preview function with loading states
+        async function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const container = input.parentElement;
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Show immediate loading state
+                container.classList.add('has-image');
+                let sizeInfo = container.querySelector('.size-info');
+                if (!sizeInfo) {
+                    sizeInfo = document.createElement('div');
+                    sizeInfo.className = 'size-info';
+                    container.appendChild(sizeInfo);
+                }
+                sizeInfo.textContent = 'Processing...';
+                sizeInfo.style.color = '#ffd700';
+                
+                try {
+                    // Show original size
+                    const originalSizeMB = (file.size / 1024 / 1024).toFixed(2);
+                    console.log(`Original size: ${originalSizeMB}MB`);
+                    
+                    // Compress image asynchronously
+                    const compressedFile = await compressImage(file);
+                    const compressedSizeMB = (compressedFile.size / 1024 / 1024).toFixed(2);
+                    console.log(`Compressed size: ${compressedSizeMB}MB (${((1 - compressedFile.size / file.size) * 100).toFixed(1)}% reduction)`);
+                    
+                    // Replace the file in the input
+                    const dt = new DataTransfer();
+                    dt.items.add(compressedFile);
+                    input.files = dt.files;
+                    
+                    // Show preview using object URL for better performance
+                    const objectURL = URL.createObjectURL(compressedFile);
+                    preview.onload = function() {
+                        URL.revokeObjectURL(objectURL); // Clean up
+                    };
+                    preview.src = objectURL;
+                    preview.classList.add('visible');
+                    
+                    // Update size info
+                    sizeInfo.textContent = `${compressedSizeMB}MB`;
+                    sizeInfo.style.color = '#00f5ff';
+                    
+                } catch (error) {
+                    console.error('Image processing error:', error);
+                    sizeInfo.textContent = 'Error';
+                    sizeInfo.style.color = '#ff6b6b';
+                    container.classList.remove('has-image');
+                }
             }
+        }
 
-            function updateProgress() {
-                const progress = document.querySelector('.progress');
-                const percentage = ((currentStep - 1) / (steps.length - 1)) * 100;
-                progress.style.width = `${percentage}%`;
+        // Secure S3 Upload Functions (using backend API)
+        // Upload individual file to S3 via backend API
+        async function uploadToS3(file, index) {
+            if (!file) return null;
+            
+            // Check file size (limit to 5MB per compressed image)
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file.size > maxSize) {
+                console.error(`Image ${index + 1} too large: ${(file.size / 1024 / 1024).toFixed(2)}MB (max 5MB)`);
+                return null;
+            }
+            
+            console.log(`Starting upload for image ${index + 1}: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
+            
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                const response = await fetch('http://127.0.0.1:3000/api/s3-test-upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Upload failed with status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log(`S3 Upload Success for image ${index + 1}:`, data.url);
+                return data.url;
+            } catch (err) {
+                console.error(`S3 upload error for image ${index + 1}:`, err);
+                return null; // Return null instead of throwing to continue with other uploads
+            }
+        }
+
+        // Upload all images in parallel
+        async function uploadAllImages(form) {
+            const photoFields = ['photo1', 'photo2', 'photo3', 'photo4', 'photo5'];
+            const uploadPromises = [];
+            
+            // Create upload promises for all files
+            photoFields.forEach((field, index) => {
+                const fileInput = form[field];
+                const file = fileInput && fileInput.files[0] ? fileInput.files[0] : null;
+                uploadPromises.push(uploadToS3(file, index));
+            });
+            
+            // Wait for all uploads to complete (or timeout)
+            const results = await Promise.all(uploadPromises);
+            return results;
+        }
+
+        // Add Property Form Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const addPropertyForm = document.getElementById('add-property-form');
+            if (addPropertyForm) {
+                addPropertyForm.onsubmit = async function(e) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const resultDiv = document.getElementById('result');
+                    const submitBtn = document.getElementById('submit-btn');
+                    
+                    // Check if user is logged in
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    if (!user) {
+                        alert('You must be logged in to add a property.');
+                        return;
+                    }
+                    
+                    // Disable submit button
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Processing...';
+                    
+                    try {
+                        // Check if any images are selected
+                        const photoFields = ['photo1', 'photo2', 'photo3', 'photo4', 'photo5'];
+                        const hasImages = photoFields.some(field => form[field].files && form[field].files[0]);
+                        
+                        let photoUrls = [null, null, null, null, null];
+                        
+                        if (hasImages) {
+                            // Validate file sizes before uploading (after compression)
+                            const maxSize = 5 * 1024 * 1024; // 5MB
+                            let totalSize = 0;
+                            let oversizedFiles = [];
+                            
+                            photoFields.forEach((field, index) => {
+                                const fileInput = form[field];
+                                if (fileInput && fileInput.files[0]) {
+                                    const file = fileInput.files[0];
+                                    totalSize += file.size;
+                                    if (file.size > maxSize) {
+                                        oversizedFiles.push(`Photo ${index + 1}: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+                                    }
+                                }
+                            });
+                            
+                            if (oversizedFiles.length > 0) {
+                                resultDiv.innerHTML = `<div style="color: red;">Some compressed files are still too large (max 5MB each):<br>${oversizedFiles.join('<br>')}</div>`;
+                                return;
+                            }
+                            
+                            resultDiv.innerHTML = `<div style="color: #00f5ff;">Uploading images in parallel... Total size: ${(totalSize / 1024 / 1024).toFixed(2)}MB</div>`;
+                            
+                            try {
+                                // Upload all images in parallel
+                                photoUrls = await uploadAllImages(form);
+                                
+                                // Count successful uploads
+                                const successCount = photoUrls.filter(url => url !== null).length;
+                                const totalSelected = photoFields.filter(field => form[field].files && form[field].files[0]).length;
+                                
+                                resultDiv.innerHTML += `<div style="color: green;">Uploaded ${successCount}/${totalSelected} images successfully</div>`;
+                                
+                                if (successCount === 0 && totalSelected > 0) {
+                                    resultDiv.innerHTML += '<div style="color: red;">All image uploads failed. Continuing without images.</div>';
+                                } else if (successCount < totalSelected) {
+                                    resultDiv.innerHTML += '<div style="color: red;">Some images failed to upload (possibly due to network issues or large file sizes).</div>';
+                                }
+                            } catch (uploadError) {
+                                console.error('Upload error:', uploadError);
+                                resultDiv.innerHTML += `<div style="color: red;">Image upload error: ${uploadError.message}</div>`;
+                            }
+                        }
+
+                        resultDiv.innerHTML += '<div style="color: #00f5ff;">Submitting property data...</div>';
+
+                        const data = {
+                            user_id: user.id,
+                            street_address: form.street_address.value,
+                            unit: form.unit.value || null,
+                            city: form.city.value,
+                            state: form.state.value,
+                            zip_code: form.zip_code.value,
+                            location_instructions: form.location_instructions.value,
+                            spot_title: form.spot_title.value,
+                            spot_type: form.spot_type.value,
+                            hourly_rate: parseFloat(form.hourly_rate.value),
+                            starting_date: form.starting_date.value,
+                            ending_date: form.ending_date.value,
+                            photo1_url: photoUrls[0],
+                            photo2_url: photoUrls[1],
+                            photo3_url: photoUrls[2],
+                            photo4_url: photoUrls[3],
+                            photo5_url: photoUrls[4]
+                        };
+
+                        const response = await fetch('http://127.0.0.1:3000/api/add-property', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                        
+                        const resData = await response.json();
+                        if (response.ok) {
+                            resultDiv.innerHTML += `<div style="color: green;">✅ Property added successfully! ID: ${resData.id}</div>`;
+                            
+                            // Show form summary instead of clearing it
+                            const summary = document.createElement('div');
+                            summary.style.cssText = `
+                                background: rgba(0, 245, 255, 0.1);
+                                border: 1px solid rgba(0, 245, 255, 0.3);
+                                border-radius: 12px;
+                                padding: 1.5rem;
+                                margin-top: 1rem;
+                                color: #fff;
+                            `;
+                            
+                            const photoCount = photoFields.filter(field => form[field].files && form[field].files[0]).length;
+                            const successfulUploads = photoUrls.filter(url => url !== null).length;
+                            
+                            summary.innerHTML = `
+                                <h4 style="margin: 0 0 1rem 0; color: #00f5ff; font-size: 1.1rem;">📋 Submission Summary</h4>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.9rem;">
+                                    <div><strong>Property:</strong> ${form.spot_title.value}</div>
+                                    <div><strong>Rate:</strong> $${form.hourly_rate.value}/hour</div>
+                                    <div><strong>Address:</strong> ${form.street_address.value}, ${form.city.value}</div>
+                                    <div><strong>Type:</strong> ${form.spot_type.value}</div>
+                                    <div><strong>Photos:</strong> ${successfulUploads}/${photoCount} uploaded</div>
+                                    <div><strong>Duration:</strong> ${form.starting_date.value} to ${form.ending_date.value}</div>
+                                </div>
+                                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                                    <button onclick="clearFormAndClose()" style="
+                                        background: linear-gradient(45deg, #00f5ff, #764ba2);
+                                        color: #fff;
+                                        border: none;
+                                        padding: 0.75rem 1.5rem;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                    ">Add Another Property</button>
+                                    <button onclick="closePopupOnly()" style="
+                                        background: rgba(255, 255, 255, 0.1);
+                                        color: #fff;
+                                        border: 1px solid rgba(255, 255, 255, 0.3);
+                                        padding: 0.75rem 1.5rem;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                    ">Close</button>
+                                </div>
+                            `;
+                            
+                            resultDiv.appendChild(summary);
+                            
+                            // Disable the form to prevent accidental resubmission
+                            const formElements = form.querySelectorAll('input, select, button');
+                            formElements.forEach(element => {
+                                if (element.id !== 'submit-btn') {
+                                    element.disabled = true;
+                                }
+                            });
+                            submitBtn.textContent = '✅ Property Added';
+                            submitBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                            
+                        } else {
+                            resultDiv.innerHTML += `<div style="color: red;">Error: ${resData.error || 'Unknown error'}</div>`;
+                        }
+                    } catch (err) {
+                        resultDiv.innerHTML += `<div style="color: red;">Network error: ${err.message}</div>`;
+                        console.error('Fetch error:', err);
+                    } finally {
+                        // Only re-enable submit button if there was an error
+                        if (submitBtn.textContent !== '✅ Property Added') {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Add Property';
+                        }
+                    }
+                };
             }
         });
+
+        // Helper functions for form management
+        function clearFormAndClose() {
+            const form = document.getElementById('add-property-form');
+            const resultDiv = document.getElementById('result');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            // Reset form
+            form.reset();
+            
+            // Clear image previews
+            document.querySelectorAll('.image-preview').forEach(preview => {
+                preview.src = '';
+                preview.classList.remove('visible');
+            });
+            document.querySelectorAll('.image-upload-item').forEach(item => {
+                item.classList.remove('has-image');
+            });
+            
+            // Re-enable form elements
+            const formElements = form.querySelectorAll('input, select, button');
+            formElements.forEach(element => {
+                element.disabled = false;
+            });
+            
+            // Reset submit button
+            submitBtn.textContent = 'Add Property';
+            submitBtn.style.background = '';
+            
+            // Clear results
+            resultDiv.innerHTML = '';
+            
+            // Close popup
+            togglePopupBlur(document.getElementById('add-property-popup'), false);
+        }
+        
+        function closePopupOnly() {
+            togglePopupBlur(document.getElementById('add-property-popup'), false);
+        }
     </script>
 
     <!-- Add script.js before closing body tag -->
