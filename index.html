@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +9,6 @@
     <!-- Add AWS SDK -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1289.0.min.js"></script>
 </head>
-
 <body>
     <!-- Header -->
     <header>
@@ -25,22 +23,16 @@
                     <li><a href="#contact">Contact</a></li>
                 </ul>
                 <div style="display: flex; gap: 1rem; align-items: center;">
-                    <a href="#" class="messages-button" id="messages-button" title="Messages" style="display:none;"
-                        onclick="toggleMessagesDropdown()">
+                    <a href="#" class="messages-button" id="messages-button" title="Messages" style="display:none;" onclick="toggleMessagesDropdown()">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                         <span class="message-notification" id="message-notification" style="display: none;">0</span>
                     </a>
-                    <a href="profile.html" class="profile-button" id="profile-button" title="Profile"
-                        style="display:none;">
+                    <a href="profile.html" class="profile-button" id="profile-button" title="Profile" style="display:none;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
-                                fill="currentColor" />
-                            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z"
-                                fill="currentColor" />
+                            <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
+                            <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
                         </svg>
                     </a>
                     <!-- <a href="#" class="cta-button secondary">Log In</a> -->
@@ -87,56 +79,55 @@
                 </div>
                 <div class="car-illustration">
                     <svg viewBox="0 0 300 170" style="width: 100%; height: 100%;">
-                        <ellipse cx="150" cy="127.5" rx="130" ry="28" fill="#ffd700" opacity="0.3" />
-                        <rect x="47" y="85" width="206" height="52" rx="24" fill="#ffd700" />
-                        <rect x="66" y="61" width="168" height="42" rx="19" fill="#ffd700" />
-                        <rect x="75" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85" />
-                        <rect x="159" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85" />
-                        <circle cx="85" cy="137" r="23" fill="#333" />
-                        <circle cx="85" cy="137" r="14" fill="#666" />
-                        <circle cx="216" cy="137" r="23" fill="#333" />
-                        <circle cx="216" cy="137" r="14" fill="#666" />
-                        <rect x="52" y="99" width="19" height="9" rx="4" fill="#ff6b6b" />
-                        <rect x="230" y="99" width="19" height="9" rx="4" fill="#ff6b6b" />
+                        <ellipse cx="150" cy="127.5" rx="130" ry="28" fill="#ffd700" opacity="0.3"/>
+                        <rect x="47" y="85" width="206" height="52" rx="24" fill="#ffd700"/>
+                        <rect x="66" y="61" width="168" height="42" rx="19" fill="#ffd700"/>
+                        <rect x="75" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85"/>
+                        <rect x="159" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85"/>
+                        <circle cx="85" cy="137" r="23" fill="#333"/>
+                        <circle cx="85" cy="137" r="14" fill="#666"/>
+                        <circle cx="216" cy="137" r="23" fill="#333"/>
+                        <circle cx="216" cy="137" r="14" fill="#666"/>
+                        <rect x="52" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
+                        <rect x="230" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
                         <!-- <text x="150" y="100" text-anchor="middle" fill="#fff" font-size="20">🚗</text> -->
                     </svg>
                     <div class="person-left">
                         <svg viewBox="0 0 65 130" style="width: 100%; height: 100%;">
-                            <circle cx="32.5" cy="23" r="14" fill="#ffd93d" />
-                            <rect x="23" y="37" width="19" height="33" rx="9" fill="#4ecdc4" />
-                            <rect x="21" y="70" width="23" height="38" rx="11" fill="#45b7d1" />
-                            <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d" />
-                            <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d" />
-                            <rect x="26" y="108" width="7" height="23" rx="3" fill="#333" />
-                            <rect x="35" y="108" width="7" height="23" rx="3" fill="#333" />
-                            <rect x="7" y="52" width="9" height="14" rx="2" fill="#333" />
+                            <circle cx="32.5" cy="23" r="14" fill="#ffd93d"/>
+                            <rect x="23" y="37" width="19" height="33" rx="9" fill="#4ecdc4"/>
+                            <rect x="21" y="70" width="23" height="38" rx="11" fill="#45b7d1"/>
+                            <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="7" y="52" width="9" height="14" rx="2" fill="#333"/>
 
                         </svg>
                     </div>
                     <div class="person-right">
                         <svg viewBox="0 0 65 130" style="width: 100%; height: 100%;">
-                            <circle cx="32.5" cy="23" r="14" fill="#ffd93d" />
-                            <rect x="23" y="37" width="19" height="33" rx="9" fill="#ff6b6b" />
-                            <rect x="21" y="70" width="23" height="38" rx="11" fill="#96ceb4" />
-                            <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d" />
-                            <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d" />
-                            <rect x="26" y="108" width="7" height="23" rx="3" fill="#333" />
-                            <rect x="35" y="108" width="7" height="23" rx="3" fill="#333" />
-                            <circle cx="47" cy="56" r="3" fill="#ffd700" />
-                            <rect x="49" y="54" width="7" height="2" fill="#ffd700" />
+                            <circle cx="32.5" cy="23" r="14" fill="#ffd93d"/>
+                            <rect x="23" y="37" width="19" height="33" rx="9" fill="#ff6b6b"/>
+                            <rect x="21" y="70" width="23" height="38" rx="11" fill="#96ceb4"/>
+                            <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                            <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
+                            <circle cx="47" cy="56" r="3" fill="#ffd700"/>
+                            <rect x="49" y="54" width="7" height="2" fill="#ffd700"/>
 
                         </svg>
                     </div>
                 </div>
-
+               
             </div>
         </div>
         <div class="container">
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>Park Smarter, Stress Less</h1>
-                    <p>Discover and book the perfect parking spot in seconds with ParkSpace. Your ultimate solution for
-                        hassle-free parking anywhere, anytime.</p>
+                    <p>Discover and book the perfect parking spot in seconds with ParkSpace. Your ultimate solution for hassle-free parking anywhere, anytime.</p>
                     <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
                         <a href="#" class="cta-button primary-btn">Find Parking Now</a>
                         <a href="#" class="cta-button secondary-btn">Learn More</a>
@@ -144,8 +135,7 @@
                 </div>
                 <div class="hero-empty"></div>
                 <div class="search-box">
-                    <h3 style="color: #fff; margin-bottom: 1.8rem; font-size: 1.4rem; font-weight: 700;">Quick Park
-                        Search</h3>
+                    <h3 style="color: #fff; margin-bottom: 1.8rem; font-size: 1.4rem; font-weight: 700;">Quick Park Search</h3>
                     <form class="search-form">
                         <div class="form-group">
                             <label for="location">Location</label>
@@ -180,7 +170,7 @@
     <!-- Features Section -->
     <section class="features">
         <div class="container">
-            <h2>Why ParkSpace Stands Out</h2>
+            <h2 >Why ParkSpace Stands Out</h2>
             <div class="floating-elements">
                 <div class="floating-emoji emoji-1">🚙</div>
                 <div class="floating-emoji emoji-2">🅿️</div>
@@ -258,8 +248,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>ParkSpace</h3>
-                    <p style="color: #ccc; line-height: 1.7;">Simplifying parking with innovative technology. Join
-                        millions who trust ParkSpace for stress-free parking solutions.</p>
+                    <p style="color: #ccc; line-height: 1.7;">Simplifying parking with innovative technology. Join millions who trust ParkSpace for stress-free parking solutions.</p>
                 </div>
                 <div class="footer-section">
                     <h3>Quick Links</h3>
@@ -309,16 +298,11 @@
             </div>
             <div class="google-signin">
                 <button class="google-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px"
-                        style="margin-right: 10px;">
-                        <path fill="#4285F4"
-                            d="M24 9.5c3.8 0 6.5 1.6 8 3.9l5.8-5.8C34.5 4.2 29.5 2 24 2 14.8 2 7.2 8.6 5.2 17.2l7.2 5.6C14.2 15.6 18.6 9.5 24 9.5z" />
-                        <path fill="#34A853"
-                            d="M24 44c5.5 0 10.1-2.2 13.5-5.9l-6.5-5.1c-2.1 1.4-4.7 2.3-7 2.3-5.4 0-10-3.6-11.6-8.6l-7.2 5.6C7.2 39.4 14.8 44 24 44z" />
-                        <path fill="#FBBC05"
-                            d="M46.2 24.5c0-1.5-.1-2.9-.4-4.3H24v8.7h12.6c-.5 2.5-2.1 4.7-4.3 6.1l6.5 5.1c3.8-3.5 7.4-9.1 7.4-15.6z" />
-                        <path fill="#EA4335"
-                            d="M12.4 28.3c-.8-2.4-.8-5 0-7.4l-7.2-5.6c-2.5 5-2.5 10.8 0 15.8l7.2-5.6z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" style="margin-right: 10px;">
+                        <path fill="#4285F4" d="M24 9.5c3.8 0 6.5 1.6 8 3.9l5.8-5.8C34.5 4.2 29.5 2 24 2 14.8 2 7.2 8.6 5.2 17.2l7.2 5.6C14.2 15.6 18.6 9.5 24 9.5z"/>
+                        <path fill="#34A853" d="M24 44c5.5 0 10.1-2.2 13.5-5.9l-6.5-5.1c-2.1 1.4-4.7 2.3-7 2.3-5.4 0-10-3.6-11.6-8.6l-7.2 5.6C7.2 39.4 14.8 44 24 44z"/>
+                        <path fill="#FBBC05" d="M46.2 24.5c0-1.5-.1-2.9-.4-4.3H24v8.7h12.6c-.5 2.5-2.1 4.7-4.3 6.1l6.5 5.1c3.8-3.5 7.4-9.1 7.4-15.6z"/>
+                        <path fill="#EA4335" d="M12.4 28.3c-.8-2.4-.8-5 0-7.4l-7.2-5.6c-2.5 5-2.5 10.8 0 15.8l7.2-5.6z"/>
                     </svg>
                     Sign in with Google
                 </button>
@@ -351,16 +335,11 @@
             </form>
             <div class="google-signin">
                 <button class="google-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px"
-                        style="margin-right: 10px;">
-                        <path fill="#4285F4"
-                            d="M24 9.5c3.8 0 6.5 1.6 8 3.9l5.8-5.8C34.5 4.2 29.5 2 24 2 14.8 2 7.2 8.6 5.2 17.2l7.2 5.6C14.2 15.6 18.6 9.5 24 9.5z" />
-                        <path fill="#34A853"
-                            d="M24 44c5.5 0 10.1-2.2 13.5-5.9l-6.5-5.1c-2.1 1.4-4.7 2.3-7 2.3-5.4 0-10-3.6-11.6-8.6l-7.2 5.6C7.2 39.4 14.8 44 24 44z" />
-                        <path fill="#FBBC05"
-                            d="M46.2 24.5c0-1.5-.1-2.9-.4-4.3H24v8.7h12.6c-.5 2.5-2.1 4.7-4.3 6.1l6.5 5.1c3.8-3.5 7.4-9.1 7.4-15.6z" />
-                        <path fill="#EA4335"
-                            d="M12.4 28.3c-.8-2.4-.8-5 0-7.4l-7.2-5.6c-2.5 5-2.5 10.8 0 15.8l7.2-5.6z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" style="margin-right: 10px;">
+                        <path fill="#4285F4" d="M24 9.5c3.8 0 6.5 1.6 8 3.9l5.8-5.8C34.5 4.2 29.5 2 24 2 14.8 2 7.2 8.6 5.2 17.2l7.2 5.6C14.2 15.6 18.6 9.5 24 9.5z"/>
+                        <path fill="#34A853" d="M24 44c5.5 0 10.1-2.2 13.5-5.9l-6.5-5.1c-2.1 1.4-4.7 2.3-7 2.3-5.4 0-10-3.6-11.6-8.6l-7.2 5.6C7.2 39.4 14.8 44 24 44z"/>
+                        <path fill="#FBBC05" d="M46.2 24.5c0-1.5-.1-2.9-.4-4.3H24v8.7h12.6c-.5 2.5-2.1 4.7-4.3 6.1l6.5 5.1c3.8-3.5 7.4-9.1 7.4-15.6z"/>
+                        <path fill="#EA4335" d="M12.4 28.3c-.8-2.4-.8-5 0-7.4l-7.2-5.6c-2.5 5-2.5 10.8 0 15.8l7.2-5.6z"/>
                     </svg>
                     Sign up with Google
                 </button>
@@ -369,8 +348,7 @@
     </div>
     <!-- Add Property Button -->
     <a href="#" class="add-property-button" id="add-property-button">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff"
-            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
             <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -382,14 +360,12 @@
     <!-- Add Property Popup -->
     <div class="popup-overlay" id="add-property-popup">
         <div class="popup-content add-property-popup">
-            <button class="close-popup"
-                style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #00f5ff; font-size: 1.5rem; cursor: pointer;">×</button>
+            <button class="close-popup" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #00f5ff; font-size: 1.5rem; cursor: pointer;">×</button>
             <h2>Add Your Parking Property</h2>
             <form id="add-property-form" class="add-property-form">
                 <div class="form-group">
                     <label for="street_address">Street Address</label>
-                    <input type="text" name="street_address" id="street_address" placeholder="Enter street address"
-                        required>
+                    <input type="text" name="street_address" id="street_address" placeholder="Enter street address" required>
                 </div>
                 <div class="form-group">
                     <label for="unit">Unit (optional)</label>
@@ -411,8 +387,7 @@
                 </div>
                 <div class="form-group">
                     <label for="location_instructions">Location Instructions</label>
-                    <input type="text" name="location_instructions" id="location_instructions"
-                        placeholder="Parking instructions" required>
+                    <input type="text" name="location_instructions" id="location_instructions" placeholder="Parking instructions" required>
                 </div>
                 <div class="form-group">
                     <label for="spot_title">Spot Title</label>
@@ -433,11 +408,10 @@
                     </div>
                     <div class="form-group">
                         <label for="hourly_rate">Hourly Rate ($)</label>
-                        <input type="number" step="0.01" name="hourly_rate" id="hourly_rate" placeholder="0.00"
-                            required>
+                        <input type="number" step="0.01" name="hourly_rate" id="hourly_rate" placeholder="0.00" required>
                     </div>
                 </div>
-
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label for="starting_date">Available From</label>
@@ -448,7 +422,7 @@
                         <input type="datetime-local" name="ending_date" id="ending_date" required>
                     </div>
                 </div>
-
+                
                 <!-- Image upload section -->
                 <div class="image-upload-section">
                     <h3>Property Images</h3>
@@ -503,7 +477,7 @@
 
     <script>
         // Add Property Popup handling
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Function to toggle popup and manage blur effect
             function togglePopupBlur(popup, isOpen) {
                 const mainContent = document.querySelector('body > *:not(.popup-overlay)');
@@ -526,11 +500,11 @@
 
             addPropertyButton.addEventListener('click', (e) => {
                 e.preventDefault();
-
+                
                 // Set default dates
                 const now = new Date();
                 const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
-
+                
                 // Format dates for datetime-local input
                 const formatDateTime = (date) => {
                     const year = date.getFullYear();
@@ -540,10 +514,10 @@
                     const minutes = String(date.getMinutes()).padStart(2, '0');
                     return `${year}-${month}-${day}T${hours}:${minutes}`;
                 };
-
+                
                 document.getElementById('starting_date').value = formatDateTime(now);
                 document.getElementById('ending_date').value = formatDateTime(nextMonth);
-
+                
                 togglePopupBlur(addPropertyPopup, true);
             });
 
@@ -567,40 +541,40 @@
                 const canvas = document.createElement('canvas');
                 const ctx = canvas.getContext('2d');
                 const img = new Image();
-
+                
                 // Performance optimization: set canvas context attributes
                 const canvasContext = canvas.getContext('2d', {
                     alpha: false,
                     willReadFrequently: false
                 });
-
-                img.onload = function () {
+                
+                img.onload = function() {
                     // Use requestAnimationFrame for smooth processing
                     requestAnimationFrame(() => {
                         // Calculate new dimensions
                         let { width, height } = img;
-
+                        
                         if (width > maxWidth) {
                             height = (height * maxWidth) / width;
                             width = maxWidth;
                         }
-
+                        
                         if (height > maxHeight) {
                             width = (width * maxHeight) / height;
                             height = maxHeight;
                         }
-
+                        
                         // Set canvas size
                         canvas.width = width;
                         canvas.height = height;
-
+                        
                         // Performance: Use imageSmoothingEnabled for better quality
                         canvasContext.imageSmoothingEnabled = true;
                         canvasContext.imageSmoothingQuality = 'high';
-
+                        
                         // Draw and compress
                         canvasContext.drawImage(img, 0, 0, width, height);
-
+                        
                         // Convert to blob
                         canvas.toBlob((blob) => {
                             // Create a new file with compressed data
@@ -608,15 +582,15 @@
                                 type: 'image/jpeg',
                                 lastModified: Date.now()
                             });
-
+                            
                             // Clean up URL object
                             URL.revokeObjectURL(img.src);
-
+                            
                             resolve(compressedFile);
                         }, 'image/jpeg', quality);
                     });
                 };
-
+                
                 img.src = URL.createObjectURL(file);
             });
         }
@@ -625,10 +599,10 @@
         async function previewImage(input, previewId) {
             const preview = document.getElementById(previewId);
             const container = input.parentElement;
-
+            
             if (input.files && input.files[0]) {
                 const file = input.files[0];
-
+                
                 // Show immediate loading state
                 container.classList.add('has-image');
                 let sizeInfo = container.querySelector('.size-info');
@@ -639,34 +613,34 @@
                 }
                 sizeInfo.textContent = 'Processing...';
                 sizeInfo.style.color = '#ffd700';
-
+                
                 try {
                     // Show original size
                     const originalSizeMB = (file.size / 1024 / 1024).toFixed(2);
                     console.log(`Original size: ${originalSizeMB}MB`);
-
+                    
                     // Compress image asynchronously
                     const compressedFile = await compressImage(file);
                     const compressedSizeMB = (compressedFile.size / 1024 / 1024).toFixed(2);
                     console.log(`Compressed size: ${compressedSizeMB}MB (${((1 - compressedFile.size / file.size) * 100).toFixed(1)}% reduction)`);
-
+                    
                     // Replace the file in the input
                     const dt = new DataTransfer();
                     dt.items.add(compressedFile);
                     input.files = dt.files;
-
+                    
                     // Show preview using object URL for better performance
                     const objectURL = URL.createObjectURL(compressedFile);
-                    preview.onload = function () {
+                    preview.onload = function() {
                         URL.revokeObjectURL(objectURL); // Clean up
                     };
                     preview.src = objectURL;
                     preview.classList.add('visible');
-
+                    
                     // Update size info
                     sizeInfo.textContent = `${compressedSizeMB}MB`;
                     sizeInfo.style.color = '#00f5ff';
-
+                    
                 } catch (error) {
                     console.error('Image processing error:', error);
                     sizeInfo.textContent = 'Error';
@@ -680,29 +654,29 @@
         // Upload individual file to S3 via backend API
         async function uploadToS3(file, index) {
             if (!file) return null;
-
+            
             // Check file size (limit to 5MB per compressed image)
             const maxSize = 5 * 1024 * 1024; // 5MB
             if (file.size > maxSize) {
                 console.error(`Image ${index + 1} too large: ${(file.size / 1024 / 1024).toFixed(2)}MB (max 5MB)`);
                 return null;
             }
-
+            
             console.log(`Starting upload for image ${index + 1}: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
-
+            
             try {
                 const formData = new FormData();
                 formData.append('image', file);
-
+                
                 const response = await fetch('http://127.0.0.1:3000/api/s3-test-upload', {
                     method: 'POST',
                     body: formData
                 });
-
+                
                 if (!response.ok) {
                     throw new Error(`Upload failed with status: ${response.status}`);
                 }
-
+                
                 const data = await response.json();
                 console.log(`S3 Upload Success for image ${index + 1}:`, data.url);
                 return data.url;
@@ -716,53 +690,53 @@
         async function uploadAllImages(form) {
             const photoFields = ['photo1', 'photo2', 'photo3', 'photo4', 'photo5'];
             const uploadPromises = [];
-
+            
             // Create upload promises for all files
             photoFields.forEach((field, index) => {
                 const fileInput = form[field];
                 const file = fileInput && fileInput.files[0] ? fileInput.files[0] : null;
                 uploadPromises.push(uploadToS3(file, index));
             });
-
+            
             // Wait for all uploads to complete (or timeout)
             const results = await Promise.all(uploadPromises);
             return results;
         }
 
         // Add Property Form Handler
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const addPropertyForm = document.getElementById('add-property-form');
             if (addPropertyForm) {
-                addPropertyForm.onsubmit = async function (e) {
+                addPropertyForm.onsubmit = async function(e) {
                     e.preventDefault();
                     const form = e.target;
                     const resultDiv = document.getElementById('result');
                     const submitBtn = document.getElementById('submit-btn');
-
+                    
                     // Check if user is logged in
                     const user = JSON.parse(localStorage.getItem('user'));
                     if (!user) {
                         alert('You must be logged in to add a property.');
                         return;
                     }
-
+                    
                     // Disable submit button
                     submitBtn.disabled = true;
                     submitBtn.textContent = 'Processing...';
-
+                    
                     try {
                         // Check if any images are selected
                         const photoFields = ['photo1', 'photo2', 'photo3', 'photo4', 'photo5'];
                         const hasImages = photoFields.some(field => form[field].files && form[field].files[0]);
-
+                        
                         let photoUrls = [null, null, null, null, null];
-
+                        
                         if (hasImages) {
                             // Validate file sizes before uploading (after compression)
                             const maxSize = 5 * 1024 * 1024; // 5MB
                             let totalSize = 0;
                             let oversizedFiles = [];
-
+                            
                             photoFields.forEach((field, index) => {
                                 const fileInput = form[field];
                                 if (fileInput && fileInput.files[0]) {
@@ -773,24 +747,24 @@
                                     }
                                 }
                             });
-
+                            
                             if (oversizedFiles.length > 0) {
                                 resultDiv.innerHTML = `<div style="color: red;">Some compressed files are still too large (max 5MB each):<br>${oversizedFiles.join('<br>')}</div>`;
                                 return;
                             }
-
+                            
                             resultDiv.innerHTML = `<div style="color: #00f5ff;">Uploading images in parallel... Total size: ${(totalSize / 1024 / 1024).toFixed(2)}MB</div>`;
-
+                            
                             try {
                                 // Upload all images in parallel
                                 photoUrls = await uploadAllImages(form);
-
+                                
                                 // Count successful uploads
                                 const successCount = photoUrls.filter(url => url !== null).length;
                                 const totalSelected = photoFields.filter(field => form[field].files && form[field].files[0]).length;
-
+                                
                                 resultDiv.innerHTML += `<div style="color: green;">Uploaded ${successCount}/${totalSelected} images successfully</div>`;
-
+                                
                                 if (successCount === 0 && totalSelected > 0) {
                                     resultDiv.innerHTML += '<div style="color: red;">All image uploads failed. Continuing without images.</div>';
                                 } else if (successCount < totalSelected) {
@@ -829,11 +803,11 @@
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify(data)
                         });
-
+                        
                         const resData = await response.json();
                         if (response.ok) {
                             resultDiv.innerHTML += `<div style="color: green;">✅ Property added successfully! ID: ${resData.id}</div>`;
-
+                            
                             // Show form summary instead of clearing it
                             const summary = document.createElement('div');
                             summary.style.cssText = `
@@ -844,10 +818,10 @@
                                 margin-top: 1rem;
                                 color: #fff;
                             `;
-
+                            
                             const photoCount = photoFields.filter(field => form[field].files && form[field].files[0]).length;
                             const successfulUploads = photoUrls.filter(url => url !== null).length;
-
+                            
                             summary.innerHTML = `
                                 <h4 style="margin: 0 0 1rem 0; color: #00f5ff; font-size: 1.1rem;">📋 Submission Summary</h4>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.9rem;">
@@ -879,9 +853,9 @@
                                     ">Close</button>
                                 </div>
                             `;
-
+                            
                             resultDiv.appendChild(summary);
-
+                            
                             // Disable the form to prevent accidental resubmission
                             const formElements = form.querySelectorAll('input, select, button');
                             formElements.forEach(element => {
@@ -891,7 +865,7 @@
                             });
                             submitBtn.textContent = '✅ Property Added';
                             submitBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
-
+                            
                         } else {
                             resultDiv.innerHTML += `<div style="color: red;">Error: ${resData.error || 'Unknown error'}</div>`;
                         }
@@ -914,10 +888,10 @@
             const form = document.getElementById('add-property-form');
             const resultDiv = document.getElementById('result');
             const submitBtn = document.getElementById('submit-btn');
-
+            
             // Reset form
             form.reset();
-
+            
             // Clear image previews
             document.querySelectorAll('.image-preview').forEach(preview => {
                 preview.src = '';
@@ -926,24 +900,24 @@
             document.querySelectorAll('.image-upload-item').forEach(item => {
                 item.classList.remove('has-image');
             });
-
+            
             // Re-enable form elements
             const formElements = form.querySelectorAll('input, select, button');
             formElements.forEach(element => {
                 element.disabled = false;
             });
-
+            
             // Reset submit button
             submitBtn.textContent = 'Add Property';
             submitBtn.style.background = '';
-
+            
             // Clear results
             resultDiv.innerHTML = '';
-
+            
             // Close popup
             togglePopupBlur(document.getElementById('add-property-popup'), false);
         }
-
+        
         function closePopupOnly() {
             togglePopupBlur(document.getElementById('add-property-popup'), false);
         }
@@ -952,5 +926,4 @@
     <!-- Add script.js before closing body tag -->
     <script src="script.js"></script>
 </body>
-
 </html>
