@@ -1,1 +1,1921 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ParkSpace - Search Results</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 2rem;
+            padding: 1.2rem 2rem;
+        }
+
+        .header-back-btn {
+            background: #007AFF;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .header-back-btn:hover {
+            background: #0056b3;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        /* Main Search Bar */
+        .main-search-bar {
+            flex: 1;
+            max-width: 600px;
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 25px;
+            padding: 0.5rem;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .main-search-bar:focus-within {
+            border-color: #007AFF;
+            box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+        }
+
+        .main-search-icon {
+            padding: 0 1rem;
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .main-search-input {
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0.875rem 0.5rem;
+            font-size: 1rem;
+            background: transparent;
+            color: #333;
+        }
+
+        .main-search-input::placeholder {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        /* Header Icons */
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .header-icon {
+            width: 44px;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(0, 0, 0, 0.9);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .header-icon:hover {
+            background: rgba(0, 0, 0, 0.1);
+            color: #000;
+            transform: translateY(-1px);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 2rem;
+            min-height: calc(100vh - 120px);
+        }
+
+        /* Left Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Search Header */
+        .search-header {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-btn {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .back-btn:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .search-title {
+            color: #333;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .search-meta {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .results-count {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: inline-block;
+            border: 1px solid rgba(0, 122, 255, 0.2);
+        }
+
+        /* Filter Card */
+        .filter-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .filter-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .filter-subtitle {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.75rem;
+            display: block;
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            background: #f8f9fa;
+            color: #333;
+            font-size: 0.9rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #007AFF;
+        }
+
+        .filter-select option {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .filter-checkboxes {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #007AFF;
+        }
+
+        .checkbox-item label {
+            font-size: 0.9rem;
+            color: #333;
+            cursor: pointer;
+        }
+
+        /* Results Grid */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.1rem;
+            padding: 2rem;
+        }
+
+        .loading::after {
+            content: '';
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            margin-left: 1rem;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* No Results */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* Parking Card */
+        .parking-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .parking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .parking-type {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0, 122, 255, 0.2);
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stars {
+            color: #FF9500;
+            font-size: 1rem;
+        }
+
+        .rating-text {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .rating-count {
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 0.85rem;
+        }
+
+        .parking-image {
+            width: 100%;
+            height: 160px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .photo-count {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .price-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .price-details {
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 0.85rem;
+        }
+
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-tag {
+            background: rgba(0, 122, 255, 0.1);
+            color: #007AFF;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(0, 122, 255, 0.2);
+        }
+
+        .parking-info {
+            color: rgba(0, 0, 0, 0.7);
+            font-size: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .parking-info div {
+            margin-bottom: 0.25rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #34C759;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #28a745;
+            transform: translateY(-1px);
+        }
+
+        .btn-tertiary {
+            background: #f8f9fa;
+            color: #333;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-tertiary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Popup Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 2rem 2rem 1rem 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Property Details Modal */
+        .property-details-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .property-image-gallery {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .main-property-image {
+            border-radius: 16px;
+            height: 250px;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .main-property-image:hover {
+            transform: scale(1.02);
+            border-color: #007AFF;
+        }
+
+        .main-property-image::after {
+            content: '🔍';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem;
+            border-radius: 50%;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .main-property-image:hover::after {
+            opacity: 1;
+        }
+
+        .property-thumbnails {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .property-thumbnail {
+            border-radius: 8px;
+            height: 60px;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .property-thumbnail:hover {
+            border-color: #007AFF;
+            transform: scale(1.05);
+        }
+
+        .property-info-section {
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            margin-bottom: 1.5rem;
+        }
+
+        .property-info-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .property-info-title {
+            color: #333;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .property-info-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            color: rgba(0, 0, 0, 0.8);
+        }
+
+        .property-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .property-info-label {
+            font-weight: 500;
+        }
+
+        .property-info-value {
+            color: #333;
+            font-weight: 600;
+        }
+
+        /* Booking Modal */
+        .booking-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            padding: 0.875rem 1rem;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            background: #f8f9fa;
+            color: #333;
+            font-size: 1rem;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #007AFF;
+        }
+
+        .form-input::placeholder {
+            color: rgba(0, 0, 0, 0.5);
+        }
+
+        .booking-summary {
+            background: rgba(0, 122, 255, 0.1);
+            border: 1px solid rgba(0, 122, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .booking-summary-title {
+            color: #007AFF;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .booking-summary-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .booking-summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: white;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+
+        /* Message Modal */
+        .message-form {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .message-textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .owner-info {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1.5rem;
+        }
+
+        .owner-info-title {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .owner-details {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* Modal Actions */
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-btn-primary {
+            background: #007AFF;
+            color: white;
+        }
+
+        .modal-btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .modal-btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Photo Lightbox */
+        .photo-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .photo-lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-container {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-nav-left {
+            left: -80px;
+        }
+
+        .lightbox-nav-right {
+            right: -80px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #333;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .lightbox-thumbnails {
+            position: absolute;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            max-width: 80vw;
+            overflow-x: auto;
+            padding: 0.5rem;
+        }
+
+        .lightbox-thumbnail {
+            width: 60px;
+            height: 45px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            flex-shrink: 0;
+        }
+
+        .lightbox-thumbnail:hover {
+            transform: scale(1.1);
+        }
+
+        .lightbox-thumbnail.active {
+            border-color: #007AFF;
+            transform: scale(1.1);
+        }
+
+        /* Mobile adjustments for lightbox */
+        @media (max-width: 768px) {
+            .lightbox-nav {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            .lightbox-nav-left {
+                left: 10px;
+            }
+
+            .lightbox-nav-right {
+                right: 10px;
+            }
+
+            .lightbox-close {
+                top: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+
+            .lightbox-counter {
+                bottom: 20px;
+            }
+
+            .lightbox-thumbnails {
+                bottom: -70px;
+                max-width: 95vw;
+            }
+
+            .lightbox-thumbnail {
+                width: 50px;
+                height: 37px;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .main-search-bar {
+                max-width: 100%;
+            }
+
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .sidebar {
+                order: 2;
+            }
+
+            .results-grid {
+                order: 1;
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                width: 95%;
+                margin: 1rem;
+            }
+
+            .modal-header, .modal-body {
+                padding: 1.5rem;
+            }
+
+            .property-image-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .property-thumbnails {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <button class="header-back-btn" onclick="window.location.href='index.html'">← Back</button>
+            <div class="logo" onclick="window.location.href='index.html'">ParkSpace</div>
+            
+            <!-- Main Search Bar -->
+            <div class="main-search-bar">
+                <div class="main-search-icon">🔍</div>
+                <input type="text" class="main-search-input" id="search-input" placeholder="Search for parking spots, locations, or addresses...">
+            </div>
+
+            <!-- Header Icons -->
+            <div class="header-icons">
+                <div class="header-icon" title="Messages">💬</div>
+                <div class="header-icon" title="Profile" onclick="window.location.href='profile.html'">👤</div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="sidebar">
+            <!-- Search Header -->
+            <div class="search-header">
+                <button class="back-btn" onclick="window.location.href='index.html'">← Back to Search</button>
+                <h1 class="search-title">Search Results</h1>
+                <div class="search-meta" id="search-meta">All Locations • Any Date • 1 hour</div>
+                <span class="results-count" id="results-count">0 parking spots found</span>
+            </div>
+
+            <!-- Filter Card -->
+            <div class="filter-card">
+                <h2 class="filter-title">Refine Your Search</h2>
+                <p class="filter-subtitle">Find the perfect parking spot</p>
+
+                <div class="filter-section">
+                    <label class="filter-label">Sort by</label>
+                    <select class="filter-select" id="sort-select">
+                        <option value="price_asc">Price: Low to High</option>
+                        <option value="price_desc">Price: High to Low</option>
+                        <option value="rating">Rating</option>
+                        <option value="distance">Distance</option>
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <label class="filter-label">Price Range</label>
+                    <select class="filter-select" id="price-select">
+                        <option value="">All Prices</option>
+                        <option value="0-10">Under $10</option>
+                        <option value="10-20">$10 - $20</option>
+                        <option value="20-30">$20 - $30</option>
+                        <option value="30-999">Over $30</option>
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <label class="filter-label">Parking Type</label>
+                    <select class="filter-select" id="type-select">
+                        <option value="">All Types</option>
+                        <option value="driveway">Driveway</option>
+                        <option value="garage-private">Private Garage</option>
+                        <option value="garage-shared">Shared Garage</option>
+                        <option value="carport">Carport</option>
+                        <option value="street-parking">Street Parking</option>
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <label class="filter-label">Features</label>
+                    <div class="filter-checkboxes">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="covered" data-feature="covered">
+                            <label for="covered">🏠 Covered</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="security" data-feature="security">
+                            <label for="security">🔒 Security</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ev-charging" data-feature="ev">
+                            <label for="ev-charging">⚡ EV Charging</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Results Grid -->
+        <main class="results-grid" id="results-grid">
+            <div class="loading">Loading parking spots...</div>
+        </main>
+                </div>
+
+    <!-- Property Details Modal -->
+    <div class="modal-overlay" id="details-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Property Details</h2>
+                <button class="modal-close" onclick="closeModal('details-modal')">×</button>
+                </div>
+            <div class="modal-body">
+                <div class="property-details-grid" id="property-details-content">
+                    <!-- Property details will be dynamically loaded here -->
+                </div>
+            </div>
+                    </div>
+                </div>
+
+    <!-- Booking Modal -->
+    <div class="modal-overlay" id="booking-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Book Parking Spot</h2>
+                <button class="modal-close" onclick="closeModal('booking-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="booking-form" id="booking-form-content">
+                    <!-- Booking form will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+                </div>
+
+    <!-- Message Owner Modal -->
+    <div class="modal-overlay" id="message-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Send Message</h2>
+                <button class="modal-close" onclick="closeModal('message-modal')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="message-form" id="message-form-content">
+                    <!-- Message form will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+                </div>
+
+    <!-- Photo Lightbox -->
+    <div class="photo-lightbox" id="photo-lightbox">
+        <div class="lightbox-container">
+            <div class="lightbox-close" onclick="closeLightbox()">×</div>
+            <div class="lightbox-nav lightbox-nav-left" onclick="previousPhoto()">‹</div>
+            <img class="lightbox-image" id="lightbox-image" src="" alt="Property Photo">
+            <div class="lightbox-nav lightbox-nav-right" onclick="nextPhoto()">›</div>
+            <div class="lightbox-counter" id="lightbox-counter">1 of 1</div>
+            <div class="lightbox-thumbnails" id="lightbox-thumbnails">
+                <!-- Thumbnails will be dynamically generated -->
+            </div>
+                </div>
+            </div>
+
+    <script>
+        class SearchResults {
+            constructor() {
+                this.properties = [];
+                this.filteredProperties = [];
+                this.currentFilters = {
+                    search: '',
+                    sort: 'price_asc',
+                    priceRange: '',
+                    spotType: '',
+                    features: []
+                };
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadSearchResults();
+                this.updateSearchMeta();
+            }
+
+            setupEventListeners() {
+                // Search input
+                const searchInput = document.getElementById('search-input');
+                searchInput.addEventListener('input', (e) => {
+                    this.currentFilters.search = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Sort dropdown
+                const sortSelect = document.getElementById('sort-select');
+                sortSelect.addEventListener('change', (e) => {
+                    this.currentFilters.sort = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Price range dropdown
+                const priceSelect = document.getElementById('price-select');
+                priceSelect.addEventListener('change', (e) => {
+                    this.currentFilters.priceRange = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Spot type dropdown
+                const typeSelect = document.getElementById('type-select');
+                typeSelect.addEventListener('change', (e) => {
+                    this.currentFilters.spotType = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Feature checkboxes
+                const featureCheckboxes = document.querySelectorAll('[data-feature]');
+                featureCheckboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', (e) => {
+                        const feature = e.target.dataset.feature;
+                        if (e.target.checked) {
+                            this.currentFilters.features.push(feature);
+                        } else {
+                            this.currentFilters.features = this.currentFilters.features.filter(f => f !== feature);
+                        }
+                        this.applyFilters();
+                    });
+                });
+            }
+
+            async loadSearchResults() {
+                try {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const location = urlParams.get('location') || '';
+                    
+                    // Set search input value from URL params
+                    if (location) {
+                        document.getElementById('search-input').value = location;
+                        this.currentFilters.search = location;
+                    }
+
+                    const response = await fetch(`http://localhost:3000/api/search-properties?location=${encodeURIComponent(location)}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch search results');
+                    }
+
+                    this.properties = await response.json();
+                    this.filteredProperties = [...this.properties];
+                    this.applyFilters();
+                    
+                } catch (error) {
+                    console.error('Error loading search results:', error);
+                    this.showError('Failed to load search results. Please try again.');
+                }
+            }
+
+            applyFilters() {
+                let filtered = [...this.properties];
+
+                // Text search filter
+                if (this.currentFilters.search) {
+                    const searchTerm = this.currentFilters.search.toLowerCase();
+                    filtered = filtered.filter(property => 
+                        property.title.toLowerCase().includes(searchTerm) ||
+                        property.location.toLowerCase().includes(searchTerm) ||
+                        property.spot_type.toLowerCase().includes(searchTerm) ||
+                        property.owner_name.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                // Price range filter
+                if (this.currentFilters.priceRange) {
+                    const [min, max] = this.currentFilters.priceRange.split('-').map(Number);
+                    filtered = filtered.filter(property => {
+                        const rate = property.hourly_rate;
+                        return rate >= min && (max === 999 ? true : rate <= max);
+                    });
+                }
+
+                // Spot type filter
+                if (this.currentFilters.spotType) {
+                    filtered = filtered.filter(property => 
+                        property.spot_type === this.currentFilters.spotType
+                    );
+                }
+
+                // Features filter
+                if (this.currentFilters.features.length > 0) {
+                    filtered = filtered.filter(property => 
+                        this.currentFilters.features.every(feature => 
+                            property.features.includes(feature)
+                        )
+                    );
+                }
+
+                // Sort results
+                this.sortResults(filtered);
+
+                this.filteredProperties = filtered;
+                this.renderResults();
+                this.updateResultsCount();
+            }
+
+            sortResults(properties) {
+                switch (this.currentFilters.sort) {
+                    case 'price_asc':
+                        properties.sort((a, b) => a.hourly_rate - b.hourly_rate);
+                        break;
+                    case 'price_desc':
+                        properties.sort((a, b) => b.hourly_rate - a.hourly_rate);
+                        break;
+                    case 'rating':
+                        properties.sort((a, b) => b.rating - a.rating);
+                        break;
+                    case 'distance':
+                        // For now, sort randomly as distance calculation requires user location
+                        properties.sort(() => Math.random() - 0.5);
+                        break;
+                }
+            }
+
+            renderResults() {
+                const grid = document.getElementById('results-grid');
+                
+                if (this.filteredProperties.length === 0) {
+                    grid.innerHTML = '<div class="no-results">No parking spots found. Try adjusting your filters.</div>';
+                    return;
+                }
+
+                grid.innerHTML = this.filteredProperties.map(property => this.createPropertyCard(property)).join('');
+            }
+
+            createPropertyCard(property) {
+                const stars = this.generateStars(property.rating);
+                const features = this.renderFeatures(property.features);
+                const photoCount = property.photos.length || 1;
+                const primaryImage = property.primary_image || property.photos[0] || '';
+                const displayType = this.formatSpotType(property.spot_type);
+                
+                return `
+                    <div class="parking-card" data-property-id="${property.id}">
+                <div class="card-header">
+                            <div class="parking-type">${displayType}</div>
+                    <div class="rating">
+                                <span class="stars">${stars}</span>
+                                <span class="rating-text">${property.rating.toFixed(1)}</span>
+                                <span class="rating-count">(${property.reviews})</span>
+                    </div>
+                </div>
+
+                        <div class="parking-image" style="background-image: url('${primaryImage}')">
+                            <div class="photo-count">${photoCount} photo${photoCount !== 1 ? 's' : ''}</div>
+                </div>
+
+                <div class="price-section">
+                    <div>
+                                <div class="price">$${property.hourly_rate.toFixed(1)}</div>
+                                <div class="price-details">per hour</div>
+                    </div>
+                </div>
+
+                <div class="features">
+                            ${features}
+                </div>
+
+                <div class="parking-info">
+                            <div>👤 Owner: ${property.owner_name}</div>
+                            <div>📍 ${property.location}</div>
+                            <div>📅 Available ${property.starting_date ? 'from ' + new Date(property.starting_date).toLocaleDateString() : 'now'}</div>
+                </div>
+
+                <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="searchResults.bookNow(${property.id})">Book Now</button>
+                            <button class="btn btn-secondary" onclick="searchResults.messageOwner(${property.user_id}, '${property.owner_name}')">Message Owner</button>
+                            <button class="btn btn-tertiary" onclick="searchResults.viewDetails(${property.id})">View Details</button>
+                </div>
+            </div>
+                `;
+            }
+
+            generateStars(rating) {
+                const fullStars = Math.floor(rating);
+                const hasHalfStar = rating % 1 >= 0.5;
+                const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+                
+                return '★'.repeat(fullStars) + (hasHalfStar ? '☆' : '') + '☆'.repeat(emptyStars);
+            }
+
+            renderFeatures(features) {
+                const featureMap = {
+                    'covered': '🏠 Covered',
+                    'security': '🔒 Security',
+                    'ev': '⚡ EV Charging'
+                };
+
+                return features.map(feature => 
+                    `<span class="feature-tag">${featureMap[feature] || feature}</span>`
+                ).join('');
+            }
+
+            formatSpotType(spotType) {
+                const typeMap = {
+                    'driveway': 'Driveway',
+                    'garage-private': 'Private Garage',
+                    'garage-shared': 'Shared Garage',
+                    'carport': 'Carport',
+                    'street-parking': 'Street Parking'
+                };
+                return typeMap[spotType] || spotType;
+            }
+
+            updateResultsCount() {
+                const count = this.filteredProperties.length;
+                document.getElementById('results-count').textContent = 
+                    `${count} parking spot${count !== 1 ? 's' : ''} found`;
+            }
+
+            updateSearchMeta() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const location = urlParams.get('location') || 'All Locations';
+                const date = urlParams.get('date') || 'Any Date';
+                const duration = urlParams.get('duration') || '1 hour';
+                
+                document.getElementById('search-meta').textContent = 
+                    `${location} • ${date} • ${duration}`;
+            }
+
+            showError(message) {
+                const grid = document.getElementById('results-grid');
+                grid.innerHTML = `<div class="no-results">❌ ${message}</div>`;
+            }
+
+            // Action methods
+            bookNow(propertyId) {
+                const property = this.properties.find(p => p.id === propertyId);
+                if (property) {
+                    this.openBookingModal(property);
+                }
+            }
+
+            messageOwner(userId, ownerName) {
+                this.openMessageModal(userId, ownerName);
+            }
+
+            viewDetails(propertyId) {
+                const property = this.properties.find(p => p.id === propertyId);
+                if (property) {
+                    this.openDetailsModal(property);
+                }
+            }
+
+            // Modal methods
+            openDetailsModal(property) {
+                const modal = document.getElementById('details-modal');
+                const content = document.getElementById('property-details-content');
+                
+                const photos = property.photos.filter(photo => photo && photo.trim() !== '');
+                const mainImage = photos[0] || property.primary_image || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400';
+                
+                content.innerHTML = `
+                    <div class="property-image-gallery">
+                        <div class="main-property-image" style="background-image: url('${mainImage}')" id="main-image" onclick="openLightbox(0, '${property.id}')"></div>
+                        <div class="property-thumbnails">
+                            ${photos.slice(0, 4).map((photo, index) => 
+                                `<div class="property-thumbnail" style="background-image: url('${photo}')" onclick="openLightbox(${index}, '${property.id}')"></div>`
+                            ).join('')}
+                    </div>
+                </div>
+
+                    <div class="property-info-section">
+                        <div class="property-info-title">📍 Location Details</div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Address:</span>
+                            <span class="property-info-value">${property.location}</span>
+                </div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Instructions:</span>
+                            <span class="property-info-value">${property.location_instructions || 'No special instructions'}</span>
+                    </div>
+                </div>
+
+                    <div class="property-info-section">
+                        <div class="property-info-title">🚗 Parking Information</div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Spot Type:</span>
+                            <span class="property-info-value">${this.formatSpotType(property.spot_type)}</span>
+                        </div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Hourly Rate:</span>
+                            <span class="property-info-value">$${property.hourly_rate.toFixed(2)}/hour</span>
+                        </div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Rating:</span>
+                            <span class="property-info-value">${property.rating.toFixed(1)} ⭐ (${property.reviews} reviews)</span>
+                        </div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Availability:</span>
+                            <span class="property-info-value">${property.starting_date ? 'From ' + new Date(property.starting_date).toLocaleDateString() : 'Available now'}</span>
+                        </div>
+                </div>
+
+                    <div class="property-info-section">
+                        <div class="property-info-title">👤 Owner Information</div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Owner:</span>
+                            <span class="property-info-value">${property.owner_name}</span>
+                        </div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Listed:</span>
+                            <span class="property-info-value">${new Date(property.created_at).toLocaleDateString()}</span>
+                        </div>
+                </div>
+
+                    <div class="property-info-section">
+                        <div class="property-info-title">🎯 Features</div>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                            ${this.renderFeatures(property.features)}
+                </div>
+            </div>
+
+                    <div class="modal-actions">
+                        <button class="modal-btn modal-btn-secondary" onclick="closeModal('details-modal')">Close</button>
+                        <button class="modal-btn modal-btn-primary" onclick="searchResults.bookNow(${property.id}); closeModal('details-modal')">Book Now</button>
+                    </div>
+                `;
+                
+                modal.classList.add('active');
+            }
+
+            openBookingModal(property) {
+                const modal = document.getElementById('booking-modal');
+                const content = document.getElementById('booking-form-content');
+                
+                // Set default dates
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(today.getDate() + 1);
+                
+                const todayStr = today.toISOString().slice(0, 16);
+                const tomorrowStr = tomorrow.toISOString().slice(0, 16);
+                
+                content.innerHTML = `
+                    <div class="property-info-section">
+                        <div class="property-info-title">🚗 ${property.title}</div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Location:</span>
+                            <span class="property-info-value">${property.location}</span>
+                        </div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Type:</span>
+                            <span class="property-info-value">${this.formatSpotType(property.spot_type)}</span>
+                        </div>
+                        <div class="property-info-item">
+                            <span class="property-info-label">Owner:</span>
+                            <span class="property-info-value">${property.owner_name}</span>
+                    </div>
+                </div>
+
+                    <form id="booking-form" onsubmit="searchResults.submitBooking(event, ${property.id})">
+                        <div class="form-group">
+                            <label class="form-label">Start Date & Time</label>
+                            <input type="datetime-local" class="form-input" id="start-time" value="${todayStr}" min="${todayStr}" required>
+                </div>
+
+                        <div class="form-group">
+                            <label class="form-label">End Date & Time</label>
+                            <input type="datetime-local" class="form-input" id="end-time" value="${tomorrowStr}" min="${todayStr}" required>
+                        </div>
+
+                        <div class="booking-summary" id="booking-summary">
+                            <div class="booking-summary-title">📋 Booking Summary</div>
+                            <div class="booking-summary-item">
+                                <span>Hourly Rate:</span>
+                                <span>$${property.hourly_rate.toFixed(2)}</span>
+                            </div>
+                            <div class="booking-summary-item">
+                                <span>Duration:</span>
+                                <span id="duration-display">1 hour</span>
+                            </div>
+                            <div class="booking-summary-total">
+                                <span>Total Cost:</span>
+                                <span id="total-cost">$${property.hourly_rate.toFixed(2)}</span>
+                    </div>
+                </div>
+
+                        <div class="modal-actions">
+                            <button type="button" class="modal-btn modal-btn-secondary" onclick="closeModal('booking-modal')">Cancel</button>
+                            <button type="submit" class="modal-btn modal-btn-primary">Confirm Booking</button>
+                </div>
+                    </form>
+                `;
+                
+                // Set up real-time cost calculation
+                const startInput = document.getElementById('start-time');
+                const endInput = document.getElementById('end-time');
+                
+                const updateCost = () => {
+                    const start = new Date(startInput.value);
+                    const end = new Date(endInput.value);
+                    
+                    if (start && end && end > start) {
+                        const hours = Math.max(1, Math.ceil((end - start) / (1000 * 60 * 60)));
+                        const total = (hours * property.hourly_rate).toFixed(2);
+                        
+                        document.getElementById('duration-display').textContent = `${hours} hour${hours !== 1 ? 's' : ''}`;
+                        document.getElementById('total-cost').textContent = `$${total}`;
+                    }
+                };
+                
+                startInput.addEventListener('change', updateCost);
+                endInput.addEventListener('change', updateCost);
+                
+                modal.classList.add('active');
+            }
+
+            openMessageModal(userId, ownerName) {
+                const modal = document.getElementById('message-modal');
+                const content = document.getElementById('message-form-content');
+                
+                content.innerHTML = `
+                    <div class="owner-info">
+                        <div class="owner-info-title">Sending message to:</div>
+                        <div class="owner-details">
+                            <strong>${ownerName}</strong><br>
+                            Property Owner
+                        </div>
+                </div>
+
+                    <form id="message-form" onsubmit="searchResults.submitMessage(event, ${userId}, '${ownerName}')">
+                        <div class="form-group">
+                            <label class="form-label">Subject</label>
+                            <input type="text" class="form-input" id="message-subject" placeholder="Inquiry about your parking spot" required>
+                </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-input message-textarea" id="message-content" placeholder="Hi ${ownerName}, I'm interested in your parking spot. Could you provide more details about..." required></textarea>
+            </div>
+
+                        <div class="modal-actions">
+                            <button type="button" class="modal-btn modal-btn-secondary" onclick="closeModal('message-modal')">Cancel</button>
+                            <button type="submit" class="modal-btn modal-btn-primary">Send Message</button>
+    </div>
+                    </form>
+                `;
+                
+                modal.classList.add('active');
+            }
+
+            async submitBooking(event, propertyId) {
+                event.preventDefault();
+                
+                // Check if user is logged in
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                if (!currentUser) {
+                    alert('Please log in to make a booking.');
+                    return;
+                }
+                
+                const startTime = document.getElementById('start-time').value;
+                const endTime = document.getElementById('end-time').value;
+                
+                try {
+                    const response = await fetch('http://localhost:3000/api/bookings', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: currentUser.id,
+                            property_id: propertyId,
+                            start_time: startTime,
+                            end_time: endTime
+                        })
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (response.ok) {
+                        alert('Booking confirmed successfully! 🎉');
+                        closeModal('booking-modal');
+                    } else {
+                        alert('Booking failed: ' + result.error);
+                    }
+                } catch (error) {
+                    console.error('Booking error:', error);
+                    alert('Failed to create booking. Please try again.');
+                }
+            }
+
+            async submitMessage(event, userId, ownerName) {
+                event.preventDefault();
+                
+                // Check if user is logged in
+                const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                if (!currentUser) {
+                    alert('Please log in to send messages.');
+                    return;
+                }
+                
+                const subject = document.getElementById('message-subject').value;
+                const content = document.getElementById('message-content').value;
+                
+                // For now, just show success (real implementation would need conversation/message API)
+                alert(`Message sent to ${ownerName}! 📨\n\nSubject: ${subject}\n\nThey will receive your message and can respond directly.`);
+                closeModal('message-modal');
+                
+                // TODO: Implement actual messaging API when needed
+            }
+        }
+
+        // Initialize search results when page loads
+        let searchResults;
+        document.addEventListener('DOMContentLoaded', () => {
+            searchResults = new SearchResults();
+        });
+
+        // Global utility functions
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('active');
+        }
+
+        function changeMainImage(imageSrc) {
+            const mainImage = document.getElementById('main-image');
+            if (mainImage) {
+                mainImage.style.backgroundImage = `url('${imageSrc}')`;
+            }
+        }
+
+        // Photo Lightbox functionality
+        let currentLightboxIndex = 0;
+        let currentPropertyPhotos = [];
+
+        function openLightbox(index, propertyId) {
+            const property = searchResults.properties.find(p => p.id == propertyId);
+            if (!property) return;
+
+            currentPropertyPhotos = property.photos.filter(photo => photo && photo.trim() !== '');
+            if (currentPropertyPhotos.length === 0) {
+                currentPropertyPhotos = [property.primary_image || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400'];
+            }
+
+            currentLightboxIndex = Math.max(0, Math.min(index, currentPropertyPhotos.length - 1));
+            
+            const lightbox = document.getElementById('photo-lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const counter = document.getElementById('lightbox-counter');
+            const thumbnails = document.getElementById('lightbox-thumbnails');
+
+            // Set main image
+            lightboxImage.src = currentPropertyPhotos[currentLightboxIndex];
+            
+            // Update counter
+            counter.textContent = `${currentLightboxIndex + 1} of ${currentPropertyPhotos.length}`;
+            
+            // Generate thumbnails
+            thumbnails.innerHTML = currentPropertyPhotos.map((photo, idx) => 
+                `<div class="lightbox-thumbnail ${idx === currentLightboxIndex ? 'active' : ''}" 
+                      style="background-image: url('${photo}')" 
+                      onclick="goToPhoto(${idx})"></div>`
+            ).join('');
+
+            // Show/hide navigation arrows based on photo count
+            const leftNav = lightbox.querySelector('.lightbox-nav-left');
+            const rightNav = lightbox.querySelector('.lightbox-nav-right');
+            
+            if (currentPropertyPhotos.length <= 1) {
+                leftNav.style.display = 'none';
+                rightNav.style.display = 'none';
+            } else {
+                leftNav.style.display = 'flex';
+                rightNav.style.display = 'flex';
+            }
+
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('photo-lightbox');
+            lightbox.classList.remove('active');
+        }
+
+        function previousPhoto() {
+            if (currentLightboxIndex > 0) {
+                goToPhoto(currentLightboxIndex - 1);
+            } else if (currentPropertyPhotos.length > 1) {
+                // Loop to last photo
+                goToPhoto(currentPropertyPhotos.length - 1);
+            }
+        }
+
+        function nextPhoto() {
+            if (currentLightboxIndex < currentPropertyPhotos.length - 1) {
+                goToPhoto(currentLightboxIndex + 1);
+            } else if (currentPropertyPhotos.length > 1) {
+                // Loop to first photo
+                goToPhoto(0);
+            }
+        }
+
+        function goToPhoto(index) {
+            currentLightboxIndex = index;
+            
+            const lightboxImage = document.getElementById('lightbox-image');
+            const counter = document.getElementById('lightbox-counter');
+            const thumbnails = document.getElementById('lightbox-thumbnails');
+
+            // Update main image with fade effect
+            lightboxImage.style.opacity = '0';
+            setTimeout(() => {
+                lightboxImage.src = currentPropertyPhotos[currentLightboxIndex];
+                lightboxImage.style.opacity = '1';
+            }, 150);
+            
+            // Update counter
+            counter.textContent = `${currentLightboxIndex + 1} of ${currentPropertyPhotos.length}`;
+            
+            // Update active thumbnail
+            const thumbnailElements = thumbnails.querySelectorAll('.lightbox-thumbnail');
+            thumbnailElements.forEach((thumb, idx) => {
+                thumb.classList.toggle('active', idx === currentLightboxIndex);
+            });
+        }
+
+        // Close modals when clicking outside
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+            }
+            // Close lightbox when clicking outside
+            if (e.target.classList.contains('photo-lightbox')) {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('photo-lightbox');
+            const isLightboxOpen = lightbox.classList.contains('active');
+            
+            if (isLightboxOpen) {
+                switch(e.key) {
+                    case 'Escape':
+                        closeLightbox();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        previousPhoto();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        nextPhoto();
+                        break;
+                }
+            } else if (e.key === 'Escape') {
+                // Close other modals with Escape key
+                const activeModal = document.querySelector('.modal-overlay.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
