@@ -5,67 +5,81 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ParkSpace - Find & Rent Parking Spots Instantly</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Add Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#00f5ff',
+                        secondary: '#ffd700',
+                        accent: '#764ba2'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="styles.css">
+    <!-- Add AWS SDK -->
     <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1289.0.min.js"></script>
+    <!-- Add Appwrite SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@15.0.0"></script>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <nav>
-                <a href="#" class="logo">ParkSpace</a>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#find">Find Parking</a></li>
-                    <li><a href="#rent">Rent Your Space</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-xl border-b border-white/20">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <nav class="flex items-center justify-between h-20">
+                <a href="#" class="logo text-2xl font-bold text-white hover:text-primary transition-colors duration-300">ParkSpace</a>
+                <ul class="nav-links hidden md:flex items-center space-x-8">
+                    <li><a href="#home" class="text-white/90 hover:text-primary transition-colors duration-300 font-medium">Home</a></li>
+                    <li><a href="#find" class="text-white/90 hover:text-primary transition-colors duration-300 font-medium">Find Parking</a></li>
+                    <li><a href="#rent" class="text-white/90 hover:text-primary transition-colors duration-300 font-medium">Rent Your Space</a></li>
+                    <li><a href="#about" class="text-white/90 hover:text-primary transition-colors duration-300 font-medium">About</a></li>
+                    <li><a href="#contact" class="text-white/90 hover:text-primary transition-colors duration-300 font-medium">Contact</a></li>
                 </ul>
-                <div style="display: flex; gap: 1rem; align-items: center;">
-                    <a href="#" class="messages-button logged-in" id="messages-button" title="Messages" style="display:none;" onclick="toggleMessagesDropdown()">
+                <div class="flex items-center gap-4">
+                    <a href="profile.html#messages" class="messages-button hidden p-2 text-white/90 hover:text-primary hover:bg-white/10 rounded-lg transition-all duration-300" id="messages-button" title="Messages" style="display:none;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span class="message-notification" id="message-notification" style="display: none;">0</span>
+                        <span class="message-notification absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center" id="message-notification" style="display: none;">0</span>
                     </a>
-                    <a href="profile.html" class="profile-button logged-in" id="profile-button" title="Profile" style="display:none;">
+                    <a href="profile.html" class="profile-button hidden p-2 text-white/90 hover:text-primary hover:bg-white/10 rounded-lg transition-all duration-300" id="profile-button" title="Profile" style="display:none;">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
                             <path d="M12 14C7.58172 14 4 17.5817 4 22H20C20 17.5817 16.4183 14 12 14Z" fill="currentColor"/>
                         </svg>
                     </a>
-                    <a href="#" class="cta-button secondary logged-out" id="login-button" data-popup-target="signin-popup">Log In</a>
-                    <a href="#" class="cta-button logged-out" id="signup-button" data-popup-target="signup-popup">Sign Up</a>
+                    <a href="#" class="px-4 py-2 text-white/90 hover:text-white hover:bg-white/10 rounded-full border border-white/30 hover:border-white/50 transition-all duration-300 font-medium" id="login-button">Log In</a>
+                    <a href="#" class="px-6 py-2 bg-gradient-to-r from-secondary to-yellow-500 text-gray-900 font-bold rounded-full hover:from-yellow-400 hover:to-secondary transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300" id="signup-button">Sign Up</a>
                 </div>
             </nav>
         </div>
     </header>
 
-    <div class="messages-dropdown" id="messages-dropdown" style="display: none;">
-        <div class="messages-header">
-            <h3>Messages</h3>
-            <button class="close-messages" onclick="toggleMessagesDropdown()">×</button>
-        </div>
-        <div class="conversations-list" id="conversations-list">
-            </div>
-        <div class="no-conversations" id="no-conversations" style="display: none;">
-            <p>No messages yet. Start a conversation by messaging a property owner!</p>
-        </div>
-    </div>
+    <!-- Messages now handled in profile.html -->
 
-    <section class="hero" id="home">
-        <div class="hero-background">
-            <div class="hero-background-content">
-                <div class="floating-elements">
-                    <div class="floating-circle circle-1"></div>
-                    <div class="floating-circle circle-2"></div>
-                    <div class="floating-circle circle-3"></div>
-                    <div class="floating-circle circle-4"></div>
-                    <div class="floating-circle circle-4"></div>
-                    <div class="floating-circle circle-4"></div>
-                    <div class="floating-circle circle-1"></div>
+    <!-- Hero Section -->
+    <section class="hero relative min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden" id="home">
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div class="hero-background absolute inset-0">
+            <div class="hero-background-content relative w-full h-full">
+                <div class="floating-elements absolute inset-0">
+                    <div class="floating-circle circle-1 absolute w-4 h-4 bg-primary/30 rounded-full animate-bounce"></div>
+                    <div class="floating-circle circle-2 absolute w-6 h-6 bg-secondary/40 rounded-full animate-pulse"></div>
+                    <div class="floating-circle circle-3 absolute w-3 h-3 bg-accent/50 rounded-full animate-ping"></div>
+                    <div class="floating-circle circle-4 absolute w-5 h-5 bg-primary/20 rounded-full animate-bounce delay-100"></div>
+                    <div class="floating-circle circle-4 absolute w-4 h-4 bg-secondary/30 rounded-full animate-pulse delay-200"></div>
+                    <div class="floating-circle circle-4 absolute w-6 h-6 bg-accent/25 rounded-full animate-ping delay-300"></div>
+                    <div class="floating-circle circle-1 absolute w-3 h-3 bg-primary/40 rounded-full animate-bounce delay-500"></div>
                 </div>
                 <div class="car-illustration">
-                     <svg viewBox="0 0 300 170" style="width: 100%; height: 100%;">
+                    <svg viewBox="0 0 300 170" style="width: 100%; height: 100%;">
                         <ellipse cx="150" cy="127.5" rx="130" ry="28" fill="#ffd700" opacity="0.3"/>
                         <rect x="47" y="85" width="206" height="52" rx="24" fill="#ffd700"/>
                         <rect x="66" y="61" width="168" height="42" rx="19" fill="#ffd700"/>
@@ -77,6 +91,7 @@
                         <circle cx="216" cy="137" r="14" fill="#666"/>
                         <rect x="52" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
                         <rect x="230" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
+                        <!-- <text x="150" y="100" text-anchor="middle" fill="#fff" font-size="20">🚗</text> -->
                     </svg>
                     <div class="person-left">
                         <svg viewBox="0 0 65 130" style="width: 100%; height: 100%;">
@@ -88,6 +103,7 @@
                             <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
                             <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
                             <rect x="7" y="52" width="9" height="14" rx="2" fill="#333"/>
+
                         </svg>
                     </div>
                     <div class="person-right">
@@ -101,218 +117,287 @@
                             <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
                             <circle cx="47" cy="56" r="3" fill="#ffd700"/>
                             <rect x="49" y="54" width="7" height="2" fill="#ffd700"/>
+
                         </svg>
                     </div>
                 </div>
+               
             </div>
         </div>
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h1>Park Smarter, Stress Less</h1>
-                    <p>Discover and book the perfect parking spot in seconds with ParkSpace. Your ultimate solution for hassle-free parking anywhere, anytime.</p>
-                    <div style="display: flex; gap: 1.5rem; margin-top: 2rem;">
-                        <a href="#" class="cta-button primary-btn">Find Parking Now</a>
-                        <a href="#" class="cta-button secondary-btn">Learn More</a>
+        <div class="container mx-auto px-4 max-w-7xl relative z-10">
+            <div class="grid lg:grid-cols-3 gap-8 items-center min-h-screen py-20">
+                <div class="lg:col-span-1">
+                    <h1 class="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                        Park <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">Smarter</span>, 
+                        Stress <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary to-primary">Less</span>
+                    </h1>
+                    <p class="text-xl text-white/80 mb-8 leading-relaxed">Discover and book the perfect parking spot in seconds with ParkSpace. Your ultimate solution for hassle-free parking anywhere, anytime.</p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#" class="primary-btn inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-primary to-blue-500 text-white font-bold rounded-full hover:from-blue-500 hover:to-primary transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+                            Find Parking Now
+                        </a>
+                        <a href="#" class="inline-flex items-center justify-center px-8 py-4 border-2 border-white/30 text-white font-medium rounded-full hover:bg-white/10 hover:border-white/50 transition-all duration-300">
+                            Learn More
+                        </a>
                     </div>
                 </div>
-                <div class="hero-empty"></div>
-                <div class="search-box">
-                    <h3 style="color: #fff; margin-bottom: 1.8rem; font-size: 1.4rem; font-weight: 700;">Quick Park Search</h3>
-                    <form class="search-form">
-                        <div class="form-group">
-                            <label for="location">Location</label>
-                            <input type="text" id="location" name="location" placeholder="Enter city, address, or landmark">
+                <div class="lg:col-span-1 flex justify-center">
+                    <div class="car-illustration w-full max-w-sm">
+                        <svg viewBox="0 0 300 170" class="w-full h-auto">
+                            <ellipse cx="150" cy="127.5" rx="130" ry="28" fill="#ffd700" opacity="0.3"/>
+                            <rect x="47" y="85" width="206" height="52" rx="24" fill="#ffd700"/>
+                            <rect x="66" y="61" width="168" height="42" rx="19" fill="#ffd700"/>
+                            <rect x="75" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85"/>
+                            <rect x="159" y="66" width="66" height="28" rx="14" fill="#87ceeb" opacity="0.85"/>
+                            <circle cx="85" cy="137" r="23" fill="#333"/>
+                            <circle cx="85" cy="137" r="14" fill="#666"/>
+                            <circle cx="216" cy="137" r="23" fill="#333"/>
+                            <circle cx="216" cy="137" r="14" fill="#666"/>
+                            <rect x="52" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
+                            <rect x="230" y="99" width="19" height="9" rx="4" fill="#ff6b6b"/>
+                        </svg>
+                        <div class="person-left absolute -left-8 top-1/2 transform -translate-y-1/2">
+                            <svg viewBox="0 0 65 130" class="w-16 h-32">
+                                <circle cx="32.5" cy="23" r="14" fill="#ffd93d"/>
+                                <rect x="23" y="37" width="19" height="33" rx="9" fill="#4ecdc4"/>
+                                <rect x="21" y="70" width="23" height="38" rx="11" fill="#45b7d1"/>
+                                <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                                <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                                <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
+                                <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
+                                <rect x="7" y="52" width="9" height="14" rx="2" fill="#333"/>
+                            </svg>
                         </div>
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem;">
-                            <div class="form-group">
-                                <label for="date">Date</label>
-                                <input type="date" id="date" name="date">
+                        <div class="person-right absolute -right-8 top-1/2 transform -translate-y-1/2">
+                            <svg viewBox="0 0 65 130" class="w-16 h-32">
+                                <circle cx="32.5" cy="23" r="14" fill="#ffd93d"/>
+                                <rect x="23" y="37" width="19" height="33" rx="9" fill="#ff6b6b"/>
+                                <rect x="21" y="70" width="23" height="38" rx="11" fill="#96ceb4"/>
+                                <rect x="14" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                                <rect x="42" y="42" width="9" height="28" rx="4" fill="#ffd93d"/>
+                                <rect x="26" y="108" width="7" height="23" rx="3" fill="#333"/>
+                                <rect x="35" y="108" width="7" height="23" rx="3" fill="#333"/>
+                                <circle cx="47" cy="56" r="3" fill="#ffd700"/>
+                                <rect x="49" y="54" width="7" height="2" fill="#ffd700"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-1">
+                    <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 shadow-2xl">
+                        <h3 class="text-white text-xl font-bold mb-6">Quick Park Search</h3>
+                        <form class="search-form space-y-4">
+                            <div class="space-y-2">
+                                <label for="location" class="block text-white/90 font-medium">Location</label>
+                                <input type="text" id="location" placeholder="Enter city, address, or landmark" 
+                                       class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
                             </div>
-                            <div class="form-group">
-                                <label for="time">Time</label>
-                                <input type="time" id="time" name="time">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <label for="date" class="block text-white/90 font-medium">Date</label>
+                                    <input type="date" id="date" 
+                                           class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
+                                </div>
+                                <div class="space-y-2">
+                                    <label for="time" class="block text-white/90 font-medium">Time</label>
+                                    <input type="time" id="time" 
+                                           class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="duration">Duration</label>
-                            <select id="duration" name="duration">
-                                <option>1 hour</option>
-                                <option>2 hours</option>
-                                <option>4 hours</option>
-                                <option>All day</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="search-button">Search Parking</button>
-                    </form>
+                            <div class="space-y-2">
+                                <label for="duration" class="block text-white/90 font-medium">Duration</label>
+                                <select id="duration" 
+                                        class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
+                                    <option>1 hour</option>
+                                    <option>2 hours</option>
+                                    <option>4 hours</option>
+                                    <option>All day</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="search-button w-full bg-gradient-to-r from-secondary to-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-xl hover:from-yellow-400 hover:to-secondary transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+                                Search Parking
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="features">
-        <div class="container">
-            <h2 >Why ParkSpace Stands Out</h2>
-            <div class="floating-elements">
-                <div class="floating-emoji emoji-1">🚙</div>
-                <div class="floating-emoji emoji-2">🅿️</div>
-                <div class="floating-emoji emoji-3">🔑</div>
-                <div class="floating-emoji emoji-4">🚦</div>
-            </div>
-            <div class="features-grid">
-                 <div class="feature-card">
-                    <div class="feature-icon">⚡</div>
-                    <h3>Instant Booking</h3>
-                    <p>Secure your parking spot in seconds with our lightning-fast booking system.</p>
+    <!-- Features Section -->
+    <section class="py-20 bg-white/5 backdrop-blur-sm">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <h2 class="text-4xl lg:text-5xl font-bold text-white text-center mb-16">
+                Why <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">ParkSpace</span> Stands Out
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="text-4xl mb-4">⚡</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Instant Booking</h3>
+                    <p class="text-white/80">Secure your parking spot in seconds with our lightning-fast booking system.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">💰</div>
-                    <h3>Affordable Rates</h3>
-                    <p>Enjoy up to 60% savings compared to traditional parking fees.</p>
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="text-4xl mb-4">💰</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Affordable Rates</h3>
+                    <p class="text-white/80">Enjoy up to 60% savings compared to traditional parking fees.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📍</div>
-                    <h3>Top Locations</h3>
-                    <p>Access thousands of prime parking spots across major cities.</p>
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="text-4xl mb-4">📍</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Top Locations</h3>
+                    <p class="text-white/80">Access thousands of prime parking spots across major cities.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔒</div>
-                    <h3>Secure Parking</h3>
-                    <p>Rest easy with verified, monitored parking locations for your vehicle.</p>
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="text-4xl mb-4">🔒</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Secure Parking</h3>
+                    <p class="text-white/80">Rest easy with verified, monitored parking locations for your vehicle.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Seamless App</h3>
-                    <p>Manage bookings effortlessly with our user-friendly mobile app.</p>
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="text-4xl mb-4">📱</div>
+                    <h3 class="text-xl font-bold text-white mb-3">Seamless App</h3>
+                    <p class="text-white/80">Manage bookings effortlessly with our user-friendly mobile app.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌟</div>
-                    <h3>24/7 Support</h3>
-                    <p>Our team is always here to assist you, day or night.</p>
+                <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 hover:transform hover:-translate-y-2 hover:shadow-2xl transition-all duration-300">
+                    <div class="text-4xl mb-4">🌟</div>
+                    <h3 class="text-xl font-bold text-white mb-3">24/7 Support</h3>
+                    <p class="text-white/80">Our team is always here to assist you, day or night.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>50K+</h3>
-                    <p>Satisfied Users</p>
+    <!-- Stats Section -->
+    <section class="py-20 bg-gradient-to-r from-primary/10 to-secondary/10">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <h3 class="text-4xl lg:text-5xl font-bold text-white mb-2">50K+</h3>
+                    <p class="text-white/80 text-lg">Satisfied Users</p>
                 </div>
-                <div class="stat-item">
-                    <h3>1M+</h3>
-                    <p>Bookings Made</p>
+                <div class="text-center">
+                    <h3 class="text-4xl lg:text-5xl font-bold text-white mb-2">1M+</h3>
+                    <p class="text-white/80 text-lg">Bookings Made</p>
                 </div>
-                <div class="stat-item">
-                    <h3>500+</h3>
-                    <p>Cities Served</p>
+                <div class="text-center">
+                    <h3 class="text-4xl lg:text-5xl font-bold text-white mb-2">500+</h3>
+                    <p class="text-white/80 text-lg">Cities Served</p>
                 </div>
-                <div class="stat-item">
-                    <h3>15K+</h3>
-                    <p>Parking Spots</p>
+                <div class="text-center">
+                    <h3 class="text-4xl lg:text-5xl font-bold text-white mb-2">15K+</h3>
+                    <p class="text-white/80 text-lg">Parking Spots</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>ParkSpace</h3>
-                    <p style="color: #ccc; line-height: 1.7;">Simplifying parking with innovative technology. Join millions who trust ParkSpace for stress-free parking solutions.</p>
+    <!-- Footer -->
+    <footer class="bg-gray-900/50 backdrop-blur-xl border-t border-white/20 py-16">
+        <div class="container mx-auto px-4 max-w-7xl">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-4">ParkSpace</h3>
+                    <p class="text-white/70 leading-relaxed">Simplifying parking with innovative technology. Join millions who trust ParkSpace for stress-free parking solutions.</p>
                 </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <a href="#">Find Parking</a>
-                    <a href="#">Rent Your Space</a>
-                    <a href="#">How It Works</a>
-                    <a href="#">Pricing</a>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Quick Links</h3>
+                    <div class="space-y-2">
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Find Parking</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Rent Your Space</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">How It Works</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Pricing</a>
+                    </div>
                 </div>
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <a href="#">Help Center</a>
-                    <a href="#">Contact Us</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Privacy Policy</a>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Support</h3>
+                    <div class="space-y-2">
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Help Center</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Contact Us</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Terms of Service</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Privacy Policy</a>
+                    </div>
                 </div>
-                <div class="footer-section">
-                    <h3>Connect</h3>
-                    <a href="#">Download App</a>
-                    <a href="#">Facebook</a>
-                    <a href="#">Twitter</a>
-                    <a href="#">Instagram</a>
+                <div>
+                    <h3 class="text-lg font-semibold text-white mb-4">Connect</h3>
+                    <div class="space-y-2">
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Download App</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Facebook</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Twitter</a>
+                        <a href="#" class="block text-white/70 hover:text-primary transition-colors duration-300">Instagram</a>
+                    </div>
                 </div>
             </div>
-            <div class="footer-bottom">
-                <p>© 2025 ParkSpace. All rights reserved.</p>
+            <div class="border-t border-white/20 pt-8 text-center">
+                <p class="text-white/70">© 2025 ParkSpace. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
-    <div class="popup-overlay" id="signin-popup">
-        <div class="popup-content">
-            <button class="close-popup">×</button>
-            <h2>Sign In to ParkSpace</h2>
-            <form class="signin-form">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+
+
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" id="signin-popup" style="display: none;">
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl">
+            <button class="absolute top-4 right-4 text-white/70 hover:text-white text-2xl leading-none transition-colors duration-300" id="close-popup">×</button>
+            <h2 class="text-2xl font-bold text-white mb-6 text-center">Sign In to ParkSpace</h2>
+            <form class="signin-form space-y-4">
+                <div class="space-y-2">
+                    <label for="email" class="block text-white/90 font-medium">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required
+                           class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <div class="space-y-2">
+                    <label for="password" class="block text-white/90 font-medium">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required
+                           class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
                 </div>
-                <button type="submit" class="cta-button">Sign In</button>
-            </form>
-            <div class="forgot-password">
-                <a href="#">Forgot Password?</a>
-            </div>
-            <div class="google-signin">
-                <button class="google-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" style="margin-right: 10px;"><path fill="#4285F4" d="M24 9.5c3.8 0 6.5 1.6 8 3.9l5.8-5.8C34.5 4.2 29.5 2 24 2 14.8 2 7.2 8.6 5.2 17.2l7.2 5.6C14.2 15.6 18.6 9.5 24 9.5z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-2.2 13.5-5.9l-6.5-5.1c-2.1 1.4-4.7 2.3-7 2.3-5.4 0-10-3.6-11.6-8.6l-7.2 5.6C7.2 39.4 14.8 44 24 44z"/><path fill="#FBBC05" d="M46.2 24.5c0-1.5-.1-2.9-.4-4.3H24v8.7h12.6c-.5 2.5-2.1 4.7-4.3 6.1l6.5 5.1c3.8-3.5 7.4-9.1 7.4-15.6z"/><path fill="#EA4335" d="M12.4 28.3c-.8-2.4-.8-5 0-7.4l-7.2-5.6c-2.5 5-2.5 10.8 0 15.8l7.2-5.6z"/></svg>
-                    Sign in with Google
+                <button type="submit" class="w-full bg-gradient-to-r from-secondary to-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-xl hover:from-yellow-400 hover:to-secondary transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+                    Sign In
                 </button>
+            </form>
+            <div class="text-center mt-4">
+                <a href="#" class="text-primary hover:text-white transition-colors duration-300">Forgot Password?</a>
+            </div>
+            <div class="mt-6">
+                <div id="signin-google-button" class="flex justify-center"></div>
             </div>
         </div>
     </div>
 
-    <div class="popup-overlay" id="signup-popup">
-        <div class="popup-content">
-            <button class="close-popup">×</button>
-            <h2>Sign Up for ParkSpace</h2>
-            <form class="signup-form">
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" name="username" placeholder="Choose a username" required>
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" id="signup-popup" style="display: none;">
+        <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl">
+            <button class="absolute top-4 right-4 text-white/70 hover:text-white text-2xl leading-none transition-colors duration-300" id="close-signup-popup">×</button>
+            <h2 class="text-2xl font-bold text-white mb-6 text-center">Sign Up for ParkSpace</h2>
+            <form class="signup-form space-y-4">
+                <div class="space-y-2">
+                    <label for="username" class="block text-white/90 font-medium">Username</label>
+                    <input type="text" id="username" placeholder="Choose a username" required
+                           class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
                 </div>
-                <div class="form-group">
-                    <label for="signup-email">Email</label>
-                    <input type="email" id="signup-email" name="email" placeholder="Enter your email" required>
+                <div class="space-y-2">
+                    <label for="signup-email" class="block text-white/90 font-medium">Email</label>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required
+                           class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
                 </div>
-                <div class="form-group">
-                    <label for="signup-password">Password</label>
-                    <input type="password" id="signup-password" name="password" placeholder="Create a password" required>
+                <div class="space-y-2">
+                    <label for="signup-password" class="block text-white/90 font-medium">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create a password" required
+                           class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
                 </div>
-                <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                <div class="space-y-2">
+                    <label for="confirm-password" class="block text-white/90 font-medium">Confirm Password</label>
+                    <input type="password" id="confirm-password" placeholder="Confirm your password" required
+                           class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-300">
                 </div>
-                <button type="submit" class="cta-button">Sign Up</button>
-            </form>
-            <div class="google-signin">
-                <button class="google-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="24px" height="24px" style="margin-right: 10px;"><path fill="#4285F4" d="M24 9.5c3.8 0 6.5 1.6 8 3.9l5.8-5.8C34.5 4.2 29.5 2 24 2 14.8 2 7.2 8.6 5.2 17.2l7.2 5.6C14.2 15.6 18.6 9.5 24 9.5z"/><path fill="#34A853" d="M24 44c5.5 0 10.1-2.2 13.5-5.9l-6.5-5.1c-2.1 1.4-4.7 2.3-7 2.3-5.4 0-10-3.6-11.6-8.6l-7.2 5.6C7.2 39.4 14.8 44 24 44z"/><path fill="#FBBC05" d="M46.2 24.5c0-1.5-.1-2.9-.4-4.3H24v8.7h12.6c-.5 2.5-2.1 4.7-4.3 6.1l6.5 5.1c3.8-3.5 7.4-9.1 7.4-15.6z"/><path fill="#EA4335" d="M12.4 28.3c-.8-2.4-.8-5 0-7.4l-7.2-5.6c-2.5 5-2.5 10.8 0 15.8l7.2-5.6z"/></svg>
-                    Sign up with Google
+                <button type="submit" class="w-full bg-gradient-to-r from-secondary to-yellow-500 text-gray-900 font-bold py-3 px-6 rounded-xl hover:from-yellow-400 hover:to-secondary transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+                    Sign Up
                 </button>
+            </form>
+            <div class="mt-6">
+                <div id="signup-google-button" class="flex justify-center"></div>
             </div>
         </div>
     </div>
-
-    <a href="#" class="add-property-button" id="add-property-button" data-popup-target="add-property-popup">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px;">
+    <!-- Add Property Button -->
+    <a href="#" class="fixed bottom-6 right-6 z-40 inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary to-blue-500 text-white font-bold rounded-full shadow-lg hover:from-blue-500 hover:to-primary transform hover:-translate-y-1 hover:shadow-xl transition-all duration-300" id="add-property-button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
             <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -321,12 +406,13 @@
         Add Property
     </a>
 
+    <!-- Add Property Popup -->
     <div class="popup-overlay" id="add-property-popup">
         <div class="popup-content add-property-popup">
             <button class="close-popup" style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; color: #00f5ff; font-size: 1.5rem; cursor: pointer;">×</button>
             <h2>Add Your Parking Property</h2>
             <form id="add-property-form" class="add-property-form">
-                 <div class="form-group">
+                <div class="form-group">
                     <label for="street_address">Street Address</label>
                     <input type="text" name="street_address" id="street_address" placeholder="Enter street address" required>
                 </div>
@@ -374,6 +460,7 @@
                         <input type="number" step="0.01" name="hourly_rate" id="hourly_rate" placeholder="0.00" required>
                     </div>
                 </div>
+                
                 <div class="form-row">
                     <div class="form-group">
                         <label for="starting_date">Available From</label>
@@ -385,33 +472,49 @@
                     </div>
                 </div>
                 
+                <!-- Image upload section -->
                 <div class="image-upload-section">
                     <h3>Property Images</h3>
                     <div class="image-preview-container">
                         <div class="image-upload-item">
-                            <input type="file" name="photo1" accept="image/*" class="image-input">
-                            <img class="image-preview" src="" alt="">
-                            <div class="upload-placeholder"><span>📷</span><p>Photo 1</p></div>
+                            <input type="file" name="photo1" accept="image/*" onchange="previewImage(this, 'preview1')">
+                            <img id="preview1" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 1</p>
+                            </div>
                         </div>
-                         <div class="image-upload-item">
-                            <input type="file" name="photo2" accept="image/*" class="image-input">
-                            <img class="image-preview" src="" alt="">
-                            <div class="upload-placeholder"><span>📷</span><p>Photo 2</p></div>
+                        <div class="image-upload-item">
+                            <input type="file" name="photo2" accept="image/*" onchange="previewImage(this, 'preview2')">
+                            <img id="preview2" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 2</p>
+                            </div>
                         </div>
-                         <div class="image-upload-item">
-                            <input type="file" name="photo3" accept="image/*" class="image-input">
-                            <img class="image-preview" src="" alt="">
-                            <div class="upload-placeholder"><span>📷</span><p>Photo 3</p></div>
+                        <div class="image-upload-item">
+                            <input type="file" name="photo3" accept="image/*" onchange="previewImage(this, 'preview3')">
+                            <img id="preview3" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 3</p>
+                            </div>
                         </div>
-                         <div class="image-upload-item">
-                            <input type="file" name="photo4" accept="image/*" class="image-input">
-                            <img class="image-preview" src="" alt="">
-                            <div class="upload-placeholder"><span>📷</span><p>Photo 4</p></div>
+                        <div class="image-upload-item">
+                            <input type="file" name="photo4" accept="image/*" onchange="previewImage(this, 'preview4')">
+                            <img id="preview4" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 4</p>
+                            </div>
                         </div>
                         <div class="image-upload-item span-two">
-                            <input type="file" name="photo5" accept="image/*" class="image-input">
-                            <img class="image-preview" src="" alt="">
-                            <div class="upload-placeholder"><span>📷</span><p>Photo 5</p></div>
+                            <input type="file" name="photo5" accept="image/*" onchange="previewImage(this, 'preview5')">
+                            <img id="preview5" class="image-preview" src="" alt="">
+                            <div class="upload-placeholder">
+                                <span>📷</span>
+                                <p>Photo 5</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -420,7 +523,459 @@
             <div id="result"></div>
         </div>
     </div>
-    
+
+    <script>
+        // Add Property Popup handling
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to toggle popup and manage blur effect
+            function togglePopupBlur(popup, isOpen) {
+                const mainContent = document.querySelector('body > *:not(.popup-overlay)');
+                if (isOpen) {
+                    popup.style.display = 'flex';
+                    if (mainContent) {
+                        mainContent.classList.add('blur-background');
+                    }
+                } else {
+                    popup.style.display = 'none';
+                    if (mainContent) {
+                        mainContent.classList.remove('blur-background');
+                    }
+                }
+            }
+
+            const addPropertyButton = document.getElementById('add-property-button');
+            const addPropertyPopup = document.getElementById('add-property-popup');
+            const closeButtons = document.querySelectorAll('.close-popup');
+
+            addPropertyButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Set default dates
+                const now = new Date();
+                const nextMonth = new Date(now.getFullYear(), now.getMonth() + 1, now.getDate());
+                
+                // Format dates for datetime-local input
+                const formatDateTime = (date) => {
+                    const year = date.getFullYear();
+                    const month = String(date.getMonth() + 1).padStart(2, '0');
+                    const day = String(date.getDate()).padStart(2, '0');
+                    const hours = String(date.getHours()).padStart(2, '0');
+                    const minutes = String(date.getMinutes()).padStart(2, '0');
+                    return `${year}-${month}-${day}T${hours}:${minutes}`;
+                };
+                
+                document.getElementById('starting_date').value = formatDateTime(now);
+                document.getElementById('ending_date').value = formatDateTime(nextMonth);
+                
+                togglePopupBlur(addPropertyPopup, true);
+            });
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    togglePopupBlur(addPropertyPopup, false);
+                });
+            });
+
+            // Close popup when clicking outside
+            addPropertyPopup.addEventListener('click', (e) => {
+                if (e.target === addPropertyPopup) {
+                    togglePopupBlur(addPropertyPopup, false);
+                }
+            });
+        });
+
+        // Optimized image compression function with performance improvements
+        function compressImage(file, maxWidth = 1920, maxHeight = 1080, quality = 0.8) {
+            return new Promise((resolve) => {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                const img = new Image();
+                
+                // Performance optimization: set canvas context attributes
+                const canvasContext = canvas.getContext('2d', {
+                    alpha: false,
+                    willReadFrequently: false
+                });
+                
+                img.onload = function() {
+                    // Use requestAnimationFrame for smooth processing
+                    requestAnimationFrame(() => {
+                        // Calculate new dimensions
+                        let { width, height } = img;
+                        
+                        if (width > maxWidth) {
+                            height = (height * maxWidth) / width;
+                            width = maxWidth;
+                        }
+                        
+                        if (height > maxHeight) {
+                            width = (width * maxHeight) / height;
+                            height = maxHeight;
+                        }
+                        
+                        // Set canvas size
+                        canvas.width = width;
+                        canvas.height = height;
+                        
+                        // Performance: Use imageSmoothingEnabled for better quality
+                        canvasContext.imageSmoothingEnabled = true;
+                        canvasContext.imageSmoothingQuality = 'high';
+                        
+                        // Draw and compress
+                        canvasContext.drawImage(img, 0, 0, width, height);
+                        
+                        // Convert to blob
+                        canvas.toBlob((blob) => {
+                            // Create a new file with compressed data
+                            const compressedFile = new File([blob], file.name, {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            });
+                            
+                            // Clean up URL object
+                            URL.revokeObjectURL(img.src);
+                            
+                            resolve(compressedFile);
+                        }, 'image/jpeg', quality);
+                    });
+                };
+                
+                img.src = URL.createObjectURL(file);
+            });
+        }
+
+        // Optimized image preview function with loading states
+        async function previewImage(input, previewId) {
+            const preview = document.getElementById(previewId);
+            const container = input.parentElement;
+            
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Show immediate loading state
+                container.classList.add('has-image');
+                let sizeInfo = container.querySelector('.size-info');
+                if (!sizeInfo) {
+                    sizeInfo = document.createElement('div');
+                    sizeInfo.className = 'size-info';
+                    container.appendChild(sizeInfo);
+                }
+                sizeInfo.textContent = 'Processing...';
+                sizeInfo.style.color = '#ffd700';
+                
+                try {
+                    // Show original size
+                    const originalSizeMB = (file.size / 1024 / 1024).toFixed(2);
+                    console.log(`Original size: ${originalSizeMB}MB`);
+                    
+                    // Compress image asynchronously
+                    const compressedFile = await compressImage(file);
+                    const compressedSizeMB = (compressedFile.size / 1024 / 1024).toFixed(2);
+                    console.log(`Compressed size: ${compressedSizeMB}MB (${((1 - compressedFile.size / file.size) * 100).toFixed(1)}% reduction)`);
+                    
+                    // Replace the file in the input
+                    const dt = new DataTransfer();
+                    dt.items.add(compressedFile);
+                    input.files = dt.files;
+                    
+                    // Show preview using object URL for better performance
+                    const objectURL = URL.createObjectURL(compressedFile);
+                    preview.onload = function() {
+                        URL.revokeObjectURL(objectURL); // Clean up
+                    };
+                    preview.src = objectURL;
+                    preview.classList.add('visible');
+                    
+                    // Update size info
+                    sizeInfo.textContent = `${compressedSizeMB}MB`;
+                    sizeInfo.style.color = '#00f5ff';
+                    
+                } catch (error) {
+                    console.error('Image processing error:', error);
+                    sizeInfo.textContent = 'Error';
+                    sizeInfo.style.color = '#ff6b6b';
+                    container.classList.remove('has-image');
+                }
+            }
+        }
+
+        // Secure S3 Upload Functions (using backend API)
+        // Upload individual file to S3 via backend API
+        async function uploadToS3(file, index) {
+            if (!file) return null;
+            
+            // Check file size (limit to 5MB per compressed image)
+            const maxSize = 5 * 1024 * 1024; // 5MB
+            if (file.size > maxSize) {
+                console.error(`Image ${index + 1} too large: ${(file.size / 1024 / 1024).toFixed(2)}MB (max 5MB)`);
+                return null;
+            }
+            
+            console.log(`Starting upload for image ${index + 1}: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)}MB)`);
+            
+            try {
+                const formData = new FormData();
+                formData.append('image', file);
+                
+                const response = await fetch('http://127.0.0.1:3000/api/s3-test-upload', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Upload failed with status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log(`S3 Upload Success for image ${index + 1}:`, data.url);
+                return data.url;
+            } catch (err) {
+                console.error(`S3 upload error for image ${index + 1}:`, err);
+                return null; // Return null instead of throwing to continue with other uploads
+            }
+        }
+
+        // Upload all images in parallel
+        async function uploadAllImages(form) {
+            const photoFields = ['photo1', 'photo2', 'photo3', 'photo4', 'photo5'];
+            const uploadPromises = [];
+            
+            // Create upload promises for all files
+            photoFields.forEach((field, index) => {
+                const fileInput = form[field];
+                const file = fileInput && fileInput.files[0] ? fileInput.files[0] : null;
+                uploadPromises.push(uploadToS3(file, index));
+            });
+            
+            // Wait for all uploads to complete (or timeout)
+            const results = await Promise.all(uploadPromises);
+            return results;
+        }
+
+        // Add Property Form Handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const addPropertyForm = document.getElementById('add-property-form');
+            if (addPropertyForm) {
+                addPropertyForm.onsubmit = async function(e) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const resultDiv = document.getElementById('result');
+                    const submitBtn = document.getElementById('submit-btn');
+                    
+                    // Check if user is logged in
+                    const user = JSON.parse(localStorage.getItem('user'));
+                    if (!user) {
+                        alert('You must be logged in to add a property.');
+                        return;
+                    }
+                    
+                    // Mark submission time to prevent aggressive auth checks
+                    localStorage.setItem('lastSubmissionTime', Date.now().toString());
+                    
+                    // Disable submit button
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Processing...';
+                    
+                    try {
+                        // Check if any images are selected
+                        const photoFields = ['photo1', 'photo2', 'photo3', 'photo4', 'photo5'];
+                        const hasImages = photoFields.some(field => form[field].files && form[field].files[0]);
+                        
+                        let photoUrls = [null, null, null, null, null];
+                        
+                        if (hasImages) {
+                            // Validate file sizes before uploading (after compression)
+                            const maxSize = 5 * 1024 * 1024; // 5MB
+                            let totalSize = 0;
+                            let oversizedFiles = [];
+                            
+                            photoFields.forEach((field, index) => {
+                                const fileInput = form[field];
+                                if (fileInput && fileInput.files[0]) {
+                                    const file = fileInput.files[0];
+                                    totalSize += file.size;
+                                    if (file.size > maxSize) {
+                                        oversizedFiles.push(`Photo ${index + 1}: ${(file.size / 1024 / 1024).toFixed(2)}MB`);
+                                    }
+                                }
+                            });
+                            
+                            if (oversizedFiles.length > 0) {
+                                resultDiv.innerHTML = `<div style="color: red;">Some compressed files are still too large (max 5MB each):<br>${oversizedFiles.join('<br>')}</div>`;
+                                return;
+                            }
+                            
+                            resultDiv.innerHTML = `<div style="color: #00f5ff;">Uploading images in parallel... Total size: ${(totalSize / 1024 / 1024).toFixed(2)}MB</div>`;
+                            
+                            try {
+                                // Upload all images in parallel
+                                photoUrls = await uploadAllImages(form);
+                                
+                                // Count successful uploads
+                                const successCount = photoUrls.filter(url => url !== null).length;
+                                const totalSelected = photoFields.filter(field => form[field].files && form[field].files[0]).length;
+                                
+                                resultDiv.innerHTML += `<div style="color: green;">Uploaded ${successCount}/${totalSelected} images successfully</div>`;
+                                
+                                if (successCount === 0 && totalSelected > 0) {
+                                    resultDiv.innerHTML += '<div style="color: red;">All image uploads failed. Continuing without images.</div>';
+                                } else if (successCount < totalSelected) {
+                                    resultDiv.innerHTML += '<div style="color: red;">Some images failed to upload (possibly due to network issues or large file sizes).</div>';
+                                }
+                            } catch (uploadError) {
+                                console.error('Upload error:', uploadError);
+                                resultDiv.innerHTML += `<div style="color: red;">Image upload error: ${uploadError.message}</div>`;
+                            }
+                        }
+
+                        resultDiv.innerHTML += '<div style="color: #00f5ff;">Submitting property data...</div>';
+
+                        const data = {
+                            user_id: user.id,
+                            street_address: form.street_address.value,
+                            unit: form.unit.value || null,
+                            city: form.city.value,
+                            state: form.state.value,
+                            zip_code: form.zip_code.value,
+                            location_instructions: form.location_instructions.value,
+                            spot_title: form.spot_title.value,
+                            spot_type: form.spot_type.value,
+                            hourly_rate: parseFloat(form.hourly_rate.value),
+                            starting_date: form.starting_date.value,
+                            ending_date: form.ending_date.value,
+                            photo1_url: photoUrls[0],
+                            photo2_url: photoUrls[1],
+                            photo3_url: photoUrls[2],
+                            photo4_url: photoUrls[3],
+                            photo5_url: photoUrls[4]
+                        };
+
+                        const response = await fetch('http://127.0.0.1:3000/api/add-property', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                        
+                        const resData = await response.json();
+                        if (response.ok) {
+                            resultDiv.innerHTML += `<div style="color: green;">✅ Property added successfully! ID: ${resData.id}</div>`;
+                            
+                            // Show form summary instead of clearing it
+                            const summary = document.createElement('div');
+                            summary.style.cssText = `
+                                background: rgba(0, 245, 255, 0.1);
+                                border: 1px solid rgba(0, 245, 255, 0.3);
+                                border-radius: 12px;
+                                padding: 1.5rem;
+                                margin-top: 1rem;
+                                color: #fff;
+                            `;
+                            
+                            const photoCount = photoFields.filter(field => form[field].files && form[field].files[0]).length;
+                            const successfulUploads = photoUrls.filter(url => url !== null).length;
+                            
+                            summary.innerHTML = `
+                                <h4 style="margin: 0 0 1rem 0; color: #00f5ff; font-size: 1.1rem;">📋 Submission Summary</h4>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; font-size: 0.9rem;">
+                                    <div><strong>Property:</strong> ${form.spot_title.value}</div>
+                                    <div><strong>Rate:</strong> $${form.hourly_rate.value}/hour</div>
+                                    <div><strong>Address:</strong> ${form.street_address.value}, ${form.city.value}</div>
+                                    <div><strong>Type:</strong> ${form.spot_type.value}</div>
+                                    <div><strong>Photos:</strong> ${successfulUploads}/${photoCount} uploaded</div>
+                                    <div><strong>Duration:</strong> ${form.starting_date.value} to ${form.ending_date.value}</div>
+                                </div>
+                                <div style="margin-top: 1rem; display: flex; gap: 1rem;">
+                                    <button onclick="clearFormAndClose()" style="
+                                        background: linear-gradient(45deg, #00f5ff, #764ba2);
+                                        color: #fff;
+                                        border: none;
+                                        padding: 0.75rem 1.5rem;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                    ">Add Another Property</button>
+                                    <button onclick="closePopupOnly()" style="
+                                        background: rgba(255, 255, 255, 0.1);
+                                        color: #fff;
+                                        border: 1px solid rgba(255, 255, 255, 0.3);
+                                        padding: 0.75rem 1.5rem;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                    ">Close</button>
+                                </div>
+                            `;
+                            
+                            resultDiv.appendChild(summary);
+                            
+                            // Disable the form to prevent accidental resubmission
+                            const formElements = form.querySelectorAll('input, select, button');
+                            formElements.forEach(element => {
+                                if (element.id !== 'submit-btn') {
+                                    element.disabled = true;
+                                }
+                            });
+                            submitBtn.textContent = '✅ Property Added';
+                            submitBtn.style.background = 'linear-gradient(45deg, #10b981, #059669)';
+                            
+                        } else {
+                            resultDiv.innerHTML += `<div style="color: red;">Error: ${resData.error || 'Unknown error'}</div>`;
+                        }
+                    } catch (err) {
+                        resultDiv.innerHTML += `<div style="color: red;">Network error: ${err.message}</div>`;
+                        console.error('Fetch error:', err);
+                    } finally {
+                        // Only re-enable submit button if there was an error
+                        if (submitBtn.textContent !== '✅ Property Added') {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Add Property';
+                        }
+                    }
+                };
+            }
+        });
+
+        // Helper functions for form management
+        function clearFormAndClose() {
+            const form = document.getElementById('add-property-form');
+            const resultDiv = document.getElementById('result');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            // Reset form
+            form.reset();
+            
+            // Clear image previews
+            document.querySelectorAll('.image-preview').forEach(preview => {
+                preview.src = '';
+                preview.classList.remove('visible');
+            });
+            document.querySelectorAll('.image-upload-item').forEach(item => {
+                item.classList.remove('has-image');
+            });
+            
+            // Re-enable form elements
+            const formElements = form.querySelectorAll('input, select, button');
+            formElements.forEach(element => {
+                element.disabled = false;
+            });
+            
+            // Reset submit button
+            submitBtn.textContent = 'Add Property';
+            submitBtn.style.background = '';
+            
+            // Clear results
+            resultDiv.innerHTML = '';
+            
+            // Close popup
+            togglePopupBlur(document.getElementById('add-property-popup'), false);
+        }
+        
+        function closePopupOnly() {
+            togglePopupBlur(document.getElementById('add-property-popup'), false);
+        }
+    </script>
+
+    <!-- Add script.js before closing body tag -->
     <script src="script.js"></script>
 </body>
 </html>
