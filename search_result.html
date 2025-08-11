@@ -1217,6 +1217,44 @@
             </div>
 
     <script>
+        // Session preservation functions
+        function preserveUserSession() {
+            const user = localStorage.getItem('user');
+            if (user && user !== 'null') {
+                sessionStorage.setItem('userBackup', user);
+                sessionStorage.setItem('userSessionActive', 'true');
+            }
+        }
+        
+        // Preserve session on page unload
+        window.addEventListener('beforeunload', preserveUserSession);
+        
+        // Track user activity
+        function trackUserActivity() {
+            localStorage.setItem('lastUserActivity', Date.now().toString());
+        }
+        
+        ['click', 'keypress', 'scroll', 'mousemove'].forEach(event => {
+            document.addEventListener(event, trackUserActivity, { passive: true });
+        });
+        
+        // Try to restore session on page load
+        function restoreUserSession() {
+            const user = localStorage.getItem('user');
+            const userBackup = sessionStorage.getItem('userBackup');
+            const sessionActive = sessionStorage.getItem('userSessionActive');
+            
+            if ((!user || user === 'null') && userBackup && sessionActive === 'true') {
+                console.log('Restoring user session from backup in search results');
+                localStorage.setItem('user', userBackup);
+                return JSON.parse(userBackup);
+            }
+            return null;
+        }
+        
+        // Restore session on page load
+        restoreUserSession();
+
         class SearchResults {
             constructor() {
                 this.properties = [];
@@ -1682,13 +1720,8 @@
 
                     <form id="message-form" onsubmit="searchResults.submitMessage(event, ${userId}, '${ownerName}')">
                         <div class="form-group">
-                            <label class="form-label">Subject</label>
-                            <input type="text" class="form-input" id="message-subject" placeholder="Inquiry about your parking spot" required>
-                </div>
-                        
-                        <div class="form-group">
                             <label class="form-label">Message</label>
-                            <textarea class="form-input message-textarea" id="message-content" placeholder="Hi ${ownerName}, I'm interested in your parking spot. Could you provide more details about..." required></textarea>
+                            <textarea class="form-input message-textarea" id="message-content" placeholder="Hi ${ownerName}, I'm interested in your parking spot. Could you provide more details about availability, pricing, and location access..." required></textarea>
             </div>
 
                         <div class="modal-actions">
@@ -1704,10 +1737,25 @@
             async submitBooking(event, propertyId) {
                 event.preventDefault();
                 
-                // Check if user is logged in
-                const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                // Check if user is logged in with fallback to session backup
+                let currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+                
+                // Try to restore from session backup if main storage is empty
                 if (!currentUser) {
+                    const userBackup = sessionStorage.getItem('userBackup');
+                    const sessionActive = sessionStorage.getItem('userSessionActive');
+                    
+                    if (userBackup && sessionActive === 'true') {
+                        console.log('Restoring user session from backup for booking');
+                        localStorage.setItem('user', userBackup);
+                        currentUser = JSON.parse(userBackup);
+                    }
+                }
+                
+                if (!currentUser || (!currentUser.id && !currentUser.email)) {
                     alert('Please log in to make a booking.');
+                    // Redirect to login
+                    window.location.href = 'index.html?login=required';
                     return;
                 }
                 
@@ -1734,7 +1782,16 @@
                         alert('Booking confirmed successfully! 🎉');
                         closeModal('booking-modal');
                     } else {
-                        alert('Booking failed: ' + result.error);
+                        // Handle authentication errors specifically
+                        if (response.status === 401) {
+                            alert('Your session has expired. Please log in again.');
+                            localStorage.setItem('userLoggedOut', 'true');
+                            localStorage.removeItem('user');
+                            sessionStorage.clear();
+                            window.location.href = 'index.html?login=required';
+                        } else {
+                            alert('Booking failed: ' + result.error);
+                        }
                     }
                 } catch (error) {
                     console.error('Booking error:', error);
@@ -1745,21 +1802,84 @@
             async submitMessage(event, userId, ownerName) {
                 event.preventDefault();
                 
-                // Check if user is logged in
-                const currentUser = JSON.parse(localStorage.getItem('currentUser') || 'null');
+                // Check if user is logged in with fallback to session backup
+                let currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+                
+                // Try to restore from session backup if main storage is empty
                 if (!currentUser) {
+                    const userBackup = sessionStorage.getItem('userBackup');
+                    const sessionActive = sessionStorage.getItem('userSessionActive');
+                    
+                    if (userBackup && sessionActive === 'true') {
+                        console.log('Restoring user session from backup for messaging');
+                        localStorage.setItem('user', userBackup);
+                        currentUser = JSON.parse(userBackup);
+                    }
+                }
+                
+                if (!currentUser || (!currentUser.id && !currentUser.email)) {
+                    console.log('Authentication failed for messaging:', { currentUser, localStorage: localStorage.getItem('user'), sessionStorage: sessionStorage.getItem('userBackup') });
                     alert('Please log in to send messages.');
+                    window.location.href = 'index.html?login=required';
                     return;
                 }
                 
-                const subject = document.getElementById('message-subject').value;
+                console.log('User authenticated for messaging:', currentUser);
+                
                 const content = document.getElementById('message-content').value;
                 
-                // For now, just show success (real implementation would need conversation/message API)
-                alert(`Message sent to ${ownerName}! 📨\n\nSubject: ${subject}\n\nThey will receive your message and can respond directly.`);
-                closeModal('message-modal');
-                
-                // TODO: Implement actual messaging API when needed
+                try {
+                    console.log('Creating conversation between:', { currentUserId: currentUser.id, otherUserId: userId });
+                    
+                    // First, create or get conversation between users
+                    const conversationResponse = await fetch('http://127.0.0.1:3000/api/conversations', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            user_id: currentUser.id,
+                            other_user_id: userId,
+                            property_id: null // Could be added if needed
+                        })
+                    });
+                    
+                    if (!conversationResponse.ok) {
+                        throw new Error('Failed to create conversation');
+                    }
+                    
+                    const conversationData = await conversationResponse.json();
+                    const conversationId = conversationData.conversation.id;
+                    console.log('Conversation created/found:', conversationData.conversation);
+                    
+                    // Send the message
+                    const messageResponse = await fetch('http://127.0.0.1:3000/api/messages', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            conversation_id: conversationId,
+                            sender_id: currentUser.id,
+                            message_type: 'text',
+                            content: content
+                        })
+                    });
+                    
+                    if (!messageResponse.ok) {
+                        throw new Error('Failed to send message');
+                    }
+                    
+                    const messageData = await messageResponse.json();
+                    console.log('Message sent:', messageData);
+                    
+                    alert(`Message sent to ${ownerName}! 📨\n\nYou can view the conversation in your Messages section.`);
+                    closeModal('message-modal');
+                    
+                } catch (error) {
+                    console.error('Error sending message:', error);
+                    alert('Failed to send message. Please try again.');
+                }
             }
         }
 
