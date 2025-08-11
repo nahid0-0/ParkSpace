@@ -3,486 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ParkSpace - Profile</title>
+    <title>ParkSpace Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons CDN (for icons) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/main.min.css' rel='stylesheet' />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(to top, #000000 0%, #0f1419 25%, #1a2f1a 50%, #2d5a2d 75%, #4a8f4a 100%);
-            min-height: 100vh;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
         }
-
-        /* Header */
-        .header {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 1rem 2rem;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
-            gap: 2rem;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-            letter-spacing: -0.5px;
-            flex-shrink: 0;
-        }
-
-        /* Main Search Bar */
-        .main-search-bar {
-            flex: 1;
-            max-width: 600px;
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 0.5rem;
-            transition: border-color 0.2s ease, box-shadow 0.2s ease;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .main-search-bar:focus-within {
-            border-color: #34C759;
-            box-shadow: 0 0 0 3px rgba(52, 199, 89, 0.2);
-        }
-
-        .main-search-icon {
-            padding: 0 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-        }
-
-        .main-search-input {
-            flex: 1;
-            border: none;
-            outline: none;
-            padding: 0.875rem 0.5rem;
-            font-size: 1rem;
-            background: transparent;
-            color: white;
-        }
-
-        .main-search-input::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Header Icons */
-        .header-icons {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-shrink: 0;
-        }
-
-        .header-icon {
-            width: 44px;
-            height: 44px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .header-icon:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            transform: translateY(-1px);
-        }
-
-        .header-icon.active {
-            background: rgba(52, 199, 89, 0.3);
-            border-color: #34C759;
-        }
-
-        /* Main Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 2rem;
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 2rem;
-            min-height: calc(100vh - 120px);
-        }
-
-        /* Profile Main Content */
-        .profile-main {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-        }
-
-        /* Profile Header Card */
-        .profile-header-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .profile-avatar {
-            width: 120px;
-            height: 120px;
-            background: rgba(52, 199, 89, 0.3);
-            border: 3px solid #34C759;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: white;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-        }
-
-        .profile-info h1 {
-            color: white;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .profile-info .username {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 1.1rem;
-            margin-bottom: 1rem;
-        }
-
-        .profile-stats {
-            display: flex;
-            gap: 2rem;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-number {
-            color: #34C759;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .stat-label {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.9rem;
-        }
-
-        .profile-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .btn {
-            padding: 0.875rem 1.5rem;
-            border: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .btn-primary {
-            background: #34C759;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: #28a745;
-            transform: translateY(-1px);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        /* Content Sections */
-        .content-section {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 20px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .section-title {
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+        /* Custom scrollbar for chat messages and other scrollable content */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
         }
-
-        .parking-spots-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .parking-spot-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.2s ease;
-        }
-
-        .parking-spot-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .spot-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .spot-type {
-            background: rgba(52, 199, 89, 0.2);
-            color: #34C759;
-            padding: 0.25rem 0.75rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .spot-status {
-            padding: 0.25rem 0.75rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .spot-status.active {
-            background: rgba(52, 199, 89, 0.2);
-            color: #34C759;
-        }
-
-        .spot-status.inactive {
-            background: rgba(255, 159, 10, 0.2);
-            color: #FF9F0A;
-        }
-
-        .spot-image {
-            width: 100%;
-            height: 120px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 2rem;
-        }
-
-        .spot-info {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .spot-price {
-            color: white;
-            font-size: 1.25rem;
-            font-weight: 700;
-        }
-
-        /* Activity Feed */
-        .activity-item {
-            display: flex;
-            align-items: start;
-            gap: 1rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            background: rgba(52, 199, 89, 0.2);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #34C759;
-            font-size: 1rem;
-            flex-shrink: 0;
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-text {
-            color: white;
-            margin-bottom: 0.25rem;
-        }
-
-        .activity-time {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-        }
-
-        /* Right Sidebar */
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-
-        .sidebar-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-radius: 16px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-        }
-
-        .sidebar-title {
-            color: white;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
-
-        .booking-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .booking-item:last-child {
-            border-bottom: none;
-        }
-
-        .booking-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            border-radius: 10px;
         }
-
-        .booking-title {
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .booking-status {
-            padding: 0.25rem 0.5rem;
-            border-radius: 8px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: capitalize;
-        }
-
-        .booking-status.confirmed {
-            background: rgba(52, 199, 89, 0.2);
-            color: #34C759;
-        }
-
-        .booking-status.pending {
-            background: rgba(255, 159, 10, 0.2);
-            color: #FF9F0A;
-        }
-
-        .booking-status.completed {
-            background: rgba(52, 199, 89, 0.3);
-            color: #28a745;
-        }
-
-        .booking-status.cancelled {
-            background: rgba(255, 69, 58, 0.2);
-            color: #FF453A;
-        }
-
-        .booking-details {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.8rem;
-            line-height: 1.4;
-        }
-
-        .booking-cost {
-            color: #34C759;
-            font-weight: 600;
-            font-size: 0.9rem;
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #9ca3af;
+            border-radius: 10px;
         }
-
-        .no-bookings {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            padding: 2rem;
-            font-style: italic;
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
         }
 
-        /* Edit Profile Modal */
+        /* Styles for the modal overlay */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -499,13 +50,11 @@
         }
 
         .modal-content {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
+            background: #ffffff;
             border-radius: 20px;
             padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             width: 90%;
             max-width: 500px;
             max-height: 90vh;
@@ -520,7 +69,7 @@
         }
 
         .modal-header h2 {
-            color: white;
+            color: #333;
             font-size: 1.5rem;
             font-weight: 700;
             margin: 0;
@@ -529,7 +78,7 @@
         .close-modal {
             background: none;
             border: none;
-            color: rgba(255, 255, 255, 0.7);
+            color: rgba(0, 0, 0, 0.7);
             font-size: 2rem;
             cursor: pointer;
             padding: 0;
@@ -543,8 +92,8 @@
         }
 
         .close-modal:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            background: rgba(0, 0, 0, 0.1);
+            color: #333;
         }
 
         .profile-picture-section {
@@ -554,9 +103,9 @@
             gap: 1rem;
             margin-bottom: 2rem;
             padding: 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.05);
             border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
         }
 
         .current-profile-pic {
@@ -582,7 +131,7 @@
             align-items: center;
             justify-content: center;
             font-size: 2.5rem;
-            color: white;
+            color: #333;
         }
 
         .profile-pic-controls {
@@ -611,7 +160,7 @@
         }
 
         .form-group label {
-            color: white;
+            color: #333;
             font-weight: 600;
             font-size: 0.9rem;
         }
@@ -619,10 +168,10 @@
         .form-group input,
         .form-group textarea {
             padding: 0.875rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.2);
             border-radius: 12px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+            background: #f8f9fa;
+            color: #333;
             font-size: 1rem;
             transition: all 0.2s ease;
         }
@@ -636,7 +185,7 @@
 
         .form-group input::placeholder,
         .form-group textarea::placeholder {
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(0, 0, 0, 0.5);
         }
 
         .form-actions {
@@ -645,268 +194,573 @@
             justify-content: flex-end;
             margin-top: 1rem;
             padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 1.5rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #333;
+            border: 1px solid #d1d5db;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
         }
 
         .btn-danger {
-            background: rgba(255, 69, 58, 0.8);
+            background: #ef4444;
             color: white;
-            border: 1px solid rgba(255, 69, 58, 0.3);
+            border: 1px solid #dc2626;
         }
 
         .btn-danger:hover {
-            background: rgba(255, 69, 58, 1);
+            background: #dc2626;
             transform: translateY(-1px);
+        }
+
+        /* Specific styles for parking spots grid and cards */
+        .parking-spots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .parking-spot-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .parking-spot-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .spot-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .spot-type {
+            background: #e0f2fe;
+            color: #2563eb;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .spot-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .spot-status.active {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .spot-status.inactive {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .spot-image {
+            width: 100%;
+            height: 120px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            font-size: 2rem;
+            overflow: hidden;
+        }
+        .spot-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .spot-info {
+            color: #4b5563;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .spot-price {
+            color: #1f2937;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Booking Item styles */
+        .booking-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.2s ease;
+        }
+
+        .booking-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .booking-card .booking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .booking-card .booking-title {
+            color: #1f2937;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .booking-card .booking-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        /* Status colors */
+        .booking-status.confirmed {
+            background: #e0f2fe;
+            color: #2563eb;
+        }
+
+        .booking-status.pending {
+            background: #fffbeb;
+            color: #f59e0b;
+        }
+
+        .booking-status.completed {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .booking-status.cancelled {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .booking-card .booking-details {
+            color: #4b5563;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 1rem;
+        }
+
+        .booking-card .booking-cost {
+            color: #1f2937;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .no-data-message {
+            text-align: center;
+            color: #6b7280;
+            padding: 2rem;
+            font-style: italic;
+        }
+
+        /* Loading styles */
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #3b82f6;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-message {
+            text-align: center;
+            color: #6b7280;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .nav {
+            .flex-1.flex.space-x-6 {
                 flex-direction: column;
-                gap: 1rem;
+                gap: 1.5rem;
+                align-items: center;
             }
-
-            .main-search-bar {
-                max-width: 100%;
+            .w-80 {
+                width: 100%;
             }
-
-            .container {
-                grid-template-columns: 1fr;
+            .flex-1.bg-white.rounded-xl.shadow-lg.flex.flex-col {
+                width: 100%;
+            }
+            .profile-header-card {
                 padding: 1rem;
             }
-
             .profile-header {
                 flex-direction: column;
                 text-align: center;
             }
-
             .profile-stats {
                 justify-content: center;
+                flex-wrap: wrap;
             }
-
+            .profile-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            .btn {
+                width: 100%;
+            }
             .parking-spots-grid {
                 grid-template-columns: 1fr;
             }
-
-            .modal-content {
-                width: 95%;
-                padding: 1.5rem;
-            }
-
-            .form-row {
+            .booking-grid {
                 grid-template-columns: 1fr;
-            }
-
-            .form-actions {
-                flex-direction: column;
-            }
-
-            .profile-pic-controls {
-                flex-direction: column;
-                align-items: center;
             }
         }
     </style>
 </head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">ParkSpace</div>
-            
-            <!-- Main Search Bar -->
-            <div class="main-search-bar">
-                <div class="main-search-icon">🔍</div>
-                <input type="text" class="main-search-input" placeholder="Search for parking spots, locations, or addresses...">
+<body class="flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white p-6 flex flex-col justify-between rounded-r-xl shadow-lg">
+        <div>
+            <!-- Logo -->
+            <div class="flex items-center space-x-2 mb-8">
+                <div class="bg-blue-600 p-2 rounded-full">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                        <path d="M2 17l10 5 10-5"></path>
+                        <path d="M2 12l10 5 10-5"></path>
+                    </svg>
+                </div>
+                <span class="text-gray-800 text-xl font-semibold">ParkSpace</span>
             </div>
 
-            <!-- Header Icons -->
-            <div class="header-icons">
-                <div class="header-icon" title="Messages">💬</div>
-                <div class="header-icon active" title="Profile">👤</div>
-            </div>
-        </nav>
-    </header>
-
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Profile Main Content -->
-        <main class="profile-main">
-            <!-- Profile Header -->
-            <div class="profile-header-card">
-                <div class="profile-header">
-                    <div class="profile-avatar">👤</div>
+            <!-- Profile Information -->
+            <div class="profile-header-card bg-transparent p-0 border-none shadow-none mb-6">
+                <div class="profile-header flex flex-col items-center text-center gap-4 mb-4">
+                    <div class="profile-avatar w-24 h-24 bg-blue-200 border-3 border-blue-600 rounded-full flex items-center justify-center text-blue-600 text-4xl font-bold overflow-hidden">
+                        <img id="sidebar-avatar" src="https://placehold.co/96x96/3b82f6/ffffff?text=JA" alt="User Avatar" class="w-full h-full object-cover">
+                    </div>
                     <div class="profile-info">
-                        <h1>John Anderson</h1>
-                        <div class="username">@john_anderson</div>
-                        <div class="profile-stats">
-                            <div class="stat-item">
-                                <div class="stat-number">47</div>
-                                <div class="stat-label">Bookings</div>
+                        <h1 id="sidebar-name" class="text-gray-800 text-xl font-semibold mb-1">Loading...</h1>
+                        <div id="sidebar-username" class="username text-gray-600 text-sm">@loading...</div>
+                    </div>
+                </div>
+                <div class="profile-stats flex justify-center gap-4 mb-4">
+                    <div class="stat-item">
+                        <div id="sidebar-bookings-count" class="stat-number text-blue-600 text-lg font-bold">--</div>
+                        <div class="stat-label text-gray-600 text-xs">Bookings</div>
+                    </div>
+                    <div class="stat-item">
+                        <div id="sidebar-spots-count" class="stat-number text-blue-600 text-lg font-bold">--</div>
+                        <div class="stat-label text-gray-600 text-xs">Spots Listed</div>
+                    </div>
+                    <div class="stat-item">
+                        <div id="sidebar-rating" class="stat-number text-blue-600 text-lg font-bold">--</div>
+                        <div class="stat-label text-gray-600 text-xs">Rating</div>
+                    </div>
+                </div>
+                <div class="profile-actions flex flex-col gap-2">
+                    <button id="sidebar-edit-profile-btn" class="btn bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold text-sm hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center space-x-2">
+                        <i data-lucide="edit" class="w-4 h-4"></i>
+                        <span>Edit Profile</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-4">
+                <a href="#" id="nav-dashboard" class="nav-link flex items-center space-x-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-lg transition-colors duration-200">
+                    <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" id="nav-property" class="nav-link flex items-center space-x-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-lg transition-colors duration-200">
+                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                    <span>Property</span>
+                </a>
+                <a href="#" id="nav-booking" class="nav-link flex items-center space-x-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-lg transition-colors duration-200">
+                    <i data-lucide="book-open" class="w-5 h-5"></i>
+                    <span>Booking</span>
+                </a>
+                <a href="#" id="nav-calendar" class="nav-link flex items-center space-x-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-lg transition-colors duration-200">
+                    <i data-lucide="calendar" class="w-5 h-5"></i>
+                    <span>Calendar</span>
+                </a>
+                <a href="#" id="nav-messages" class="nav-link flex items-center space-x-3 text-gray-600 hover:text-gray-900 hover:bg-gray-100 p-2 rounded-lg transition-colors duration-200">
+                    <i data-lucide="message-square" class="w-5 h-5"></i>
+                    <span>Messages</span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Settings and Logout -->
+        <div class="space-y-4">
+            <a href="#" id="logout-btn" class="flex items-center space-x-3 text-red-600 hover:text-red-700 hover:bg-gray-100 p-2 rounded-lg transition-colors duration-200">
+                <i data-lucide="log-out" class="w-5 h-5"></i>
+                <span>Log out</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col bg-[#f3f4f6] p-6 overflow-hidden">
+        <!-- Top Nav Bar -->
+        <header class="flex items-center justify-between bg-white p-4 rounded-xl shadow-lg mb-6">
+            <div class="flex items-center space-x-4">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg font-semibold text-sm hover:bg-blue-700 transition-colors duration-200" onclick="window.location.href='index.html'">
+                    ← Back
+                </button>
+                <div class="relative flex items-center w-96">
+                    <i data-lucide="search" class="absolute left-3 text-gray-500 w-5 h-5"></i>
+                    <input type="text" placeholder="Search or type" class="w-full pl-10 pr-4 py-2 rounded-lg bg-gray-100 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 rounded-full bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 transition-colors duration-200">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                </button>
+                <div class="relative">
+                    <img id="header-avatar" src="https://placehold.co/40x40/3b82f6/ffffff?text=U" alt="User Avatar" class="w-10 h-10 rounded-full border-2 border-blue-600">
+                    <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dynamic Content Sections -->
+        <div id="content-area" class="flex-1 flex space-x-6 overflow-hidden">
+
+            <!-- Dashboard Section (Default View) -->
+            <section id="dashboard-section" class="flex-1 flex flex-col gap-6 overflow-hidden">
+                <h2 class="text-gray-800 text-lg font-semibold mb-4">📊 Dashboard Overview</h2>
+                
+                <!-- Overview Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-xl p-5 shadow-lg flex flex-col items-center text-center">
+                        <i data-lucide="bookmark" class="w-8 h-8 text-blue-600 mb-2"></i>
+                        <div id="dashboard-total-bookings" class="text-gray-800 text-2xl font-bold">--</div>
+                        <div class="text-gray-600 text-sm">Total Bookings</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-lg flex flex-col items-center text-center">
+                        <i data-lucide="map-pin" class="w-8 h-8 text-green-600 mb-2"></i>
+                        <div id="dashboard-total-spots" class="text-gray-800 text-2xl font-bold">--</div>
+                        <div class="text-gray-600 text-sm">Total Spots</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-lg flex flex-col items-center text-center">
+                        <i data-lucide="dollar-sign" class="w-8 h-8 text-yellow-600 mb-2"></i>
+                        <div id="dashboard-total-earned" class="text-gray-800 text-2xl font-bold">--</div>
+                        <div class="text-gray-600 text-sm">Total Earned</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 shadow-lg flex flex-col items-center text-center">
+                        <i data-lucide="star" class="w-8 h-8 text-purple-600 mb-2"></i>
+                        <div id="dashboard-avg-rating" class="text-gray-800 text-2xl font-bold">--</div>
+                        <div class="text-gray-600 text-sm">Avg. Rating</div>
+                    </div>
+                </div>
+
+                <!-- Recent Bookings -->
+                <div class="bg-white rounded-xl p-6 shadow-lg flex flex-col">
+                    <h2 class="text-gray-800 text-lg font-semibold mb-4">📅 Recent Bookings</h2>
+                    <div id="dashboard-recent-bookings" class="flex-1 overflow-y-auto custom-scrollbar pr-2 space-y-4">
+                        <div class="loading-message">
+                            <div class="loading-spinner"></div>
+                            <p>Loading recent bookings...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Property Section -->
+            <section id="property-section" class="flex-1 bg-white p-6 rounded-xl shadow-lg flex flex-col hidden">
+                <h2 class="text-gray-800 text-lg font-semibold mb-4">🚗 My Parking Spots</h2>
+                <div id="properties-grid" class="parking-spots-grid flex-1 overflow-y-auto custom-scrollbar pr-2">
+                    <div class="loading-message" style="grid-column: 1 / -1;">
+                        <div class="loading-spinner"></div>
+                        <p>Loading parking spots...</p>
+                    </div>
+                </div>
+                <button class="btn bg-blue-600 text-white py-2 px-4 rounded-lg font-semibold text-sm hover:bg-blue-700 transition-colors duration-200 mt-4 flex items-center justify-center space-x-2">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span>Add New Spot</span>
+                </button>
+            </section>
+
+            <!-- Booking Section -->
+            <section id="booking-section" class="flex-1 bg-white p-6 rounded-xl shadow-lg flex flex-col hidden">
+                <h2 class="text-gray-800 text-lg font-semibold mb-4">📅 My Recent Bookings</h2>
+                <div id="bookings-grid" class="parking-spots-grid flex-1 overflow-y-auto custom-scrollbar pr-2">
+                    <div class="loading-message" style="grid-column: 1 / -1;">
+                        <div class="loading-spinner"></div>
+                        <p>Loading bookings...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Messages Section -->
+            <section id="messages-section" class="flex-1 flex space-x-6 overflow-hidden hidden">
+                <!-- Message List Column -->
+                <div class="w-80 bg-white p-4 rounded-xl shadow-lg flex flex-col">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-gray-800 text-lg font-semibold">Messages</h2>
+                        <button class="p-1 rounded-full bg-gray-100 text-gray-600 hover:text-gray-900 hover:bg-gray-200 transition-colors duration-200">
+                            <i data-lucide="edit" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                    <div class="relative mb-4">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 w-4 h-4"></i>
+                        <input type="text" placeholder="Search messages..." class="w-full pl-9 pr-3 py-2 rounded-lg bg-gray-100 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 text-sm">
+                    </div>
+
+                    <!-- Messages List -->
+                    <div id="messages-list" class="flex-1 overflow-y-auto pr-2 custom-scrollbar">
+                        <div class="loading-message">
+                            <div class="loading-spinner"></div>
+                            <p>Loading messages...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Chat Window Column -->
+                <div class="flex-1 bg-white rounded-xl shadow-lg flex flex-col">
+                    <!-- Chat Header -->
+                    <div id="chat-header" class="flex items-center justify-between p-4 border-b border-gray-200" style="display: none;">
+                        <div class="flex items-center space-x-3">
+                            <div class="relative">
+                                <img id="chat-avatar" src="" alt="Chat Avatar" class="w-10 h-10 rounded-full">
+                                <div class="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-2 border-white"></div>
                             </div>
-                            <div class="stat-item">
-                                <div class="stat-number">5</div>
-                                <div class="stat-label">Spots Listed</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">4.9</div>
-                                <div class="stat-label">Rating</div>
-                            </div>
-                            <div class="stat-item">
-                                <div class="stat-number">$1,250</div>
-                                <div class="stat-label">Earned</div>
+                            <div>
+                                <p id="chat-name" class="text-gray-800 font-semibold text-lg"></p>
+                                <p id="chat-status" class="text-gray-600 text-sm">Active Now</p>
                             </div>
                         </div>
-                        <div class="profile-actions">
-                            <button class="btn btn-primary">✏️ Edit Profile</button>
-                            <button class="btn btn-secondary">⚙️ Settings</button>
+                        <div class="flex items-center space-x-4">
+                            <button class="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200">
+                                <i data-lucide="phone" class="w-5 h-5"></i>
+                            </button>
+                            <button class="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200">
+                                <i data-lucide="video" class="w-5 h-5"></i>
+                            </button>
+                            <button class="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200">
+                                <i data-lucide="more-horizontal" class="w-5 h-5"></i>
+                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <!-- My Parking Spots -->
-            <div class="content-section">
-                <h2 class="section-title">🚗 My Parking Spots</h2>
-                <div class="parking-spots-grid">
-                    <div class="parking-spot-card">
-                        <div class="spot-header">
-                            <div class="spot-type">Driveway</div>
-                            <div class="spot-status active">Active</div>
-                        </div>
-                        <div class="spot-image">🏠</div>
-                        <div class="spot-info">
-                            <div>📍 123 Main Street, Downtown</div>
-                            <div>⭐ 4.8 rating (32 reviews)</div>
-                        </div>
-                        <div class="spot-price">$12/hour</div>
+                    <!-- Default State -->
+                    <div id="chat-default" class="flex-1 flex flex-col items-center justify-center text-gray-500 text-lg space-y-4">
+                        <i data-lucide="message-square" class="w-20 h-20 text-gray-300"></i>
+                        <p class="text-center">Select a conversation to start messaging</p>
+                        <p class="text-center text-sm text-gray-400">Choose from your existing conversations or start a new one</p>
                     </div>
 
-                    <div class="parking-spot-card">
-                        <div class="spot-header">
-                            <div class="spot-type">Garage</div>
-                            <div class="spot-status active">Active</div>
-                        </div>
-                        <div class="spot-image">🏢</div>
-                        <div class="spot-info">
-                            <div>📍 456 Oak Avenue, Midtown</div>
-                            <div>⭐ 4.9 rating (18 reviews)</div>
-                        </div>
-                        <div class="spot-price">$18/hour</div>
+                    <!-- Chat Messages -->
+                    <div id="chat-messages" class="flex-1 p-6 space-y-4 overflow-y-auto custom-scrollbar" style="display: none;">
+                        <!-- Messages will be loaded here -->
                     </div>
 
-                    <div class="parking-spot-card">
-                        <div class="spot-header">
-                            <div class="spot-type">Street</div>
-                            <div class="spot-status inactive">Paused</div>
-                        </div>
-                        <div class="spot-image">🛣️</div>
-                        <div class="spot-info">
-                            <div>📍 789 Pine Street, Uptown</div>
-                            <div>⭐ 4.6 rating (12 reviews)</div>
-                        </div>
-                        <div class="spot-price">$8/hour</div>
+                    <!-- Message Input -->
+                    <div id="chat-input" class="p-4 border-t border-gray-200 flex items-center space-x-3" style="display: none;">
+                        <button class="p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors duration-200">
+                            <i data-lucide="plus-circle" class="w-5 h-5"></i>
+                        </button>
+                        <input type="text" id="message-input" placeholder="Type your message..." class="flex-1 px-4 py-2 rounded-full bg-gray-100 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <button id="send-message" class="p-2 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-colors duration-200">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </button>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <!-- Recent Activity -->
-            <div class="content-section">
-                <h2 class="section-title">📊 Recent Activity</h2>
-                <div class="activity-item">
-                    <div class="activity-icon">💰</div>
-                    <div class="activity-content">
-                        <div class="activity-text">Received payment of $36 from Sarah M.</div>
-                        <div class="activity-time">2 hours ago</div>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon">⭐</div>
-                    <div class="activity-content">
-                        <div class="activity-text">Received 5-star review from Mike D.</div>
-                        <div class="activity-time">5 hours ago</div>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon">📅</div>
-                    <div class="activity-content">
-                        <div class="activity-text">New booking confirmed for tomorrow 2 PM</div>
-                        <div class="activity-time">1 day ago</div>
-                    </div>
-                </div>
-                <div class="activity-item">
-                    <div class="activity-icon">🔧</div>
-                    <div class="activity-content">
-                        <div class="activity-text">Updated pricing for Main Street driveway</div>
-                        <div class="activity-time">2 days ago</div>
-                    </div>
-                </div>
-            </div>
-        </main>
+            <!-- Calendar Section -->
+            <section id="calendar-section" class="flex-1 bg-white p-6 rounded-xl shadow-lg flex flex-col hidden">
+                <h2 class="text-gray-800 text-lg font-semibold mb-4">🗓️ Calendar Overview</h2>
+                <div id="calendar" class="flex-1"></div>
+            </section>
 
-        <!-- Right Sidebar -->
-        <aside class="sidebar">
-            <!-- Quick Actions -->
-            <div class="sidebar-card">
-                <h3 class="sidebar-title">Quick Actions</h3>
-                <button class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">➕ Add New Spot</button>
-                <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.75rem;">📊 View Analytics</button>
-                <button class="btn btn-secondary" style="width: 100%;">💰 Payout Settings</button>
-            </div>
-
-            <!-- My Bookings -->
-            <div class="sidebar-card">
-                <h3 class="sidebar-title">📅 My Recent Bookings</h3>
-                <div id="bookings-list">
-                    <!-- Bookings will be loaded dynamically -->
-                    <div class="loading-message" style="text-align: center; color: rgba(255, 255, 255, 0.6); padding: 2rem;">
-                        Loading bookings...
-                    </div>
-                </div>
-            </div>
-
-            <!-- Monthly Summary -->
-            <div class="sidebar-card">
-                <h3 class="sidebar-title">📈 This Month</h3>
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: rgba(255, 255, 255, 0.8);">Total Bookings</span>
-                        <span style="color: white; font-weight: 600;">12</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: rgba(255, 255, 255, 0.8);">Revenue</span>
-                        <span style="color: #34C759; font-weight: 600;">$340</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: rgba(255, 255, 255, 0.8);">Avg Rating</span>
-                        <span style="color: white; font-weight: 600;">4.9 ⭐</span>
-                    </div>
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <span style="color: rgba(255, 255, 255, 0.8);">Response Time</span>
-                        <span style="color: white; font-weight: 600;">< 5 min</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-    </div>
+        </div>
+    </main>
 
     <!-- Edit Profile Modal -->
     <div class="modal-overlay" id="edit-profile-modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>✏️ Edit Profile</h2>
-                <button class="close-modal" id="close-edit-modal">×</button>
+                <button class="close-modal" id="close-edit-modal">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
             </div>
             <form id="edit-profile-form" class="edit-profile-form">
                 <div class="profile-picture-section">
                     <div class="current-profile-pic">
                         <img id="current-avatar" src="" alt="Profile Picture" style="display: none;">
-                        <div id="avatar-placeholder" class="avatar-placeholder">👤</div>
+                        <div id="avatar-placeholder" class="avatar-placeholder">
+                            <i data-lucide="user" class="w-12 h-12"></i>
+                        </div>
                     </div>
                     <div class="profile-pic-controls">
                         <input type="file" id="avatar-upload" accept="image/*" style="display: none;">
-                        <button type="button" id="upload-avatar-btn" class="btn btn-secondary">📷 Upload Photo</button>
-                        <button type="button" id="remove-avatar-btn" class="btn btn-danger" style="display: none;">🗑️ Remove Photo</button>
+                        <button type="button" id="upload-avatar-btn" class="btn btn-secondary">
+                            <i data-lucide="camera" class="w-4 h-4"></i>
+                            <span>Upload Photo</span>
+                        </button>
+                        <button type="button" id="remove-avatar-btn" class="btn btn-danger" style="display: none;">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            <span>Remove Photo</span>
+                        </button>
                     </div>
                 </div>
                 
@@ -943,231 +797,631 @@
                 
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" id="cancel-edit">Cancel</button>
-                    <button type="submit" class="btn btn-primary" id="save-profile">💾 Save Changes</button>
+                    <button type="submit" class="btn btn-primary" id="save-profile">
+                        <i data-lucide="save" class="w-4 h-4"></i>
+                        <span>Save Changes</span>
+                    </button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- FullCalendar JS -->
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js'></script>
     <script>
-        // Profile functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Check if user is logged in
-            const user = JSON.parse(localStorage.getItem('user') || 'null');
-            
-            if (!user) {
-                // Redirect to login if not logged in
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // --- Global Variables and Initial Setup ---
+        const API_BASE_URL = 'http://127.0.0.1:3000/api';
+        let currentProfile = null;
+        let currentUserId = null;
+        let calendar = null;
+
+        // --- Authentication Check ---
+        function getLoggedInUser() {
+            let user = JSON.parse(localStorage.getItem('user'));
+            if (!user || !user.id) {
+                console.error("User not logged in or user ID is missing.");
                 window.location.href = 'index.html';
-                return;
+                return null;
+            }
+            return user;
+        }
+
+        // --- Content Switching Logic ---
+        const contentSections = {
+            'dashboard': document.getElementById('dashboard-section'),
+            'messages': document.getElementById('messages-section'),
+            'booking': document.getElementById('booking-section'),
+            'calendar': document.getElementById('calendar-section'),
+            'property': document.getElementById('property-section')
+        };
+
+        const navLinks = {
+            'dashboard': document.getElementById('nav-dashboard'),
+            'property': document.getElementById('nav-property'),
+            'booking': document.getElementById('nav-booking'),
+            'calendar': document.getElementById('nav-calendar'),
+            'messages': document.getElementById('nav-messages')
+        };
+
+        function showSection(sectionId) {
+            // Hide all sections
+            for (const id in contentSections) {
+                if (contentSections[id]) {
+                    contentSections[id].classList.add('hidden');
+                }
+            }
+            // Show the requested section
+            if (contentSections[sectionId]) {
+                contentSections[sectionId].classList.remove('hidden');
             }
 
-            // Load profile data
-            loadProfileData(user.id);
-            loadUserBookings(user.id);
-            loadUserProperties(user.id);
+            // Update active link styling
+            for (const id in navLinks) {
+                if (navLinks[id]) {
+                    navLinks[id].classList.remove('bg-blue-600', 'text-white');
+                    navLinks[id].classList.add('text-gray-600', 'hover:text-gray-900', 'hover:bg-gray-100');
+                }
+            }
+            
+            if (navLinks[sectionId]) {
+                navLinks[sectionId].classList.add('bg-blue-600', 'text-white');
+                navLinks[sectionId].classList.remove('text-gray-600', 'hover:text-gray-900', 'hover:bg-gray-100');
+            }
+
+            // Load data for specific sections
+            if (sectionId === 'property') {
+                loadUserProperties(currentUserId);
+            } else if (sectionId === 'booking') {
+                loadUserBookings(currentUserId);
+            } else if (sectionId === 'dashboard') {
+                loadDashboardData(currentUserId);
+            } else if (sectionId === 'calendar' && calendar) {
+                loadCalendarEvents(currentUserId);
+                calendar.render();
+            } else if (sectionId === 'messages') {
+                loadUserMessages(currentUserId);
+            }
+        }
+
+        // --- Event Listeners for Navigation ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = getLoggedInUser();
+            if (!user) return;
+            
+            currentUserId = user.id;
+
+            // Load initial profile data for the sidebar
+            loadProfileData(currentUserId);
+
+            // Set up navigation link click handlers
+            document.getElementById('nav-dashboard').addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection('dashboard');
+            });
+            document.getElementById('nav-property').addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection('property');
+            });
+            document.getElementById('nav-booking').addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection('booking');
+            });
+            document.getElementById('nav-calendar').addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection('calendar');
+            });
+            document.getElementById('nav-messages').addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection('messages');
+            });
+
+            // Check URL hash and show appropriate section
+            const hash = window.location.hash.substring(1); // Remove the # 
+            if (hash && ['dashboard', 'parking', 'booking', 'calendar', 'messages'].includes(hash)) {
+                showSection(hash);
+            } else {
+                // Initially show the dashboard section
+                showSection('dashboard');
+            }
+            
+            // Listen for hash changes
+            window.addEventListener('hashchange', function() {
+                const newHash = window.location.hash.substring(1);
+                if (newHash && ['dashboard', 'parking', 'booking', 'calendar', 'messages'].includes(newHash)) {
+                    showSection(newHash);
+                }
+            });
+
+            // Initialize FullCalendar
+            const calendarEl = document.getElementById('calendar');
+            if (calendarEl) {
+                calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    headerToolbar: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                    },
+                    events: [], // Will be loaded dynamically
+                    eventDisplay: 'block',
+                    height: 'auto',
+                    contentHeight: 'auto',
+                    aspectRatio: 1.8,
+                    dayMaxEvents: true,
+                });
+            }
         });
 
-        // Load profile data from API
+        // --- API Data Loading Functions ---
+
+        // Load profile data for the sidebar
         async function loadProfileData(userId) {
             try {
-                const response = await fetch(`http://127.0.0.1:3000/api/profile/${userId}`);
-                
+                const response = await fetch(`${API_BASE_URL}/profile/${userId}`);
                 if (!response.ok) {
                     throw new Error('Failed to load profile data');
                 }
-
                 const profile = await response.json();
+                currentProfile = profile;
                 updateProfileUI(profile);
             } catch (error) {
                 console.error('Error loading profile:', error);
                 showErrorMessage('Failed to load profile data');
+                // Use placeholder data if API fails
+                const placeholderProfile = {
+                    id: userId,
+                    first_name: 'John',
+                    last_name: 'Anderson',
+                    username: 'john_anderson',
+                    email: 'john.anderson@example.com',
+                    phone_number: '123-456-7890',
+                    address: '123 Main St, Anytown, USA',
+                    avatar_url: 'https://placehold.co/96x96/3b82f6/ffffff?text=JA',
+                    stats: { bookings: 0, properties: 0, rating: 0.0, earned: 0 }
+                };
+                currentProfile = placeholderProfile;
+                updateProfileUI(placeholderProfile);
             }
         }
 
-        // Update profile UI with data
+        // Update profile UI (sidebar and header)
         function updateProfileUI(profile) {
-            // Store profile data globally for edit modal
-            currentProfile = profile;
-            
-            // Update profile header
-            const nameElement = document.querySelector('.profile-info h1');
-            const usernameElement = document.querySelector('.username');
-            
-            if (nameElement) {
-                const fullName = `${profile.first_name || ''} ${profile.last_name || ''}`.trim();
-                nameElement.textContent = fullName || profile.username || 'User';
-            }
-            
-            if (usernameElement) {
-                usernameElement.textContent = `@${profile.username}`;
-            }
+            // Update sidebar profile
+            document.getElementById('sidebar-avatar').src = profile.avatar_url || 'https://placehold.co/96x96/3b82f6/ffffff?text=JA';
+            document.getElementById('sidebar-name').textContent = `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || profile.username || 'User';
+            document.getElementById('sidebar-username').textContent = `@${profile.username || 'username'}`;
+            document.getElementById('sidebar-bookings-count').textContent = profile.stats?.bookings || 0;
+            document.getElementById('sidebar-spots-count').textContent = profile.stats?.properties || 0;
+            document.getElementById('sidebar-rating').textContent = (profile.stats?.rating || 0.0).toFixed(1);
 
-            // Update profile avatar
-            const profileAvatar = document.querySelector('.profile-avatar');
-            if (profile.avatar_url) {
-                profileAvatar.innerHTML = `<img src="${profile.avatar_url}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
-            } else {
-                profileAvatar.innerHTML = '👤';
-            }
-
-            // Update profile stats
-            const statElements = document.querySelectorAll('.stat-number');
-            if (statElements.length >= 4) {
-                statElements[0].textContent = profile.stats.bookings;
-                statElements[1].textContent = profile.stats.properties;
-                statElements[2].textContent = profile.stats.rating.toFixed(1);
-                statElements[3].textContent = '$0'; // Earnings - would need separate API
-            }
-
-            // Update monthly summary
-            const monthlyElements = document.querySelectorAll('.sidebar-card:last-child span');
-            if (monthlyElements.length >= 8) {
-                monthlyElements[1].textContent = profile.stats.bookings; // Total bookings
-                monthlyElements[3].textContent = '$0'; // Revenue - would need separate calculation
-                monthlyElements[5].textContent = `${profile.stats.rating.toFixed(1)} ⭐`; // Avg rating
-                monthlyElements[7].textContent = '< 5 min'; // Response time - placeholder
-            }
+            // Update header avatar
+            document.getElementById('header-avatar').src = profile.avatar_url || 'https://placehold.co/40x40/3b82f6/ffffff?text=U';
         }
 
-        // Load user bookings
-        async function loadUserBookings(userId) {
+        // Load dashboard data
+        async function loadDashboardData(userId) {
             try {
-                const response = await fetch(`http://127.0.0.1:3000/api/profile/${userId}/bookings`);
-                
-                if (!response.ok) {
-                    throw new Error('Failed to load bookings');
+                // Load dashboard stats
+                const statsResponse = await fetch(`${API_BASE_URL}/profile/${userId}`);
+                if (statsResponse.ok) {
+                    const profile = await statsResponse.json();
+                    updateDashboardStats(profile.stats || {});
                 }
 
-                const bookings = await response.json();
-                displayBookings(bookings);
+                // Load recent bookings for dashboard
+                loadDashboardRecentBookings(userId);
             } catch (error) {
-                console.error('Error loading bookings:', error);
-                displayBookingsError();
+                console.error('Error loading dashboard data:', error);
+                showErrorMessage('Failed to load dashboard data');
             }
         }
 
-        // Display bookings in the sidebar
-        function displayBookings(bookings) {
-            const bookingsList = document.getElementById('bookings-list');
+        // Update dashboard stats
+        function updateDashboardStats(stats) {
+            document.getElementById('dashboard-total-bookings').textContent = stats.bookings || 0;
+            document.getElementById('dashboard-total-spots').textContent = stats.properties || 0;
+            document.getElementById('dashboard-total-earned').textContent = `$${(stats.earned || 0).toLocaleString('en-US')}`;
+            document.getElementById('dashboard-avg-rating').textContent = (stats.rating || 0.0).toFixed(1);
+        }
+
+        // Load recent bookings for dashboard
+        async function loadDashboardRecentBookings(userId) {
+            const container = document.getElementById('dashboard-recent-bookings');
+            try {
+                const response = await fetch(`${API_BASE_URL}/profile/${userId}/bookings?limit=3`);
+                if (!response.ok) {
+                    throw new Error('Failed to load recent bookings');
+                }
+                const bookings = await response.json();
+                displayDashboardRecentBookings(bookings);
+            } catch (error) {
+                console.error('Error loading recent bookings:', error);
+                container.innerHTML = '<div class="no-data-message">Failed to load recent bookings</div>';
+            }
+        }
+
+        // Display recent bookings in dashboard
+        function displayDashboardRecentBookings(bookings) {
+            const container = document.getElementById('dashboard-recent-bookings');
             
             if (!bookings || bookings.length === 0) {
-                bookingsList.innerHTML = `
-                    <div class="no-bookings">
-                        No bookings yet. Book your first parking spot!
-                    </div>
-                `;
+                container.innerHTML = '<div class="no-data-message">No recent bookings</div>';
                 return;
             }
 
-            // Show only the most recent 5 bookings
-            const recentBookings = bookings.slice(0, 5);
-            
-            bookingsList.innerHTML = recentBookings.map(booking => `
-                <div class="booking-item">
+            container.innerHTML = bookings.map(booking => `
+                <div class="booking-card">
                     <div class="booking-header">
-                        <h4 class="booking-title">${booking.title}</h4>
+                        <h4 class="booking-title">${booking.title || booking.spot_title}</h4>
                         <span class="booking-status ${booking.status}">${booking.status}</span>
                     </div>
+                    <div class="spot-image">
+                        <img src="https://placehold.co/280x120/60a5fa/ffffff?text=Parking" alt="Parking Spot">
+                    </div>
                     <div class="booking-details">
-                        📍 ${booking.address}<br>
-                        📅 ${formatDateTime(booking.start_time)}<br>
-                        👤 Host: ${booking.owner_name}
+                        <div>📍 ${booking.address}</div>
+                        <div>📅 ${formatDateTime(booking.start_time)} - ${formatDateTime(booking.end_time)}</div>
+                        <div>👤 Host: ${booking.owner_name || 'N/A'}</div>
                     </div>
                     <div class="booking-cost">$${booking.total_cost}</div>
                 </div>
             `).join('');
         }
 
-        // Display bookings error
-        function displayBookingsError() {
-            const bookingsList = document.getElementById('bookings-list');
-            bookingsList.innerHTML = `
-                <div class="no-bookings">
-                    Failed to load bookings. Please try again.
-                </div>
-            `;
-        }
-
-        // Load user properties for the main section
+        // Load user properties
         async function loadUserProperties(userId) {
+            const grid = document.getElementById('properties-grid');
             try {
-                const response = await fetch(`http://127.0.0.1:3000/api/profile/${userId}/properties`);
-                
+                const response = await fetch(`${API_BASE_URL}/profile/${userId}/properties`);
                 if (!response.ok) {
                     throw new Error('Failed to load properties');
                 }
-
                 const properties = await response.json();
                 displayProperties(properties);
             } catch (error) {
                 console.error('Error loading properties:', error);
-                displayPropertiesError();
+                grid.innerHTML = '<div class="no-data-message" style="grid-column: 1 / -1;">Failed to load parking spots</div>';
             }
         }
 
-        // Display properties in the main section
+        // Display properties in the grid
         function displayProperties(properties) {
-            const propertiesGrid = document.querySelector('.parking-spots-grid');
+            const grid = document.getElementById('properties-grid');
             
             if (!properties || properties.length === 0) {
-                propertiesGrid.innerHTML = `
-                    <div style="grid-column: 1 / -1; text-align: center; color: rgba(255, 255, 255, 0.6); padding: 3rem;">
-                        <h3>No parking spots listed yet</h3>
-                        <p>Add your first parking spot to start earning!</p>
-                        <button class="btn btn-primary" style="margin-top: 1rem;">➕ Add Parking Spot</button>
-                    </div>
-                `;
+                grid.innerHTML = '<div class="no-data-message" style="grid-column: 1 / -1;">No parking spots listed yet</div>';
                 return;
             }
 
-            propertiesGrid.innerHTML = properties.map(property => `
-                <div class="parking-spot-card">
-                    <div class="spot-header">
-                        <div class="spot-type">${property.spot_type.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</div>
-                        <div class="spot-status ${property.status}">${property.status.charAt(0).toUpperCase() + property.status.slice(1)}</div>
+            grid.innerHTML = properties.map(property => {
+                const statusClass = property.status === 'active' ? 'active' : 'inactive';
+                const statusText = property.status === 'active' ? 'Active' : 'Paused';
+                const firstPhoto = property.photos && property.photos.length > 0 ? property.photos[0] : null;
+                const imageContent = firstPhoto ? 
+                    `<img src="${firstPhoto}" alt="${property.title}">` : 
+                    getSpotTypeIcon(property.spot_type);
+
+                return `
+                    <div class="parking-spot-card">
+                        <div class="spot-header">
+                            <div class="spot-type">${property.spot_type}</div>
+                            <div class="spot-status ${statusClass}">${statusText}</div>
+                        </div>
+                        <div class="spot-image">
+                            ${imageContent}
+                        </div>
+                        <div class="spot-info">
+                            <div><strong>${property.title}</strong></div>
+                            <div>📍 ${property.address}</div>
+                            <div><i data-lucide="star" class="w-4 h-4 inline-block text-yellow-400"></i> ${property.rating || 4.5} rating</div>
+                        </div>
+                        <div class="spot-price">$${property.hourly_rate}/hour</div>
+                    </div>
+                `;
+            }).join('');
+
+            lucide.createIcons();
+        }
+
+        // Load user bookings
+        async function loadUserBookings(userId) {
+            const grid = document.getElementById('bookings-grid');
+            try {
+                const response = await fetch(`${API_BASE_URL}/profile/${userId}/bookings`);
+                if (!response.ok) {
+                    throw new Error('Failed to load bookings');
+                }
+                const bookings = await response.json();
+                displayBookings(bookings);
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+                grid.innerHTML = '<div class="no-data-message" style="grid-column: 1 / -1;">Failed to load bookings</div>';
+            }
+        }
+
+        // Display bookings in the grid
+        function displayBookings(bookings) {
+            const grid = document.getElementById('bookings-grid');
+            
+            if (!bookings || bookings.length === 0) {
+                grid.innerHTML = '<div class="no-data-message" style="grid-column: 1 / -1;">No bookings yet</div>';
+                return;
+            }
+
+            grid.innerHTML = bookings.map(booking => `
+                <div class="booking-card">
+                    <div class="booking-header">
+                        <h4 class="booking-title">${booking.title || booking.spot_title}</h4>
+                        <span class="booking-status ${booking.status}">${booking.status}</span>
                     </div>
                     <div class="spot-image">
-                        ${property.photos && property.photos.length > 0 
-                            ? `<img src="${property.photos[0]}" alt="${property.title}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">` 
-                            : getSpotTypeIcon(property.spot_type)
-                        }
+                        <img src="https://placehold.co/280x120/60a5fa/ffffff?text=Parking" alt="Parking Spot">
                     </div>
-                    <div class="spot-info">
-                        <div><strong>${property.title}</strong></div>
-                        <div>📍 ${property.address}</div>
-                        <div>⭐ 4.8 rating (0 reviews)</div>
+                    <div class="booking-details">
+                        <div>📍 ${booking.address}</div>
+                        <div>📅 ${formatDateTime(booking.start_time)} - ${formatDateTime(booking.end_time)}</div>
+                        <div>👤 Host: ${booking.owner_name || 'N/A'}</div>
                     </div>
-                    <div class="spot-price">$${property.hourly_rate}/hour</div>
+                    <div class="booking-cost">$${booking.total_cost}</div>
                 </div>
             `).join('');
         }
 
-        // Display properties error
-        function displayPropertiesError() {
-            const propertiesGrid = document.querySelector('.parking-spots-grid');
-            propertiesGrid.innerHTML = `
-                <div style="grid-column: 1 / -1; text-align: center; color: rgba(255, 255, 255, 0.6); padding: 3rem;">
-                    <h3>Failed to load parking spots</h3>
-                    <p>Please try refreshing the page.</p>
-                </div>
-            `;
+        // Load calendar events
+        async function loadCalendarEvents(userId) {
+            if (!calendar) return;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/profile/${userId}/bookings`);
+                if (response.ok) {
+                    const bookings = await response.json();
+                    const events = bookings.map(booking => ({
+                        title: `${booking.status}: ${booking.title || booking.spot_title}`,
+                        start: booking.start_time,
+                        end: booking.end_time,
+                        color: getStatusColor(booking.status)
+                    }));
+                    calendar.removeAllEvents();
+                    calendar.addEventSource(events);
+                }
+            } catch (error) {
+                console.error('Error loading calendar events:', error);
+            }
         }
+
+        // Get color for booking status
+        function getStatusColor(status) {
+            const colors = {
+                'confirmed': '#3b82f6',
+                'completed': '#10b981',
+                'pending': '#f59e0b',
+                'cancelled': '#ef4444'
+            };
+            return colors[status] || '#6b7280';
+        }
+
+        // Load user messages/conversations
+        async function loadUserMessages(userId) {
+            const messagesList = document.getElementById('messages-list');
+            try {
+                const response = await fetch(`${API_BASE_URL}/profile/${userId}/messages`);
+                if (!response.ok) {
+                    throw new Error('Failed to load messages');
+                }
+                const data = await response.json();
+                displayConversations(data.conversations || []);
+            } catch (error) {
+                console.error('Error loading messages:', error);
+                messagesList.innerHTML = '<div class="no-data-message">Failed to load messages</div>';
+            }
+        }
+
+        // Display conversations in the messages list
+        function displayConversations(conversations) {
+            const messagesList = document.getElementById('messages-list');
+            
+            if (!conversations || conversations.length === 0) {
+                messagesList.innerHTML = '<div class="no-data-message">No messages yet</div>';
+                return;
+            }
+
+            messagesList.innerHTML = conversations.map(conversation => {
+                const timeAgo = formatMessageTime(conversation.last_message_time);
+                const isOnline = Math.random() > 0.5; // Placeholder for online status
+
+                return `
+                    <div class="conversation-item flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-100 cursor-pointer transition-colors duration-200" 
+                         onclick="selectConversation('${conversation.id}', '${conversation.other_user_name || 'Unknown User'}', '${conversation.other_user_avatar || ''}')">
+                        <div class="relative">
+                            <img src="${conversation.other_user_avatar || 'https://placehold.co/40x40/3b82f6/ffffff?text=' + (conversation.other_user_name ? conversation.other_user_name.charAt(0) : 'U')}" 
+                                 alt="${conversation.other_user_name || 'User'}" class="w-10 h-10 rounded-full">
+                            <div class="absolute bottom-0 right-0 w-3 h-3 ${isOnline ? 'bg-green-500' : 'bg-gray-500'} rounded-full border-2 border-white"></div>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-gray-800 font-medium text-sm truncate">${conversation.other_user_name || 'Unknown User'}</p>
+                            <p class="text-gray-600 text-xs truncate">${conversation.last_message || 'No messages yet'}</p>
+                        </div>
+                        <div class="flex flex-col items-end space-y-1">
+                            <span class="text-gray-500 text-xs">${timeAgo}</span>
+                            ${conversation.unread_count > 0 ? `<span class="bg-blue-600 text-white text-xs rounded-full px-2 py-1 min-w-[1.5rem] text-center">${conversation.unread_count}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Select a conversation and load its messages
+        let currentConversationId = null;
+        async function selectConversation(conversationId, userName, userAvatar) {
+            currentConversationId = conversationId;
+            
+            // Update chat header
+            document.getElementById('chat-name').textContent = userName;
+            document.getElementById('chat-avatar').src = userAvatar || 'https://placehold.co/40x40/3b82f6/ffffff?text=' + userName.charAt(0);
+            
+            // Show chat elements
+            document.getElementById('chat-default').style.display = 'none';
+            document.getElementById('chat-header').style.display = 'flex';
+            document.getElementById('chat-messages').style.display = 'block';
+            document.getElementById('chat-input').style.display = 'flex';
+
+            // Load conversation messages
+            await loadConversationMessages(conversationId);
+
+            // Re-render icons
+            lucide.createIcons();
+        }
+
+        // Load messages for a specific conversation
+        async function loadConversationMessages(conversationId) {
+            const messagesContainer = document.getElementById('chat-messages');
+            try {
+                messagesContainer.innerHTML = '<div class="loading-message"><div class="loading-spinner"></div><p>Loading messages...</p></div>';
+                
+                const response = await fetch(`${API_BASE_URL}/conversations/${conversationId}/messages?userId=${currentUserId}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load conversation messages');
+                }
+                const data = await response.json();
+                displayMessages(data.messages || []);
+            } catch (error) {
+                console.error('Error loading conversation messages:', error);
+                messagesContainer.innerHTML = '<div class="no-data-message">Failed to load messages</div>';
+            }
+        }
+
+        // Display messages in the chat window
+        function displayMessages(messages) {
+            const messagesContainer = document.getElementById('chat-messages');
+            
+            if (!messages || messages.length === 0) {
+                messagesContainer.innerHTML = '<div class="no-data-message">No messages in this conversation yet</div>';
+                return;
+            }
+
+            messagesContainer.innerHTML = messages.map(message => {
+                const isOwn = message.sender_id === currentUserId;
+                const messageTime = formatMessageTime(message.created_at);
+                const senderAvatar = message.sender_avatar || 'https://placehold.co/32x32/3b82f6/ffffff?text=' + (message.sender_name ? message.sender_name.charAt(0) : 'U');
+
+                if (isOwn) {
+                    return `
+                        <div class="flex justify-end">
+                            <div class="bg-blue-600 text-white p-3 rounded-xl max-w-md">
+                                <p class="text-sm">${message.content}</p>
+                                <span class="text-xs text-blue-100 block text-right mt-1">${messageTime}</span>
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    return `
+                        <div class="flex items-start space-x-3">
+                            <img src="${senderAvatar}" alt="${message.sender_name}" class="w-8 h-8 rounded-full">
+                            <div class="bg-gray-200 text-gray-800 p-3 rounded-xl max-w-md">
+                                <p class="text-sm">${message.content}</p>
+                                <span class="text-xs text-gray-500 block text-right mt-1">${messageTime}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            }).join('');
+
+            // Scroll to bottom
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Send a new message
+        async function sendMessage() {
+            if (!currentConversationId) return;
+
+            const messageInput = document.getElementById('message-input');
+            const content = messageInput.value.trim();
+            
+            if (!content) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/messages`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        conversation_id: currentConversationId,
+                        sender_id: currentUserId,
+                        message_type: 'text',
+                        content: content
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to send message');
+                }
+
+                // Clear input
+                messageInput.value = '';
+
+                // Reload messages
+                await loadConversationMessages(currentConversationId);
+
+                // Show success message
+                showSuccessMessage('Message sent successfully!');
+
+            } catch (error) {
+                console.error('Error sending message:', error);
+                showErrorMessage('Failed to send message');
+            }
+        }
+
+        // Format message time
+        function formatMessageTime(dateTimeString) {
+            if (!dateTimeString) return '';
+            
+            const date = new Date(dateTimeString);
+            const now = new Date();
+            const diffInHours = (now - date) / (1000 * 60 * 60);
+            
+            if (diffInHours < 24) {
+                return date.toLocaleTimeString('en-US', { 
+                    hour: 'numeric', 
+                    minute: '2-digit',
+                    hour12: true 
+                });
+            } else if (diffInHours < 168) { // Less than a week
+                return date.toLocaleDateString('en-US', { 
+                    weekday: 'short',
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                });
+            } else {
+                return date.toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric'
+                });
+            }
+        }
+
+        // --- Utility Functions ---
 
         // Get appropriate icon for spot type
         function getSpotTypeIcon(spotType) {
             const icons = {
-                'driveway': '🏠',
-                'garage-private': '🏢',
-                'garage-shared': '🏢',
-                'carport': '🏗️',
-                'street-private': '🛣️',
-                'outdoor-lot': '🅿️'
+                'driveway': '<i data-lucide="home" class="w-10 h-10 text-gray-400"></i>',
+                'garage-private': '<i data-lucide="building" class="w-10 h-10 text-gray-400"></i>',
+                'garage-shared': '<i data-lucide="buildings" class="w-10 h-10 text-gray-400"></i>',
+                'carport': '<i data-lucide="car-front" class="w-10 h-10 text-gray-400"></i>',
+                'street-private': '<i data-lucide="road" class="w-10 h-10 text-gray-400"></i>',
+                'outdoor-lot': '<i data-lucide="parking-circle" class="w-10 h-10 text-gray-400"></i>'
             };
-            return icons[spotType] || '🚗';
+            return icons[spotType] || '<i data-lucide="car" class="w-10 h-10 text-gray-400"></i>';
         }
 
         // Format datetime for display
         function formatDateTime(dateTimeString) {
+            if (!dateTimeString) return 'N/A';
             const date = new Date(dateTimeString);
             const options = { 
                 month: 'short', 
@@ -1179,45 +1433,85 @@
             return date.toLocaleDateString('en-US', options);
         }
 
-        // Show error message
+        // Show error/success messages
         function showErrorMessage(message) {
-            // You could implement a toast notification here
             console.error(message);
+            alert('Error: ' + message);
         }
 
-        // Navigation functionality
-        document.querySelector('.header-icon[title="Messages"]').addEventListener('click', function() {
-            // Navigate to messages (you'd implement this)
-            console.log('Navigate to messages');
-        });
+        function showSuccessMessage(message) {
+            console.log(message);
+            const successDiv = document.createElement('div');
+            successDiv.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(52, 199, 89, 0.9);
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 12px;
+                font-weight: 600;
+                z-index: 10000;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            `;
+            successDiv.textContent = message;
+            document.body.appendChild(successDiv);
 
-        // Global variable to store current profile data
-        let currentProfile = null;
+            setTimeout(() => {
+                if (successDiv.parentNode) {
+                    successDiv.parentNode.removeChild(successDiv);
+                }
+            }, 3000);
+        }
 
-        // Edit profile button functionality
-        document.querySelector('.btn-primary').addEventListener('click', function() {
+        // Logout function
+        function logout() {
+            // Clear all user data from localStorage
+            localStorage.removeItem('user');
+            localStorage.removeItem('authToken'); // In case you store auth tokens
+            localStorage.removeItem('userSession'); // Clear any other session data
+            
+            // Clear any other app-specific data if needed
+            localStorage.clear(); // Optional: completely clear all localStorage
+            
+            // Show logout message
+            showSuccessMessage('Logged out successfully!');
+            
+            // Redirect to home page after a short delay
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        // --- Edit Profile Modal Functions ---
+        document.getElementById('sidebar-edit-profile-btn').addEventListener('click', function() {
             openEditProfileModal();
         });
 
-        // Settings button functionality
-        document.querySelector('.btn-secondary').addEventListener('click', function() {
-            // You could open settings modal here
-            console.log('Settings clicked');
-            alert('Settings functionality would be implemented here');
-        });
-
-        // Search functionality
-        document.querySelector('.main-search-input').addEventListener('keypress', function(e) {
+        document.querySelector('header input[type="text"]').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 const searchTerm = this.value.trim();
                 if (searchTerm) {
-                    // Navigate to search results
-                    window.location.href = `search_result.html?location=${encodeURIComponent(searchTerm)}`;
+                    console.log('Searching for:', searchTerm);
+                    window.location.href = `search_result.html?query=${encodeURIComponent(searchTerm)}`;
                 }
             }
         });
 
-        // Edit Profile Modal Functions
+        // Message sending event listeners
+        document.getElementById('send-message').addEventListener('click', sendMessage);
+        document.getElementById('message-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            logout();
+        });
+
         function openEditProfileModal() {
             if (!currentProfile) {
                 alert('Profile data not loaded yet. Please wait a moment and try again.');
@@ -1227,18 +1521,17 @@
             const modal = document.getElementById('edit-profile-modal');
             populateEditForm(currentProfile);
             modal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
         }
 
         function closeEditProfileModal() {
             const modal = document.getElementById('edit-profile-modal');
             modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // Restore scrolling
+            document.body.style.overflow = 'auto';
             resetEditForm();
         }
 
         function populateEditForm(profile) {
-            // Populate form fields with current data
             document.getElementById('edit-first-name').value = profile.first_name || '';
             document.getElementById('edit-last-name').value = profile.last_name || '';
             document.getElementById('edit-username').value = profile.username || '';
@@ -1246,7 +1539,6 @@
             document.getElementById('edit-phone').value = profile.phone_number || '';
             document.getElementById('edit-address').value = profile.address || '';
 
-            // Handle profile picture
             const currentAvatar = document.getElementById('current-avatar');
             const avatarPlaceholder = document.getElementById('avatar-placeholder');
             const removeBtn = document.getElementById('remove-avatar-btn');
@@ -1274,7 +1566,6 @@
         document.getElementById('close-edit-modal').addEventListener('click', closeEditProfileModal);
         document.getElementById('cancel-edit').addEventListener('click', closeEditProfileModal);
 
-        // Close modal when clicking outside
         document.getElementById('edit-profile-modal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeEditProfileModal();
@@ -1289,19 +1580,15 @@
         document.getElementById('avatar-upload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
-                // Validate file type
                 if (!file.type.startsWith('image/')) {
                     alert('Please select an image file.');
                     return;
                 }
-
-                // Validate file size (max 5MB)
                 if (file.size > 5 * 1024 * 1024) {
                     alert('Image size must be less than 5MB.');
                     return;
                 }
 
-                // Preview the image
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     const currentAvatar = document.getElementById('current-avatar');
@@ -1317,7 +1604,6 @@
             }
         });
 
-        // Remove avatar functionality
         document.getElementById('remove-avatar-btn').addEventListener('click', function() {
             const currentAvatar = document.getElementById('current-avatar');
             const avatarPlaceholder = document.getElementById('avatar-placeholder');
@@ -1328,7 +1614,7 @@
             currentAvatar.style.display = 'none';
             avatarPlaceholder.style.display = 'flex';
             removeBtn.style.display = 'none';
-            avatarUpload.value = ''; // Clear file input
+            avatarUpload.value = '';
         });
 
         // Form submission
@@ -1338,22 +1624,17 @@
         });
 
         async function saveProfileChanges() {
-            const user = JSON.parse(localStorage.getItem('user'));
-            if (!user) {
-                alert('User session expired. Please login again.');
-                window.location.href = 'index.html';
-                return;
-            }
+            const user = getLoggedInUser();
+            if (!user) return;
 
             const submitBtn = document.getElementById('save-profile');
-            const originalText = submitBtn.textContent;
+            const originalText = submitBtn.innerHTML;
             
             try {
-                // Disable submit button
                 submitBtn.disabled = true;
-                submitBtn.textContent = '💾 Saving...';
+                submitBtn.innerHTML = '<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> <span>Saving...</span>';
+                lucide.createIcons();
 
-                // Prepare form data
                 const formData = {
                     first_name: document.getElementById('edit-first-name').value.trim(),
                     last_name: document.getElementById('edit-last-name').value.trim(),
@@ -1363,14 +1644,12 @@
                     address: document.getElementById('edit-address').value.trim()
                 };
 
-                // Handle avatar upload if new image is selected
                 const avatarFile = document.getElementById('avatar-upload').files[0];
                 if (avatarFile) {
-                    // Upload avatar to S3 first
                     const avatarFormData = new FormData();
                     avatarFormData.append('image', avatarFile);
 
-                    const uploadResponse = await fetch('http://127.0.0.1:3000/api/s3-test-upload', {
+                    const uploadResponse = await fetch(`${API_BASE_URL}/s3-test-upload`, {
                         method: 'POST',
                         body: avatarFormData
                     });
@@ -1381,13 +1660,13 @@
                     } else {
                         throw new Error('Failed to upload avatar image');
                     }
-                } else if (document.getElementById('current-avatar').style.display === 'none') {
-                    // Avatar was removed
+                } else if (document.getElementById('current-avatar').style.display === 'none' && currentProfile.avatar_url) {
                     formData.avatar_url = null;
+                } else {
+                    formData.avatar_url = currentProfile.avatar_url;
                 }
 
-                // Update profile
-                const response = await fetch(`http://127.0.0.1:3000/api/profile/${user.id}`, {
+                const response = await fetch(`${API_BASE_URL}/profile/${user.id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -1396,11 +1675,13 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to update profile');
+                    const errorData = await response.json();
+                    throw new Error(errorData.message || 'Failed to update profile');
                 }
 
-                // Success - reload profile data and close modal
-                submitBtn.textContent = '✅ Saved!';
+                submitBtn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i> <span>Saved!</span>';
+                lucide.createIcons();
+                
                 await loadProfileData(user.id);
                 
                 setTimeout(() => {
@@ -1412,38 +1693,12 @@
                 console.error('Error saving profile:', error);
                 alert('Failed to save profile changes: ' + error.message);
             } finally {
-                // Re-enable submit button
                 setTimeout(() => {
                     submitBtn.disabled = false;
-                    submitBtn.textContent = originalText;
+                    submitBtn.innerHTML = originalText;
+                    lucide.createIcons();
                 }, 2000);
             }
-        }
-
-        function showSuccessMessage(message) {
-            // Create and show a temporary success message
-            const successDiv = document.createElement('div');
-            successDiv.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: rgba(52, 199, 89, 0.9);
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                font-weight: 600;
-                z-index: 10000;
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            `;
-            successDiv.textContent = message;
-            document.body.appendChild(successDiv);
-
-            // Remove after 3 seconds
-            setTimeout(() => {
-                if (successDiv.parentNode) {
-                    successDiv.parentNode.removeChild(successDiv);
-                }
-            }, 3000);
         }
     </script>
 </body>
