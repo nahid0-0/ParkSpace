@@ -53,24 +53,6 @@ ParkSpace is a modern web application that helps users discover and book parking
    npm install
    ```
 
-3. **Set up environment variables**
-   
-   Create a `.env` file in the root directory:
-   ```env
-   # Database Configuration
-   DB_HOST=your_database_host
-   DB_USER=your_database_user
-   DB_PASSWORD=your_database_password
-   DB_NAME=parkspace_db
-   
-   # Appwrite Configuration
-   APPWRITE_PROJECT_ID=688d367a0000fa640d68
-   APPWRITE_ENDPOINT=https://fra.cloud.appwrite.io/v1
-   
-   # Server Configuration
-   PORT=3000
-   ```
-
 4. **Start the development server**
    ```bash
    npm start
